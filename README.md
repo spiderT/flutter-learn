@@ -1,10 +1,18 @@
 # flutter-learn
 
-学习资料：
-[flutter官网](https://flutter.dev/docs/get-started/install)
-[极客时间课程](https://time.geekbang.org/column/intro/200?code=0NDBjgqiiw4VWefF8wtD-e1yhlWj5gG9ijWGD6ZH9KA%3D)，
-[flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html),
-[flutterbyexample](https://flutterbyexample.com/about-flutter)
+学习资料：  
+[flutter官网](https://flutter.dev/docs/get-started/install)  
+[极客时间课程](https://time.geekbang.org/column/intro/200?code=0NDBjgqiiw4VWefF8wtD-e1yhlWj5gG9ijWGD6ZH9KA%3D)，  
+[flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html),  
+[flutterbyexample](https://flutterbyexample.com/about-flutter)  
+
+本次demo开发的实例是一个桌面端应用，启动方法  
+
+```text
+cd myflutterapp
+flutter create .
+flutter run -d macOS
+```
 
 ## 1. 在macOS上搭建Flutter开发环境
 
@@ -388,3 +396,33 @@ class MyAnimationWidget extends AnimatedWidget{
 这样很显然是不合理的，因为AnimatedWidget的状态对象是AnimatedWidget内部实现细节，不应该暴露给外部。
 如果要将父类状态暴露给子类，那么必须得有一种传递机制，而做这一套传递机制是无意义的，因为父子类之间状态的传递和子类本身逻辑是无关的。
 综上所述，可以发现，对于StatefulWidget，将build方法放在State中，可以给开发带来很大的灵活性。
+
+## 4. Desktop support for Flutter
+
+1. Set up  
+
+```text
+flutter channel master
+flutter upgrade
+flutter config --enable-macos-desktop
+```
+
+2. Create and run  
+
+```text
+mkdir myapp
+cd myapp
+```
+
+3. Set up  
+
+```text
+ flutter create .
+ flutter run -d macOS
+```
+
+4. Build  
+
+```text
+ flutter build macos
+```
