@@ -143,7 +143,7 @@ Flutter 是构建 Google 物联网操作系统 Fuchsia 的 SDK，主打跨平台
 
 2. 可以看到，Flutter 关注如何尽可能快地在两个硬件时钟的 VSync 信号之间计算并合成视图数据，然后通过 Skia 交给 GPU 渲染：UI 线程使用 Dart 来构建视图结构数据，这些数据会在 GPU 线程进行图层合成，随后交给 Skia 引擎加工成 GPU 数据，而这些数据会通过 OpenGL 最终提供给 GPU 渲染。
 
-![flutter绘制原理](./images/flutter1.png)
+![flutter绘制原理](./readmeImages/flutter1.png)
 
 3. Skia 是一款用 C++ 开发的、性能彪悍的 2D 图像绘制引擎，其前身是一个向量绘图软件。2005 年被 Google 公司收购后，因为其出色的绘制表现被广泛应用在 Chrome 和 Android 等核心产品上。Skia 在图形转换、文字渲染、位图渲染方面都表现卓越，并提供了开发者友好的 API。
 
@@ -157,7 +157,7 @@ Flutter 是构建 Google 物联网操作系统 Fuchsia 的 SDK，主打跨平台
 
 ### 2.1 flutter 原理
 
-![flutter架构图](./images/flutter2.png)
+![flutter架构图](./readmeImages/flutter2.png)
 
 Flutter 架构采用分层设计，从下到上分为三层，依次为：Embedder、Engine、Framework。
 
@@ -175,11 +175,11 @@ Flutter 架构采用分层设计，从下到上分为三层，依次为：Embedd
 
 Flutter 采用深度优先机制遍历渲染对象树，决定渲染对象树中各渲染对象在屏幕上的位置和尺寸。在布局过程中，渲染对象树中的每个渲染对象都会接收父对象的布局约束参数，决定自己的大小，然后父对象按照控件逻辑决定各个子对象的位置，完成布局过程。
 
-![flutter布局过程](./images/flutter-layout.png)
+![flutter布局过程](./readmeImages/flutter-layout.png)
 
 为了防止因子节点发生变化而导致整个控件树重新布局，Flutter 加入了一个机制——布局边界（Relayout Boundary），可以在某些节点自动或手动地设置布局边界，当边界内的任何对象发生重新布局时，不会影响边界外的对象，反之亦然。
 
-![flutter布局边界](./images/flutter-brage.png)
+![flutter布局边界](./readmeImages/flutter-brage.png)
 
 2. 绘制
 
@@ -187,11 +187,11 @@ Flutter 采用深度优先机制遍历渲染对象树，决定渲染对象树中
 
 以下图为例：节点 1 在绘制完自身后，会再绘制节点 2，然后绘制它的子节点 3、4 和 5，最后绘制节点 6。
 
-![flutter绘制](./images/flutter-draw.png)
+![flutter绘制](./readmeImages/flutter-draw.png)
 
 可以看到，由于一些其他原因（比如，视图手动合并）导致 2 的子节点 5 与它的兄弟节点 6 处于了同一层，这样会导致当节点 2 需要重绘的时候，与其无关的节点 6 也会被重绘，带来性能损耗。为了解决这一问题，Flutter 提出了与布局边界对应的机制——重绘边界（Repaint Boundary）。在重绘边界内，Flutter 会强制切换新的图层，这样就可以避免边界内外的互相影响，避免无关内容置于同一图层引起不必要的重绘。
 
-![flutter重绘边界](./images/flutter-redraw.png)
+![flutter重绘边界](./readmeImages/flutter-redraw.png)
 
 重绘边界的一个典型场景是 Scrollview。ScrollView 滚动的时候需要刷新视图内容，从而触发内容重绘。而当滚动内容重绘时，一般情况下其他内容是不需要重绘的，这时候重绘边界就派上用场了。
 
@@ -199,7 +199,7 @@ Flutter 采用深度优先机制遍历渲染对象树，决定渲染对象树中
 
 终端设备的页面越来越复杂，因此 Flutter 的渲染树层级通常很多，直接交付给渲染引擎进行多图层渲染，可能会出现大量渲染内容的重复绘制，所以还需要先进行一次图层合成，即将所有的图层根据大小、层级、透明度等规则计算出最终的显示效果，将相同的图层归类合并，简化渲染树，提高渲染效率。合并完成后，Flutter 会将几何图层数据交由 Skia 引擎加工成二维图像数据，最终交由 GPU 进行渲染，完成界面的展示。
 
-![flutter知识体系](./images/flutter3.png)
+![flutter知识体系](./readmeImages/flutter3.png)
 
 
 ## 3. 第一个Flutter应用，计数器
@@ -223,7 +223,7 @@ flutter create myapp
 
 ### 3.2 工程结构
 
-![flutter知识体系](./images/flutter-structure.png)
+![flutter知识体系](./readmeImages/flutter-structure.png)
 
 除了 Flutter 本身的代码、资源、依赖和配置之外，Flutter 工程还包含了 Android 和 iOS 的工程目录。这也不难理解，因为 Flutter 虽然是跨平台开发方案，但却需要一个容器最终运行到 Android 和 iOS 平台上，所以 Flutter 工程实际上就是一个同时内嵌了 Android 和 iOS 原生子工程的父工程：我们在 lib 目录下进行 Flutter 代码的开发，而某些特殊场景下的原生功能，则在对应的 Android 和 iOS 工程中提供相应的代码实现，供对应的 Flutter 代码引用。Flutter 会将相关的依赖和构建产物注入这两个子工程，最终集成到各自的项目中。而我们开发的 Flutter 代码，最终则会以原生工程的形式运行。
 
@@ -277,7 +277,7 @@ class MyApp extends StatelessWidget {
 
 #### 3.2.2 应用结构
 
-![flutter代码流出示意图](./images/flutter-flow.png)
+![flutter代码流出示意图](./readmeImages/flutter-flow.png)
 
 ```js
 class MyHomePage extends StatefulWidget {
