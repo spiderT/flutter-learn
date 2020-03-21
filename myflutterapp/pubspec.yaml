@@ -55,6 +55,41 @@ flutter:
       - images/icons/lifangti_green.png
       - images/icons/shouji.png
       - images/icons/santiaogang.png
+      - images/zhizhuxia.png
+      - images/users/zhizhuxia.png
+      - images/users/xiaochou.png
+      - images/users/yiren.png
+      - images/users/chaoren.png
+      - images/users/bianfuxia.png
+      - images/users/gangtiexia.png
+      - images/users/jinganglang.png
+      - images/users/leishen.png
+      - images/users/lvdengxia.png
+      - images/users/lvjuren.png
+      - images/users/meiguoduichang.png
+      - images/users/ren.png
+      - images/users/shandianxia.png
+      - images/users/sishi.png
+      - images/users/zhizhuxia-big.png
+      - images/users/xiaochou-big.png
+      - images/users/yiren-big.png
+      - images/users/chaoren-big.png
+      - images/users/bianfuxia-big.png
+      - images/users/gangtiexia-big.png
+      - images/users/jinganglang-big.png
+      - images/users/leishen-big.png
+      - images/users/lvdengxia-big.png
+      - images/users/lvjuren-big.png
+      - images/users/meiguoduichang-big.png
+      - images/users/ren-big.png
+      - images/users/shandianxia-big.png
+      - images/users/sishi-big.png
+      - images/icons/xiaolian.png
+      - images/icons/wenjian.png
+      - images/icons/jianqie.png
+      - images/icons/xiaoxi.png
+      - images/icons/dianhua.png
+      - images/icons/shipin.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
