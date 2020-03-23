@@ -34,7 +34,9 @@ class MyHomePage extends StatelessWidget {
               height: double.infinity,
               child: ChatList(),
             ),
-            ChatContainer()
+            Expanded(
+              child: ChatContainer(),
+            )
           ],
         ),
       ),

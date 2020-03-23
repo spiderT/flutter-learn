@@ -6,19 +6,26 @@ class ChatContainer extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          color: Color.fromRGBO(243, 243, 243, 1.0),
-          width: 400,
-          child: Text(
-            '蜘蛛侠',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              height: 2,
-              fontSize: 16.0,
-            ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                  child: Container(
+                color: Color.fromRGBO(243, 243, 243, 1.0),
+                height: 60,
+                padding: EdgeInsets.fromLTRB(10, 10, 20, 20),
+                child: Text(
+                  '蜘蛛侠',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    height: 2,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ))
+            ],
           ),
         ),
         Container(
-          width: 400,
           height: 400,
           padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
           color: Color.fromRGBO(243, 243, 243, 1.0),
@@ -99,6 +106,27 @@ class ChatContainer extends StatelessWidget {
             ],
           ),
         ),
+        Expanded(
+            child: Container(
+          constraints: BoxConstraints(
+            maxHeight: 300.0,
+            minHeight: 300.0,
+          ),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(243, 243, 243, 1.0),
+          ),
+          padding:
+              EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 4.0),
+          child: TextField(
+            //按回车时调用
+            onEditingComplete: () {
+              print('onEditingComplete');
+            },
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            autofocus: true,
+          ),
+        ))
       ],
     );
   }
