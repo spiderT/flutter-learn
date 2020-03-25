@@ -6,6 +6,12 @@ class ChatContainer extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                  color: Colors.grey, width: 1, style: BorderStyle.solid),
+            ),
+          ),
           child: Row(
             children: <Widget>[
               Expanded(
@@ -114,11 +120,15 @@ class ChatContainer extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: Color.fromRGBO(243, 243, 243, 1.0),
+            border: Border(
+              top: BorderSide(
+                  color: Colors.grey, width: 1, style: BorderStyle.solid),
+            ),
           ),
           padding:
               EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 4.0),
           child: TextField(
-            //按回车时调用
+            //按回车时调用 ??? 没有用
             onEditingComplete: () {
               print('onEditingComplete');
             },
