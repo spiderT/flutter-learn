@@ -578,4 +578,233 @@ abstract class StatefulWidget extends Widget {
 
 
 
+## 8. 文件操作
+
+
+## 9. http 请求
+
+### 9.1. 通过HttpClient发起HTTP请求
+
+Dart IO库中提供了用于发起Http请求的一些类，我们可以直接使用HttpClient来发起请求。使用HttpClient发起请求分为五步：
+
+1. 创建一个HttpClient：  
+
+```dart
+HttpClient httpClient = new HttpClient();
+```
+
+2. 打开Http连接，设置请求头：
+
+```dart
+HttpClientRequest request = await httpClient.getUrl(uri);
+```
+
+这一步可以使用任意Http Method，如httpClient.post(...)、httpClient.delete(...)等。如果包含Query参数，可以在构建uri时添加，如：
+
+```dart
+Uri uri=Uri(scheme: "https", host: "flutterchina.club", queryParameters: {
+    "xx":"xx",
+    "yy":"dd"
+  });
+```
+
+通过HttpClientRequest可以设置请求header，如：
+
+```dart
+request.headers.add("user-agent", "test");
+```
+
+如果是post或put等可以携带请求体方法，可以通过HttpClientRequest对象发送request body，如：
+
+```dart
+String payload="...";
+request.add(utf8.encode(payload)); 
+//request.addStream(_inputStream); //可以直接添加输入流
+```
+
+3. 等待连接服务器：
+
+```dart
+HttpClientResponse response = await request.close();
+```
+
+这一步完成后，请求信息就已经发送给服务器了，返回一个HttpClientResponse对象，它包含响应头（header）和响应流(响应体的Stream)，接下来就可以通过读取响应流来获取响应内容。
+
+4. 读取响应内容：
+
+```dart
+String responseBody = await response.transform(utf8.decoder).join();
+```
+
+我们通过读取响应流来获取服务器返回的数据，在读取时我们可以设置编码格式，这里是utf8。
+
+5. 请求结束，关闭HttpClient：
+
+```dart
+httpClient.close();
+```
+
+关闭client后，通过该client发起的所有请求都会中止。
+
+
+
+
+
+## 10. websocket
+
+步骤  
+1. 连接到WebSocket服务器。  
+2. 监听来自服务器的消息。  
+3. 将数据发送到服务器。  
+4. 关闭WebSocket连接。  
+
+### 10.1. 连接到WebSocket服务器
+
+web_socket_channel package 提供了我们需要连接到WebSocket服务器的工具。该package提供了一个WebSocketChannel允许我们既可以监听来自服务器的消息，又可以将消息发送到服务器的方法。
+
+在Flutter中，我们可以创建一个WebSocketChannel连接到一台服务器：
+
+```dart
+final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
+```
+
+### 10.2. 监听来自服务器的消息
+
+现在我们建立了连接，我们可以监听来自服务器的消息，在我们发送消息给测试服务器之后，它会返回相同的消息。
+
+我们如何收取消息并显示它们？在这个例子中，我们将使用一个StreamBuilder 来监听新消息， 并用一个Text来显示它们。
+
+```dart
+new StreamBuilder(
+  stream: widget.channel.stream,
+  builder: (context, snapshot) {
+    return new Text(snapshot.hasData ? '${snapshot.data}' : '');
+  },
+);
+```
+
+> 工作原理  
+
+WebSocketChannel提供了一个来自服务器的消息Stream 。该Stream类是dart:async包中的一个基础类。它提供了一种方法来监听来自数据源的异步事件。与Future返回单个异步响应不同，Stream类可以随着时间推移传递很多事件。该StreamBuilder 组件将连接到一个Stream， 并在每次收到消息时通知Flutter重新构建界面。 
+
+### 10.3. 将数据发送到服务器
+
+为了将数据发送到服务器，我们会add消息给WebSocketChannel提供的sink。
+
+```dart
+channel.sink.add('Hello!');
+```
+
+> 工作原理  
+
+WebSocketChannel提供了一个StreamSink，它将消息发给服务器。  
+
+StreamSink类提供了给数据源同步或异步添加事件的一般方法。  
+
+
+### 10.4. 关闭WebSocket连接
+
+```dart
+channel.sink.close();
+```
+
+> 例子
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:web_socket_channel/io.dart';
+
+class WebSocketRoute extends StatefulWidget {
+  @override
+  _WebSocketRouteState createState() => new _WebSocketRouteState();
+}
+
+class _WebSocketRouteState extends State<WebSocketRoute> {
+  TextEditingController _controller = new TextEditingController();
+  IOWebSocketChannel channel;
+  String _text = "";
+
+
+  @override
+  void initState() {
+    //创建websocket连接
+    channel = new IOWebSocketChannel.connect('ws://echo.websocket.org');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("WebSocket(内容回显)"),
+      ),
+      body: new Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Form(
+              child: new TextFormField(
+                controller: _controller,
+                decoration: new InputDecoration(labelText: 'Send a message'),
+              ),
+            ),
+            new StreamBuilder(
+              stream: channel.stream,
+              builder: (context, snapshot) {
+                //网络不通会走到这
+                if (snapshot.hasError) {
+                  _text = "网络不通...";
+                } else if (snapshot.hasData) {
+                  _text = "echo: "+snapshot.data;
+                }
+                return new Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: new Text(_text),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: _sendMessage,
+        tooltip: 'Send message',
+        child: new Icon(Icons.send),
+      ),
+    );
+  }
+
+  void _sendMessage() {
+    if (_controller.text.isNotEmpty) {
+      channel.sink.add(_controller.text);
+    }
+  }
+
+  @override
+  void dispose() {
+    channel.sink.close();
+    super.dispose();
+  }
+}
+```
+
+### 10.5. 使用Socket API
+
+Flutter的Socket API在dart：io包中  
+
+```dart
+_request() async{
+  //建立连接
+  var socket=await Socket.connect("baidu.com", 80);
+  //根据http协议，发送请求头
+  socket.writeln("GET / HTTP/1.1");
+  socket.writeln("Host:baidu.com");
+  socket.writeln("Connection:close");
+  socket.writeln();
+  await socket.flush(); //发送
+  //读取返回内容
+  _response =await socket.transform(utf8.decoder).join();
+  await socket.close();
+}
+```
 
