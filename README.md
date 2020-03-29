@@ -222,16 +222,16 @@ flutter create myapp
 + 指定放置项目的位置，然后按蓝色的确定按钮
 + 等待项目创建继续，并显示main.dart文件
 
-### 3.2 工程结构
+#### 工程结构
 
 ![flutter知识体系](./readmeImages/flutter-structure.png)
 
 除了 Flutter 本身的代码、资源、依赖和配置之外，Flutter 工程还包含了 Android 和 iOS 的工程目录。这也不难理解，因为 Flutter 虽然是跨平台开发方案，但却需要一个容器最终运行到 Android 和 iOS 平台上，所以 Flutter 工程实际上就是一个同时内嵌了 Android 和 iOS 原生子工程的父工程：我们在 lib 目录下进行 Flutter 代码的开发，而某些特殊场景下的原生功能，则在对应的 Android 和 iOS 工程中提供相应的代码实现，供对应的 Flutter 代码引用。Flutter 会将相关的依赖和构建产物注入这两个子工程，最终集成到各自的项目中。而我们开发的 Flutter 代码，最终则会以原生工程的形式运行。
 
 
-### 3.2 工程代码
+#### 工程代码
 
-#### 3.2.1 应用入口、应用结构以及页面结构，可以帮助你理解构建 Flutter 程序的基本结构和套路；
+#### 3.1.1 应用入口、应用结构以及页面结构，可以帮助你理解构建 Flutter 程序的基本结构和套路；
 
 1. 导入包。
 
@@ -276,7 +276,7 @@ class MyApp extends StatelessWidget {
 + MaterialApp 类是对构建 material 设计风格应用的组件封装框架，里面还有很多可配置的属性，比如应用主题、应用名称、语言标识符、组件路由等。但是，这些配置属性并不是本次分享的重点，如果你感兴趣的话，可以参考 Flutter 官方的API 文档，来了解 MaterialApp 框架的其他配置能力。
 
 
-#### 3.2.2 应用结构
+#### 3.1.2 应用结构
 
 ![flutter代码流出示意图](./readmeImages/flutter-flow.png)
 
@@ -397,6 +397,171 @@ class MyAnimationWidget extends AnimatedWidget{
 这样很显然是不合理的，因为AnimatedWidget的状态对象是AnimatedWidget内部实现细节，不应该暴露给外部。
 如果要将父类状态暴露给子类，那么必须得有一种传递机制，而做这一套传递机制是无意义的，因为父子类之间状态的传递和子类本身逻辑是无关的。
 综上所述，可以发现，对于StatefulWidget，将build方法放在State中，可以给开发带来很大的灵活性。
+
+
+### 3.2. 路由管理
+
+flutter中的路由管理和原生开发类似，无论是Android还是iOS，导航管理都会维护一个路由栈，路由入栈(push)操作对应打开一个新页面，路由出栈(pop)操作对应页面关闭操作  
+
+
+
+
+### 3.3. 包管理
+
+flutter使用配置文件pubspec.yaml（位于项目根目录）来管理第三方依赖包。  
+
+YAML是一种直观、可读性高并且容易被人类阅读的文件格式，它和xml或Json相比，它语法简单并非常容易解析，所以YAML常用于配置文件，Flutter也是用yaml文件作为其配置文件。Flutter项目默认的配置文件是pubspec.yaml  
+
+```yaml
+name: flutter_in_action
+description: First Flutter application.
+
+version: 1.0.0+1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+```
+
+各个字段的意义：  
+
+- name：应用或包名称。  
+- description: 应用或包的描述、简介。  
+- version：应用或包的版本号。  
+- dependencies：应用或包依赖的其它包或插件。  
+- dev_dependencies：开发环境依赖的工具包（而不是flutter应用本身依赖的包）。  
+- flutter：flutter相关的配置选项。  
+
+如果我们的Flutter应用本身依赖某个包，我们需要将所依赖的包添加到dependencies 下  
+
+#### 3.3.1. Pub仓库
+
+Pub（https://pub.dev/ ）是Google官方的Dart Packages仓库，类似于node中的npm仓库，android中的jcenter。我们可以在Pub上面查找我们需要的包和插件，也可以向Pub发布我们的包和插件。我们将在后面的章节中介绍如何向Pub发布我们的包和插件。  
+
+我们实现一个显示随机字符串的widget。有一个名为“english_words”的开源软件包，其中包含数千个常用的英文单词以及一些实用功能。我们首先在pub上找到english_words这个包.  
+
+1. 将“english_words”（3.1.3版本）添加到依赖项列表，如下：  
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.0
+  # 新添加的依赖
+  english_words: ^3.1.3
+```
+
+2. 下载包，运行flutter package get
+
+3. 引入english_words包。
+
+```dart
+import 'package:english_words/english_words.dart';
+```
+
+#### 3.3.2. 其它依赖方式
+
+- 依赖本地包  
+
+如果我们正在本地开发一个包，包名为pkg1，我们可以通过下面方式依赖：  
+
+```yaml
+dependencies:
+    pkg1:
+        path: ../../code/pkg1
+```
+ 
+路径可以是相对的，也可以是绝对的。  
+
+- 依赖Git：你也可以依赖存储在Git仓库中的包。如果软件包位于仓库的根目录中，请使用以下语法  
+
+
+```yaml
+dependencies:
+  pkg1:
+    git:
+      url: git://github.com/xxx/pkg1.git
+```
+
+上面假定包位于Git存储库的根目录中。如果不是这种情况，可以使用path参数指定相对位置，例如：  
+
+```yaml
+dependencies:
+  package1:
+    git:
+      url: git://github.com/flutter/packages.git
+      path: packages/package1
+```
+
+### 3.4. 资源管理
+
+Flutter APP安装包中会包含代码和 assets（资源）两部分。Assets是会打包到程序安装包中的，可在运行时访问。常见类型的assets包括静态数据（例如JSON文件）、配置文件、图标和图片（JPEG，WebP，GIF，动画WebP / GIF，PNG，BMP和WBMP）等。  
+
+#### 3.4.1. 指定 assets
+
+和包管理一样，Flutter也使用pubspec.yaml文件来管理应用程序所需的资源，举个例子:
+
+```yaml
+flutter:
+  assets:
+    - assets/my_icon.png
+    - assets/background.png
+```
+
+assets指定应包含在应用程序中的文件， 每个asset都通过相对于pubspec.yaml文件所在的文件系统路径来标识自身的路径。asset的声明顺序是无关紧要的，asset的实际目录可以是任意文件夹（在本示例中是assets文件夹）。  
+
+在构建期间，Flutter将asset放置到称为 asset bundle 的特殊存档中，应用程序可以在运行时读取它们（但不能修改）。   
+
+#### 3.4.2. Asset 变体（variant）
+
+构建过程支持“asset变体”的概念：不同版本的asset可能会显示在不同的上下文中。 在pubspec.yaml的assets部分中指定asset路径时，构建过程中，会在相邻子目录中查找具有相同名称的任何文件。这些文件随后会与指定的asset一起被包含在asset bundle中。  
+
+例如，如果应用程序目录中有以下文件:  
+
+…/pubspec.yaml  
+…/graphics/my_icon.png  
+…/graphics/background.png  
+…/graphics/dark/background.png  
+…etc.  
+然后pubspec.yaml文件中只需包含:  
+
+```yaml
+flutter:
+  assets:
+    - graphics/background.png
+```
+
+那么这两个graphics/background.png和graphics/dark/background.png 都将包含在您的asset bundle中。前者被认为是main asset （主资源），后者被认为是一种变体（variant）。
+
+在选择匹配当前设备分辨率的图片时，Flutter会使用到asset变体（见下文），将来，Flutter可能会将这种机制扩展到本地化、阅读提示等方面。
+
+#### 3.4.3. 加载 assets
+
+可以通过AssetBundle对象访问其asset 。有两种主要方法允许从Asset bundle中加载字符串或图片（二进制）文件。
+
+##### 加载文本assets
+
+- 通过rootBundle 对象加载：每个Flutter应用程序都有一个rootBundle对象， 通过它可以轻松访问主资源包，直接使用package:flutter/services.dart中全局静态的rootBundle对象来加载asset即可。  
+
+- 通过 DefaultAssetBundle 加载：建议使用 DefaultAssetBundle 来获取当前BuildContext的AssetBundle。 这种方法不是使用应用程序构建的默认asset bundle，而是使父级widget在运行时动态替换的不同的AssetBundle，这对于本地化或测试场景很有用。  
+
+
+
+
+
+
+
+
+
 
 ## 4. Desktop support for Flutter
 
