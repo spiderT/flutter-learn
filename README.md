@@ -554,8 +554,135 @@ flutter:
 
 - 通过 DefaultAssetBundle 加载：建议使用 DefaultAssetBundle 来获取当前BuildContext的AssetBundle。 这种方法不是使用应用程序构建的默认asset bundle，而是使父级widget在运行时动态替换的不同的AssetBundle，这对于本地化或测试场景很有用。  
 
+通常，可以使用DefaultAssetBundle.of()在应用运行时来间接加载asset（例如JSON文件），而在widget上下文之外，或其它AssetBundle句柄不可用时，可以使用rootBundle直接加载这些asset，例如：  
 
+```dart
+import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
 
+Future<String> loadAsset() async {
+  return await rootBundle.loadString('assets/config.json');
+}
+```
+
+#### 3.4.4. 加载图片  
+
+类似于原生开发，Flutter也可以为当前设备加载适合其分辨率的图像。  
+
+##### 声明分辨率相关的图片 assets
+
+AssetImage 可以将asset的请求逻辑映射到最接近当前设备像素比例（dpi）的asset。为了使这种映射起作用，必须根据特定的目录结构来保存asset：  
+
+…/image.png  
+…/Mx/image.png  
+…/Nx/image.png  
+…etc.  
+其中M和N是数字标识符，对应于其中包含的图像的分辨率，也就是说，它们指定不同设备像素比例的图片。  
+
+主资源默认对应于1.0倍的分辨率图片。看一个例子：  
+
+…/my_icon.png  
+…/2.0x/my_icon.png  
+…/3.0x/my_icon.png  
+
+在设备像素比率为1.8的设备上，.../2.0x/my_icon.png 将被选择。对于2.7的设备像素比率，.../3.0x/my_icon.png将被选择。  
+
+如果未在Image widget上指定渲染图像的宽度和高度，那么Image widget将占用与主资源相同的屏幕空间大小。 也就是说，如果.../my_icon.png是72px乘72px，那么.../3.0x/my_icon.png应该是216px乘216px; 但如果未指定宽度和高度，它们都将渲染为72像素×72像素（以逻辑像素为单位）。  
+
+pubspec.yaml中asset部分中的每一项都应与实际文件相对应，但主资源项除外。当主资源缺少某个资源时，会按分辨率从低到高的顺序去选择 ，也就是说1x中没有的话会在2x中找，2x中还没有的话就在3x中找。  
+
+##### 加载图片
+
+要加载图片，可以使用 AssetImage类。例如，我们可以从上面的asset声明中加载背景图片：
+
+```dart
+Widget build(BuildContext context) {
+  return new DecoratedBox(
+    decoration: new BoxDecoration(
+      image: new DecorationImage(
+        image: new AssetImage('graphics/background.png'),
+      ),
+    ),
+  );
+}
+```
+
+注意，AssetImage 并非是一个widget， 它实际上是一个ImageProvider，有些时候你可能期望直接得到一个显示图片的widget，那么你可以使用Image.asset()方法，如：
+
+```dart
+Widget build(BuildContext context) {
+  return Image.asset('graphics/background.png');
+}
+```
+
+使用默认的 asset bundle 加载资源时，内部会自动处理分辨率等，这些处理对开发者来说是无感知的。 (如果使用一些更低级别的类，如 ImageStream或 ImageCache 时你会注意到有与缩放相关的参数)
+
+##### 依赖包中的资源图片
+
+要加载依赖包中的图像，必须给AssetImage提供package参数。  
+
+例如，假设您的应用程序依赖于一个名为“my_icons”的包，它具有如下目录结构：  
+
+…/pubspec.yaml  
+…/icons/heart.png  
+…/icons/1.5x/heart.png  
+…/icons/2.0x/heart.png  
+…etc.  
+然后加载图像，使用:    
+
+```dart
+new AssetImage('icons/heart.png', package: 'my_icons')
+```
+
+或
+
+```dart
+new Image.asset('icons/heart.png', package: 'my_icons')
+```
+
+> 注意：包在使用本身的资源时也应该加上package参数来获取。
+
+##### 打包包中的 assets
+
+如果在pubspec.yaml文件中声明了期望的资源，它将会打包到相应的package中。特别是，包本身使用的资源必须在pubspec.yaml中指定。  
+
+包也可以选择在其lib/文件夹中包含未在其pubspec.yaml文件中声明的资源。在这种情况下，对于要打包的图片，应用程序必须在pubspec.yaml中指定包含哪些图像。 例如，一个名为“fancy_backgrounds”的包，可能包含以下文件：  
+
+…/lib/backgrounds/background1.png  
+…/lib/backgrounds/background2.png  
+…/lib/backgrounds/background3.png  
+
+要包含第一张图像，必须在pubspec.yaml的assets部分中声明它：  
+
+```yaml
+flutter:
+  assets:
+    - packages/fancy_backgrounds/backgrounds/background1.png
+```
+
+lib/是隐含的，所以它不应该包含在资产路径中。
+
+#### 3.4.5. 特定平台 assets
+
+上面的资源都是flutter应用中的，这些资源只有在Flutter框架运行之后才能使用，如果要给我们的应用设置APP图标或者添加启动图，那我们必须使用特定平台的assets。
+
+##### 设置APP图标  
+
+更新Flutter应用程序启动图标的方式与在本机Android或iOS应用程序中更新启动图标的方式相同。  
+
+- Android  
+
+在Flutter项目的根目录中，导航到.../android/app/src/main/res目录，里面包含了各种资源文件夹（如mipmap-hdpi已包含占位符图像“ic_launcher.png”）。 只需按照Android开发人员指南中的说明， 将其替换为所需的资源，并遵守每种屏幕密度（dpi）的建议图标大小标准。  
+
+> 注意: 如果您重命名.png文件，则还必须在您AndroidManifest.xml的<application>标签的android:icon属性中更新名称。
+
+- iOS  
+
+在Flutter项目的根目录中，导航到.../ios/Runner。该目录中Assets.xcassets/AppIcon.appiconset已经包含占位符图片）， 只需将它们替换为适当大小的图片，保留原始文件名称。   
+
+在Flutter框架加载时，Flutter会使用本地平台机制绘制启动页。此启动页将持续到Flutter渲染应用程序的第一帧时。  
+
+> 注意: 这意味着如果您不在应用程序的main()方法中调用runApp 函数 （或者更具体地说，如果您不调用window.render去响应window.onDrawFrame）的话， 启动屏幕将永远持续显示  
 
 
 
