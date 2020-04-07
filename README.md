@@ -1072,6 +1072,104 @@ const textStyle = const TextStyle(
 
 ```
 
+### 5.3. 按钮
+
+#### 5.3.1. Material组件库中的按钮
+
+Material 组件库中提供了多种按钮组件如RaisedButton、FlatButton、OutlineButton等，它们都是直接或间接对RawMaterialButton组件的包装定制，所以他们大多数属性都和RawMaterialButton一样。在介绍各个按钮时我们先介绍其默认外观，而按钮的外观大都可以通过属性来自定义，我们在后面统一介绍这些属性。另外，所有Material 库中的按钮都有如下相同点：  
+
+按下时都会有“水波动画”（又称“涟漪动画”，就是点击时按钮上会出现水波荡漾的动画）。   
+有一个onPressed属性来设置点击回调，当按钮按下时会执行该回调，如果不提供该回调则按钮会处于禁用状态，禁用状态不响应用户点击。  
+
+##### RaisedButton
+
+RaisedButton 即"漂浮"按钮，它默认带有阴影和灰色背景。按下后，阴影会变大。
+
+```dart
+RaisedButton(
+  child: Text("normal"),
+  onPressed: () {},
+);
+```
+
+##### FlatButton
+
+即扁平按钮，默认背景透明并不带阴影。按下后，会有背景色.
+
+```dart
+FlatButton(
+  child: Text("normal"),
+  onPressed: () {},
+)
+```
+
+##### OutlineButton
+
+默认有一个边框，不带阴影且背景透明。按下后，边框颜色会变亮、同时出现背景和阴影(较弱).
+
+```dart
+OutlineButton(
+  child: Text("normal"),
+  onPressed: () {},
+)
+```
+
+##### IconButton
+
+是一个可点击的Icon，不包括文字，默认没有背景，点击后会出现背景.
+
+```dart
+IconButton(
+  icon: Icon(Icons.thumb_up),
+  onPressed: () {},
+)
+```
+
+##### 带图标的按钮
+
+RaisedButton、FlatButton、OutlineButton都有一个icon 构造函数，通过它可以轻松创建带图标的按钮
+
+```dart
+RaisedButton.icon(
+  icon: Icon(Icons.send),
+  label: Text("发送"),
+  onPressed: _onPressed,
+),
+OutlineButton.icon(
+  icon: Icon(Icons.add),
+  label: Text("添加"),
+  onPressed: _onPressed,
+),
+FlatButton.icon(
+  icon: Icon(Icons.info),
+  label: Text("详情"),
+  onPressed: _onPressed,
+),
+```
+
+#### 5.3.2. 自定义按钮外观
+
+按钮外观可以通过其属性来定义，不同按钮属性大同小异
+
+```dart
+const FlatButton({
+  ...  
+  @required this.onPressed, //按钮点击回调
+  this.textColor, //按钮文字颜色
+  this.disabledTextColor, //按钮禁用时的文字颜色
+  this.color, //按钮背景颜色
+  this.disabledColor,//按钮禁用时的背景颜色
+  this.highlightColor, //按钮按下时的背景颜色
+  this.splashColor, //点击时，水波动画中水波的颜色
+  this.colorBrightness,//按钮主题，默认是浅色主题 
+  this.padding, //按钮的填充
+  this.shape, //外形
+  @required this.child, //按钮的内容
+})
+```
+
+
+
 ## 8. 文件操作
 
 
