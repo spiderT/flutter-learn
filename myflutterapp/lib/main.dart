@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spiderChat/pages/user_info.dart';
 import 'package:spiderChat/pages/chat_list.dart';
 import 'package:spiderChat/pages/chat_container.dart';
+import 'package:spiderChat/pages/chat_im.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,6 +37,7 @@ class MyHomePage extends StatelessWidget {
             ),
             Expanded(
               child: ChatContainer(),
+              // child: WebSocketRoute(),
             )
           ],
         ),

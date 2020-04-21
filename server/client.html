@@ -17,7 +17,7 @@
 			socket.onmessage = function (event) {
 				console.log('event', event)
 				var ta = document.getElementById('responseText');
-				ta.value = ta.value + '\n' + event.data
+				ta.value = ta.value + '\n' + JSON.parse(event.data).content
 			};
 			socket.onopen = function (event) {
 				var ta = document.getElementById('responseText');
@@ -35,8 +35,19 @@
 			if (!window.WebSocket) {
 				return;
 			}
+			// type: 1,
+			// content: 'hello',
+			// fromId: 'zhizhuxia',
+			// toId: 'me',
+			// id: 12345623456781, 
 			if (socket.readyState == WebSocket.OPEN) {
-				socket.send(message);
+				socket.send(JSON.stringify({
+					fromId: 'zhizhuxia',
+					toId: 'me',
+					type: 1,
+					content: message,
+					id: new Date().getTime()
+				}));
 			} else {
 				alert("连接没有开启.");
 			}
@@ -47,9 +58,8 @@
 		<textarea id="responseText" style="width: 500px; height: 300px;"></textarea>
 		<br>
 		<input type="text" name="message" style="width: 300px" value="">
-		<input type="button" value="发送消息" onclick="send('spider->'+this.form.message.value)">
-		<input type="button" onclick="javascript:document.getElementById('responseText').value=''" 
-			value="清空聊天记录">
+		<input type="button" value="发送消息" onclick="send(this.form.message.value)">
+		<input type="button" onclick="javascript:document.getElementById('responseText').value=''" value="清空聊天记录">
 	</form>
 	<br>
 	<br>

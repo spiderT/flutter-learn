@@ -2310,6 +2310,27 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
 }
 ```
 
+> **注意** 实测发现在桌面应用无法发出请求，原因是Mac 应用有沙箱限制，需要在对应文件中开启即可。需要在macos/Runner/DebugProfile.entitlements文件中添加com.apple.security.network.client。祥见[Flutter - http.get fails on macos build target: Connection failed](https://stackoverflow.com/questions/57841871/flutter-http-get-fails-on-macos-build-target-connection-failed)
+
+```text
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+  <true/>
+</dict>
+</plist>
+
+```
+
+
 ### 10.5. 使用Socket API
 
 Flutter的Socket API在dart：io包中  
