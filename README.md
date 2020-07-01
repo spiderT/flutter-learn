@@ -9,12 +9,29 @@
 
 web chrome 启动方法
 
+配置环境
+
+```text
+flutter channel beta
+flutter upgrade
+flutter config --enable-web
+```
+
 ```text
 cd flutterwebapp
+flutter create .
 flutter run -d chrome
 ```
 
 macos桌面端应用，启动方法  
+
+配置环境
+
+```text
+flutter channel dev
+flutter upgrade
+flutter config --enable-macos-desktop
+```
 
 ```text
 cd flutterwebapp

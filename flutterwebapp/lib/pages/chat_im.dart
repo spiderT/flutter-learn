@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
-import 'dart:convert';
+import 'dart:io';
 
 class WebSocketRoute extends StatefulWidget {
   @override
@@ -87,9 +87,9 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
     }
   }
 
-  @override
-  void dispose() {
-    channel.sink.close();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   channel.sink.close();
+  //   super.dispose();
+  // }
 }

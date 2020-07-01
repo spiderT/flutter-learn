@@ -19,24 +19,17 @@ class MsgModel {
 
 List<MsgModel> dummyData = [
   new MsgModel(
-    type: 2,
-    content: '10:29',
+    type: 1,
+    content: '你好，我是蜘蛛侠，很高兴认识你。',
     fromId: 'zhizhuxia',
-    toId: 'me',
-    id: DateTime.now().millisecondsSinceEpoch, 
+    toId: 'ivy',
+    id: DateTime.now().millisecondsSinceEpoch,
   ),
   new MsgModel(
     type: 1,
-    content: '你好，我是蜘蛛侠，很高兴认识你。命运无可掌控，充满了无奈、未知，然而，我依然要走下去。',
-    fromId: 'zhizhuxia',
-    toId: 'me',
+    content: 'xxxxx',
+    fromId: 'ivy',
+    toId: 'zhizhuxia',
     id: DateTime.now().millisecondsSinceEpoch,
   ),
-  // new MsgModel(
-  //   type: 3,
-  //   content: 'xxxxx',
-  //   fromId: 'zhizhuxia',
-  //   toId: 'me',
-  //   id: DateTime.now().millisecondsSinceEpoch,
-  // ),
 ];
