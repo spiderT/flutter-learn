@@ -7,10 +7,17 @@
 [flutterbyexample](https://flutterbyexample.com/about-flutter)  
 [flutter中文网](https://book.flutterchina.club/chapter3/flutter_widget_intro.html)  
 
-本次demo开发的实例是一个桌面端应用，启动方法  
+web chrome 启动方法
 
 ```text
-cd myflutterapp
+cd flutterwebapp
+flutter run -d chrome
+```
+
+macos桌面端应用，启动方法  
+
+```text
+cd flutterwebapp
 flutter create .
 flutter run -d macOS
 ```
@@ -25,7 +32,6 @@ cd ~/development
 unzip ~/Downloads/flutter_macos_v0.5.1-beta.zip
 
 ```
-
 
 添加flutter相关工具到path中：
 
@@ -460,7 +466,7 @@ dependencies:
   english_words: ^3.1.3
 ```
 
-2. 下载包，运行flutter package get
+2. 下载包，运行flutter pub get
 
 3. 引入english_words包。
 
@@ -1501,6 +1507,8 @@ url	优化后的url输入键盘； 会显示“/ .”
 
 - cursorWidth、cursorRadius和cursorColor：这三个属性是用于自定义输入框光标宽度、圆角和颜色的。  
 
+无边框样式  return TextField(decoration: InputDecoration(border: InputBorder.none));  
+
 示例：登录输入框  
 
 ```dart
@@ -2351,3 +2359,42 @@ _request() async{
 }
 ```
 
+## 11. flutter web
+
+https://flutter.dev/docs/get-started/web
+
+### 11.1. 支持web页面
+
+终端运行下面命令
+
+```text
+flutter channel beta  
+flutter upgrade
+flutter config --enable-web
+```
+
+当web配置好了，运行 flutter devices 命令 查看可用设备。  
+
+终端会出现以下信息
+
+```text
+$flutter devices
+3 connected devices:
+
+macOS (desktop)  • macos      • darwin-x64     • Mac OS X 10.14.6 18G95
+Web Server (web) • web-server • web-javascript • Flutter Tools
+Chrome (web)     • chrome     • web-javascript • Google Chrome 83.0.4103.116
+```
+
+创建一个项目  
+
+```text
+flutter create flutterwebapp
+cd flutterwebapp
+```
+
+运行flutter run -d chrome命令启动  
+
+构建命令：flutter build web  
+
+## 12. flutter desktop
