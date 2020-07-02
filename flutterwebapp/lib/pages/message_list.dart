@@ -36,27 +36,34 @@ class MessageListState extends State<MessageList> {
                             width: 44.0,
                             height: 44.0,
                           ),
-                          title: new Text(
-                            dummyData[i].content,
-                            textAlign: TextAlign.left,
-                            style: new TextStyle(
-                                height: 3,
-                                fontSize: 12.0,
-                                backgroundColor: Colors.white),
-                          ))
+                          title: new Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: new BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      new Radius.circular(8.0)),
+                                  color: Colors.white),
+                              child: new Text(
+                                dummyData[i].content,
+                                textAlign: TextAlign.left,
+                                style: new TextStyle(fontSize: 12.0),
+                              )))
                       : new ListTile(
                           trailing: Image.asset(
                             "images/users/user.png",
                             width: 44.0,
                             height: 44.0,
                           ),
-                          title: new Text(dummyData[i].content,
-                              textAlign: TextAlign.right,
-                              style: new TextStyle(
-                                  height: 3,
-                                  fontSize: 12.0,
-                                  backgroundColor:
-                                      Color.fromRGBO(158, 231, 101, 1)))))
+                          title: new Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: new BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      new Radius.circular(8.0)),
+                                  color: Color.fromRGBO(158, 231, 101, 1)),
+                              child: new Text(dummyData[i].content,
+                                  textAlign: TextAlign.right,
+                                  style: new TextStyle(
+                                    fontSize: 12.0,
+                                  )))))
             ],
           ),
         ));
