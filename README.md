@@ -2,12 +2,12 @@
 
 学习资料：  
 [flutter官网](https://flutter.dev/docs/get-started/install)  
-[极客时间课程](https://time.geekbang.org/column/intro/200?code=0NDBjgqiiw4VWefF8wtD-e1yhlWj5gG9ijWGD6ZH9KA%3D)，  
-[flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html),  
+[极客时间课程](https://time.geekbang.org/column/intro/200?code=0NDBjgqiiw4VWefF8wtD-e1yhlWj5gG9ijWGD6ZH9KA%3D)  
+[flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html)  
 [flutterbyexample](https://flutterbyexample.com/about-flutter)  
 [flutter中文网](https://book.flutterchina.club/chapter3/flutter_widget_intro.html)  
 
-web chrome 启动方法
+> web chrome 启动方法
 
 配置环境
 
@@ -23,7 +23,7 @@ flutter create .
 flutter run -d chrome
 ```
 
-macos桌面端应用，启动方法  
+> macos桌面端应用，启动方法  
 
 配置环境
 
@@ -39,15 +39,112 @@ flutter create .
 flutter run -d macOS
 ```
 
+- [flutter-learn](#flutter-learn)
+  - [1. 在macOS上搭建Flutter开发环境](#1-在macos上搭建flutter开发环境)
+    - [1.1. 获取Flutter SDK](#11-获取flutter-sdk)
+      - [1.1.1. 运行 flutter doctor](#111-运行-flutter-doctor)
+      - [1.1.2. 更新环境变量](#112-更新环境变量)
+    - [1.2. iOS 设置](#12-ios-设置)
+      - [1.2.1 安装 Xcode](#121-安装-xcode)
+      - [1.2.2 设置iOS模拟器](#122-设置ios模拟器)
+      - [1.2.3 安装到iOS设备](#123-安装到ios设备)
+    - [1.3 Android设置](#13-android设置)
+      - [1.3.1 Flutter需要安装和配置Android Studio:](#131-flutter需要安装和配置android-studio)
+      - [1.3.2 设置您的Android设备](#132-设置您的android设备)
+      - [1.3.3 设置Android模拟器](#133-设置android模拟器)
+  - [2. flutter 核心技术](#2-flutter-核心技术)
+    - [2.1 flutter 原理](#21-flutter-原理)
+    - [2.2 flutter 界面渲染过程](#22-flutter-界面渲染过程)
+  - [3. 生成应用](#3-生成应用)
+    - [3.1. 方法](#31-方法)
+      - [工程结构](#工程结构)
+      - [工程代码](#工程代码)
+      - [3.1.1 应用入口、应用结构以及页面结构，可以帮助你理解构建 Flutter 程序的基本结构和套路；](#311-应用入口应用结构以及页面结构可以帮助你理解构建-flutter-程序的基本结构和套路)
+      - [3.1.2 应用结构](#312-应用结构)
+    - [3.2. 路由管理](#32-路由管理)
+    - [3.3. 包管理](#33-包管理)
+      - [3.3.1. Pub仓库](#331-pub仓库)
+      - [3.3.2. 其它依赖方式](#332-其它依赖方式)
+    - [3.4. 资源管理](#34-资源管理)
+      - [3.4.1. 指定 assets](#341-指定-assets)
+      - [3.4.2. Asset 变体（variant）](#342-asset-变体variant)
+      - [3.4.3. 加载 assets](#343-加载-assets)
+        - [加载文本assets](#加载文本assets)
+      - [3.4.4. 加载图片](#344-加载图片)
+        - [声明分辨率相关的图片 assets](#声明分辨率相关的图片-assets)
+        - [加载图片](#加载图片)
+        - [依赖包中的资源图片](#依赖包中的资源图片)
+        - [打包包中的 assets](#打包包中的-assets)
+      - [3.4.5. 特定平台 assets](#345-特定平台-assets)
+        - [设置APP图标](#设置app图标)
+  - [4. Desktop support for Flutter](#4-desktop-support-for-flutter)
+  - [5. 基础组件](#5-基础组件)
+    - [5.1. Widget简介](#51-widget简介)
+      - [5.1.1. 概念](#511-概念)
+      - [5.1.2. Widget与Element](#512-widget与element)
+      - [5.1.3. Widget主要接口](#513-widget主要接口)
+      - [5.1.4. StatelessWidget](#514-statelesswidget)
+        - [Context](#context)
+      - [5.1.5. StatefulWidget](#515-statefulwidget)
+    - [5.2. 文本及样式](#52-文本及样式)
+      - [5.2.1. Text](#521-text)
+      - [5.2.2. TextStyle](#522-textstyle)
+      - [5.2.3. TextSpan](#523-textspan)
+      - [5.2.4. DefaultTextStyle](#524-defaulttextstyle)
+      - [5.2.5. 字体](#525-字体)
+        - [在asset中声明](#在asset中声明)
+        - [使用字体](#使用字体)
+        - [Package中的字体](#package中的字体)
+    - [5.3. 按钮](#53-按钮)
+      - [5.3.1. Material组件库中的按钮](#531-material组件库中的按钮)
+        - [RaisedButton](#raisedbutton)
+        - [FlatButton](#flatbutton)
+        - [OutlineButton](#outlinebutton)
+        - [IconButton](#iconbutton)
+        - [带图标的按钮](#带图标的按钮)
+      - [5.3.2. 自定义按钮外观](#532-自定义按钮外观)
+    - [5.4. 图片及ICON](#54-图片及icon)
+      - [5.4.1. 图片](#541-图片)
+        - [ImageProvider](#imageprovider)
+        - [Image](#image)
+        - [从asset中加载图片](#从asset中加载图片)
+        - [参数](#参数)
+      - [5.4.2. icon](#542-icon)
+        - [使用Material Design字体图标](#使用material-design字体图标)
+        - [使用自定义字体图标](#使用自定义字体图标)
+    - [5.5. 单选开关和复选框](#55-单选开关和复选框)
+          - [属性及外观](#属性及外观)
+    - [5.6. 输入框及表单](#56-输入框及表单)
+      - [5.6.1. TextField](#561-textfield)
+      - [5.6.2. 表单Form](#562-表单form)
+    - [5.7. 进度指示器](#57-进度指示器)
+      - [LinearProgressIndicator](#linearprogressindicator)
+      - [CircularProgressIndicator](#circularprogressindicator)
+      - [自定义尺寸](#自定义尺寸)
+      - [进度色动画](#进度色动画)
+      - [自定义进度指示器样式](#自定义进度指示器样式)
+  - [8. 文件操作](#8-文件操作)
+  - [9. http 请求](#9-http-请求)
+    - [9.1. 通过HttpClient发起HTTP请求](#91-通过httpclient发起http请求)
+  - [10. websocket](#10-websocket)
+    - [10.1. 连接到WebSocket服务器](#101-连接到websocket服务器)
+    - [10.2. 监听来自服务器的消息](#102-监听来自服务器的消息)
+    - [10.3. 将数据发送到服务器](#103-将数据发送到服务器)
+    - [10.4. 关闭WebSocket连接](#104-关闭websocket连接)
+    - [10.5. 使用Socket API](#105-使用socket-api)
+  - [11. flutter web](#11-flutter-web)
+    - [11.1. 支持web页面](#111-支持web页面)
+  - [12. flutter desktop](#12-flutter-desktop)
+
 ## 1. 在macOS上搭建Flutter开发环境
 
 ### 1.1. 获取Flutter SDK
+
 [去flutter官网下载其最新可用的安装包](https://flutter.io/sdk-archive/#macos) 。
 
 ```text
 cd ~/development
 unzip ~/Downloads/flutter_macos_v0.5.1-beta.zip
-
 ```
 
 添加flutter相关工具到path中：
@@ -75,16 +172,18 @@ export PATH= PATH_TO_FLUTTER_GIT_DIRECTORY/flutter/bin:$PATH
 注意：PATH_TO_FLUTTER_GIT_DIRECTORY 为你flutter的路径，比如“~/document/code”
 
 ```text
- export PATH= ~/document/code/flutter/bin:$PATH
+export PATH= ~/document/code/flutter/bin:$PATH
 ```
-4. 运行 source $HOME/.bash_profile 刷新当前终端窗口.
- *注意*: 如果你使用的是zsh，终端启动时 ~/.bash_profile 将不会被加载，解决办法就是修改 ~/.zshrc ，在其中添加：source ~/.bash_profile
- 
+
+4. 运行 source $HOME/.bash_profile 刷新当前终端窗口.  
+
+**注意**: 如果你使用的是zsh，终端启动时 ~/.bash_profile 将不会被加载，解决办法就是修改 ~/.zshrc ，在其中添加：source ~/.bash_profile
+
 5. 通过运行flutter/bin命令验证目录是否在已经在PATH中:
 
 ```text
 echo $PATH
-``` 
+```
 
 ### 1.2. iOS 设置
 
@@ -105,13 +204,14 @@ echo $PATH
 1. 要准备在iOS模拟器上运行并测试您的Flutter应用，请按以下步骤操作：
 
 在Mac上，通过Spotlight或使用以下命令找到模拟器:
+
 ```text
 open -a Simulator
 ```
+
 2. 通过检查模拟器 硬件>设备 菜单中的设置，确保您的模拟器正在使用64位设备（iPhone 5s或更高版本）.
 3. 根据您的开发机器的屏幕大小，模拟的高清屏iOS设备可能会使您的屏幕溢出。在模拟器的 Window> Scale 菜单下设置设备比例
 4. 运行 flutter run启动您的应用.
-
 
 #### 1.2.3 安装到iOS设备
 
@@ -127,7 +227,6 @@ brew install ideviceinstaller ios-deploy cocoapods
 pod setup
 ```
 
-
 ### 1.3 Android设置
 
 #### 1.3.1 Flutter需要安装和配置Android Studio:
@@ -136,9 +235,8 @@ pod setup
 
 2. 启动Android Studio，然后执行“Android Studio安装向导”。这将安装最新的Android SDK，Android SDK平台工具和Android SDK构建工具，这是Flutter为Android开发时所必需的
 
-
-
 #### 1.3.2 设置您的Android设备
+
 要准备在Android设备上运行并测试您的Flutter应用，需要安装Android 4.1（API level 16）或更高版本的Android设备.
 
 1. 在您的设备上启用 开发人员选项 和 USB调试 。详细说明可在Android文档中找到。
@@ -148,6 +246,7 @@ pod setup
 默认情况下，Flutter使用的Android SDK版本是基于你的 adb 工具版本。 如果您想让Flutter使用不同版本的Android SDK，则必须将该 ANDROID_HOME 环境变量设置为SDK安装目录。
 
 #### 1.3.3 设置Android模拟器
+
 要准备在Android模拟器上运行并测试您的Flutter应用，请按照以下步骤操作：
 
 1. 在您的机器上启用 VM acceleration .
@@ -225,7 +324,6 @@ Flutter 采用深度优先机制遍历渲染对象树，决定渲染对象树中
 
 ![flutter知识体系](./readmeImages/flutter3.png)
 
-
 ## 3. 生成应用
 
 ### 3.1. 方法
@@ -251,7 +349,6 @@ flutter create myapp
 
 除了 Flutter 本身的代码、资源、依赖和配置之外，Flutter 工程还包含了 Android 和 iOS 的工程目录。这也不难理解，因为 Flutter 虽然是跨平台开发方案，但却需要一个容器最终运行到 Android 和 iOS 平台上，所以 Flutter 工程实际上就是一个同时内嵌了 Android 和 iOS 原生子工程的父工程：我们在 lib 目录下进行 Flutter 代码的开发，而某些特殊场景下的原生功能，则在对应的 Android 和 iOS 工程中提供相应的代码实现，供对应的 Flutter 代码引用。Flutter 会将相关的依赖和构建产物注入这两个子工程，最终集成到各自的项目中。而我们开发的 Flutter 代码，最终则会以原生工程的形式运行。
 
-
 #### 工程代码
 
 #### 3.1.1 应用入口、应用结构以及页面结构，可以帮助你理解构建 Flutter 程序的基本结构和套路；
@@ -261,6 +358,7 @@ flutter create myapp
 ```dart
 import 'package:flutter/material.dart';
 ```
+
 此行代码作用是导入了Material UI组件库。Material是一种标准的移动端和web端的视觉设计语言， Flutter默认提供了一套丰富的Material风格的UI组件。
 
 2. 应用入口。
@@ -268,6 +366,7 @@ import 'package:flutter/material.dart';
 ```dart
 void main() => runApp(MyApp());
 ```
+
 与C/C++、Java类似，Flutter 应用中main函数为应用程序的入口。main函数中调用了runApp 方法，它的功能是启动Flutter应用。runApp它接受一个Widget参数，在本示例中它是一个MyApp对象，MyApp()是Flutter应用的根组件。
 main函数使用了(=>)符号，这是Dart中单行函数或方法的简写。
 
@@ -290,6 +389,7 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
 + Flutter 应用为 MyApp 类的一个实例，而 MyApp 类继承自 StatelessWidget 类，这也就意味着应用本身也是一个 Widget。事实上，在 Flutter 中，Widget 是整个视图描述的基础，在 Flutter 的世界里，包括应用、视图、视图控制器、布局等在内的概念，都建立在 Widget 之上，Flutter 的核心设计思想便是一切皆 Widget。
 
 + Widget 是组件视觉效果的封装，是 UI 界面的载体，因此我们还需要为它提供一个方法，来告诉 Flutter 框架如何构建 UI 界面，这个方法就是 build。
@@ -297,7 +397,6 @@ class MyApp extends StatelessWidget {
 + 在 build 方法中，我们通常通过对基础 Widget 进行相应的 UI 配置，或是组合各类基础 Widget 的方式进行 UI 的定制化。比如在 MyApp 中，我通过 MaterialApp 这个 Flutter App 框架设置了应用首页，即 MyHomePage。当然，MaterialApp 也是一个 Widget。
 
 + MaterialApp 类是对构建 material 设计风格应用的组件封装框架，里面还有很多可配置的属性，比如应用主题、应用名称、语言标识符、组件路由等。但是，这些配置属性并不是本次分享的重点，如果你感兴趣的话，可以参考 Flutter 官方的API 文档，来了解 MaterialApp 框架的其他配置能力。
-
 
 #### 3.1.2 应用结构
 
@@ -315,7 +414,7 @@ class MyHomePage extends StatefulWidget {
     ...
    }
 ```
-   
+
 1. MyHomePage 是Flutter应用的首页，它继承自StatefulWidget类，表示它是一个有状态的组件（Stateful widget）。关于Stateful widget我们将在第三章“Widget简介”一节仔细介绍，现在我们只需简单认为有状态的组件（Stateful widget） 和无状态的组件（Stateless widget）有两点不同：
 
 2. Stateful widget可以拥有状态，这些状态在widget生命周期中是可以变的，而Stateless widget是不可变的。
@@ -334,6 +433,7 @@ _MyHomePageState类是MyHomePage类对应的状态类。看到这里，读者可
 ```dart
 int _counter = 0; //用于记录按钮点击的总次数
 ```
+
 _counter 为保存屏幕右下角带“+”号按钮点击次数的状态。
 
 设置状态的自增函数。
@@ -345,6 +445,7 @@ void _incrementCounter() {
   });
 }
 ```
+
 当按钮点击时，会调用此函数，该函数的作用是先自增_counter，然后调用setState 方法。setState方法的作用是通知Flutter框架，有状态发生了改变，Flutter框架收到通知后，会执行build方法来根据新的状态重新构建界面， Flutter 对此方法做了优化，使重新执行变的很快，所以你可以重新构建任何需要更新的东西，而无需分别去修改各个widget。
 
 3. 构建UI界面
@@ -379,9 +480,11 @@ Widget build(BuildContext context) {
     );
   }
 ```
+
 - Scaffold 是 Material组件库中提供的一个组件，它提供了默认的导航栏、标题和包含主屏幕widget树（后同“组件树”或“部件树”）的body属性。组件树可以很复杂。
 
 - body的组件树中包含了一个Center 组件，Center 可以将其子组件树对齐到屏幕中心。此例中， Center 子组件是一个Column 组件，Column的作用是将其所有子组件沿屏幕垂直方向依次排列； 此例中Column子组件是两个 Text，第一个Text 显示固定文本 “You have pushed the button this many times:”，第二个Text 显示_counter状态的数值。
+
 - floatingActionButton是页面右下角的带“+”的悬浮按钮，它的onPressed属性接受一个回调函数，代表它被点击后的处理器，本例中直接将_incrementCounter方法作为其处理函数。
 
 - 现在，我们将整个计数器执行流程串起来：当右下角的floatingActionButton按钮被点击之后，会调用_incrementCounter方法。在_incrementCounter方法中，首先会自增_counter计数器（状态），然后setState会通知Flutter框架状态发生变化，接着，Flutter框架会调用build方法以新的状态重新构建UI，最终显示在设备屏幕上。
@@ -399,6 +502,7 @@ Widget build(BuildContext context) {
       ...
   }
 ```
+
 这样的话就只能将State的所有状态声明为公开的状态，这样才能在State类外部访问状态！但是，将状态设置为公开后，状态将不再具有私密性，这就会导致对状态的修改将会变的不可控。但如果将build()方法放在State中的话，构建过程不仅可以直接访问状态，而且也无需公开私有状态，这会非常方便。
 
 2. 继承StatefulWidget不便
@@ -498,11 +602,10 @@ dependencies:
     pkg1:
         path: ../../code/pkg1
 ```
- 
+
 路径可以是相对的，也可以是绝对的。  
 
 - 依赖Git：你也可以依赖存储在Git仓库中的包。如果软件包位于仓库的根目录中，请使用以下语法  
-
 
 ```yaml
 dependencies:
@@ -701,13 +804,7 @@ lib/是隐含的，所以它不应该包含在资产路径中。
 
 在Flutter框架加载时，Flutter会使用本地平台机制绘制启动页。此启动页将持续到Flutter渲染应用程序的第一帧时。  
 
-> 注意: 这意味着如果您不在应用程序的main()方法中调用runApp 函数 （或者更具体地说，如果您不调用window.render去响应window.onDrawFrame）的话， 启动屏幕将永远持续显示  
-
-
-
-
-
-
+> 注意: 这意味着如果您不在应用程序的main()方法中调用runApp 函数 （或者更具体地说，如果您不调用window.render去响应window.onDrawFrame）的话， 启动屏幕将永远持续显示.  
 
 ## 4. Desktop support for Flutter
 
@@ -738,7 +835,6 @@ cd myapp
 ```text
  flutter build macos
 ```
-
 
 ## 5. 基础组件
 
@@ -809,6 +905,7 @@ StatelessWidget相对比较简单，它继承自Widget类，重写了createEleme
 @override
 StatelessElement createElement() => new StatelessElement(this);
 ```
+
 StatelessElement 间接继承自Element类，与StatelessWidget相对应（作为其配置数据）。    
 
 StatelessWidget用于不需要维护状态的场景，它通常在build方法中通过嵌套其它Widget来构建UI，在构建过程中会递归的构建其嵌套的Widget。我们看一个简单的例子：  
@@ -913,14 +1010,6 @@ Text("Hello world",
 - maxLines、overflow：指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“...”表示；TextOverflow的其它截断方式请参考SDK文档。  
 
 - textScaleFactor：代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。  
-
-
-
-
-
-
-
-
 
 #### 5.2.2. TextStyle
 
@@ -1366,6 +1455,7 @@ fonts:
     fonts:
       - asset: fonts/iconfont.ttf
 ```
+
 2. 为了使用方便，我们定义一个MyIcons类，功能和Icons类一样：将字体文件中的所有图标都定义成静态变量：
 
 ```dart
@@ -1698,9 +1788,9 @@ class _FocusTestRouteState extends State<FocusTestRoute> {
       ),
     );
   }
-
 }
 ```
+
 监听焦点状态改变事件  
 
 FocusNode继承自ChangeNotifier，通过FocusNode可以监听焦点的改变事件，如：  
@@ -1948,7 +2038,7 @@ Expanded(
   })
 )
 ```
- 
+
 ### 5.7. 进度指示器
 
 Material 组件库中提供了两种进度指示器：LinearProgressIndicator和CircularProgressIndicator，它们都可以同时用于精确的进度指示和模糊的进度指示。精确进度通常用于任务进度可以计算和预估的情况，比如文件下载；而模糊进度则用户任务进度无法准确获得的情况，如下拉刷新，数据提交等。
@@ -1967,7 +2057,9 @@ LinearProgressIndicator({
 ```
 
 - value：value表示当前的进度，取值范围为[0,1]；如果value为null时则指示器会执行一个循环动画（模糊进度）；当value不为null时，指示器为一个具体进度的进度条。
+
 - backgroundColor：指示器的背景色。
+
 - valueColor: 指示器的进度条颜色；值得注意的是，该值类型是Animation<Color>，这允许我们对进度条的颜色也可以指定动画。如果我们不需要对进度条颜色执行动画，换言之，我们想对进度条应用一种固定的颜色，此时我们可以通过AlwaysStoppedAnimation来指定。
 
 ```dart
@@ -2118,11 +2210,7 @@ class _ProgressRouteState extends State<ProgressRoute>
 
 定制进度指示器风格样式，可以通过CustomPainter Widget 来自定义绘制逻辑，实际上LinearProgressIndicator和CircularProgressIndicator也正是通过CustomPainter来实现外观绘制的。
 
-
 ## 8. 文件操作
-
-
-
 
 ## 9. http 请求
 
@@ -2189,14 +2277,11 @@ httpClient.close();
 
 关闭client后，通过该client发起的所有请求都会中止。
 
-
-
-
-
 ## 10. websocket
 
 步骤  
-1. 连接到WebSocket服务器。  
+
+1. 连接到WebSocket服务器。
 2. 监听来自服务器的消息。  
 3. 将数据发送到服务器。  
 4. 关闭WebSocket连接。  
@@ -2243,7 +2328,6 @@ channel.sink.add('Hello!');
 WebSocketChannel提供了一个StreamSink，它将消息发给服务器。  
 
 StreamSink类提供了给数据源同步或异步添加事件的一般方法。  
-
 
 ### 10.4. 关闭WebSocket连接
 
@@ -2333,7 +2417,7 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
 
 > **注意** 实测发现在桌面应用无法发出请求，原因是Mac 应用有沙箱限制，需要在对应文件中开启即可。需要在macos/Runner/DebugProfile.entitlements文件中添加com.apple.security.network.client。祥见[Flutter - http.get fails on macos build target: Connection failed](https://stackoverflow.com/questions/57841871/flutter-http-get-fails-on-macos-build-target-connection-failed)
 
-```text
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -2348,9 +2432,7 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
   <true/>
 </dict>
 </plist>
-
 ```
-
 
 ### 10.5. 使用Socket API
 
