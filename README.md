@@ -1,11 +1,8 @@
 # flutter-learn
 
-学习资料：  
-[flutter官网](https://flutter.dev/docs/get-started/install)  
-[极客时间课程](https://time.geekbang.org/column/intro/200?code=0NDBjgqiiw4VWefF8wtD-e1yhlWj5gG9ijWGD6ZH9KA%3D)  
-[flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html)  
-[flutterbyexample](https://flutterbyexample.com/about-flutter)  
-[flutter中文网](https://book.flutterchina.club/chapter3/flutter_widget_intro.html)  
+模仿微信，做了一个单机版的聊天，因为只有mac，没有Windows机器，以下仅根据mac来开发。也用electron做过这样一个[demo](https://github.com/spiderT/electron-learn)  
+
+![效果图](./readmeImages/xiaoguo.png)
 
 > web chrome 启动方法
 
@@ -13,12 +10,14 @@
 
 ```text
 flutter channel beta
-flutter upgrade
 flutter config --enable-web
 ```
 
+项目启动
+
 ```text
 cd flutterwebapp
+flutter pub get
 flutter create .
 flutter run -d chrome
 ```
@@ -29,15 +28,19 @@ flutter run -d chrome
 
 ```text
 flutter channel dev
-flutter upgrade
 flutter config --enable-macos-desktop
 ```
 
+项目启动
+
 ```text
 cd flutterwebapp
+flutter pub get
 flutter create .
 flutter run -d macOS
 ```
+
+
 
 - [flutter-learn](#flutter-learn)
   - [1. 在macOS上搭建Flutter开发环境](#1-在macos上搭建flutter开发环境)
@@ -2493,3 +2496,10 @@ cd flutterwebapp
 构建命令：flutter build web  
 
 ## 12. flutter desktop
+
+学习资料：  
+[flutter官网](https://flutter.dev/docs/get-started/install)  
+[极客时间课程](https://time.geekbang.org/column/intro/200?code=0NDBjgqiiw4VWefF8wtD-e1yhlWj5gG9ijWGD6ZH9KA%3D)  
+[flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html)  
+[flutterbyexample](https://flutterbyexample.com/about-flutter)  
+[flutter中文网](https://book.flutterchina.club/chapter3/flutter_widget_intro.html)  

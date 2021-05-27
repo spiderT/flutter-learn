@@ -67,41 +67,6 @@ class ChatContainer extends StatelessWidget {
                     ),
                   ),
                   Flexible(child: MessageList()),
-                  // Container(
-                  //   child: Row(children: <Widget>[
-                  //     Image.asset(
-                  //       "images/users/zhizhuxia.png",
-                  //       width: 22.0,
-                  //     ),
-                  //     Text(
-                  //       '你好，我是蜘蛛侠，很高兴认识你。',
-                  //       textAlign: TextAlign.start,
-                  //       style: TextStyle(
-                  //           height: 2,
-                  //           fontSize: 12.0,
-                  //           backgroundColor: Colors.white),
-                  //     )
-                  //   ]),
-                  // ),
-                  // Container(
-                  //   child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.end,
-                  //       children: <Widget>[
-                  //         Text(
-                  //           '我也很高兴认识你。',
-                  //           textAlign: TextAlign.start,
-                  //           style: TextStyle(
-                  //               height: 2,
-                  //               fontSize: 12.0,
-                  //               backgroundColor:
-                  //                   Color.fromRGBO(156, 231, 111, 1)),
-                  //         ),
-                  //         Image.asset(
-                  //           "images/users/user.png",
-                  //           width: 22.0,
-                  //         ),
-                  //       ]),
-                  // ),
                 ],
               ),
             ),

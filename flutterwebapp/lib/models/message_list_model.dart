@@ -20,14 +20,14 @@ class MsgModel {
 List<MsgModel> dummyData = [
   new MsgModel(
     type: 1,
-    content: '你好，我是蜘蛛侠，很高兴认识你。',
+    content: '你好，我是蜘蛛侠，全名彼得·本杰明·帕克（Peter Benjamin Parker），是美国的一名普通学生。',
     fromId: 'zhizhuxia',
     toId: 'ivy',
     id: DateTime.now().millisecondsSinceEpoch,
   ),
   new MsgModel(
     type: 1,
-    content: 'xxxxx',
+    content: '很高兴认识你。',
     fromId: 'ivy',
     toId: 'zhizhuxia',
     id: DateTime.now().millisecondsSinceEpoch,
