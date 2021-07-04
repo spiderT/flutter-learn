@@ -40,8 +40,6 @@ flutter create .
 flutter run -d macOS
 ```
 
-
-
 - [flutter-learn](#flutter-learn)
   - [1. 在macOS上搭建Flutter开发环境](#1-在macos上搭建flutter开发环境)
     - [1.1. 获取Flutter SDK](#11-获取flutter-sdk)
@@ -80,7 +78,14 @@ flutter run -d macOS
         - [打包包中的 assets](#打包包中的-assets)
       - [3.4.5. 特定平台 assets](#345-特定平台-assets)
         - [设置APP图标](#设置app图标)
-  - [4. Desktop support for Flutter](#4-desktop-support-for-flutter)
+  - [4. 生命周期](#4-生命周期)
+    - [4.1. State 生命周期](#41-state-生命周期)
+      - [4.1.1. 创建](#411-创建)
+      - [4.1.2. 更新](#412-更新)
+      - [4.1.3. 销毁](#413-销毁)
+    - [4.2. App 生命周期](#42-app-生命周期)
+      - [4.2.1. 生命周期回调](#421-生命周期回调)
+      - [4.4.2. 帧绘制回调](#442-帧绘制回调)
   - [5. 基础组件](#5-基础组件)
     - [5.1. Widget简介](#51-widget简介)
       - [5.1.1. 概念](#511-概念)
@@ -126,7 +131,9 @@ flutter run -d macOS
       - [自定义尺寸](#自定义尺寸)
       - [进度色动画](#进度色动画)
       - [自定义进度指示器样式](#自定义进度指示器样式)
-  - [8. 文件操作](#8-文件操作)
+  - [6. 跨组件传递数据](#6-跨组件传递数据)
+  - [7. 定制不同风格的App主题](#7-定制不同风格的app主题)
+  - [8. 本地存储与数据库的使用](#8-本地存储与数据库的使用)
   - [9. http 请求](#9-http-请求)
     - [9.1. 通过HttpClient发起HTTP请求](#91-通过httpclient发起http请求)
   - [10. websocket](#10-websocket)
@@ -138,6 +145,7 @@ flutter run -d macOS
   - [11. flutter web](#11-flutter-web)
     - [11.1. 支持web页面](#111-支持web页面)
   - [12. flutter desktop](#12-flutter-desktop)
+    - [12.1. macOS](#121-macos)
 
 ## 1. 在macOS上搭建Flutter开发环境
 
@@ -225,10 +233,19 @@ open -a Simulator
 
 ```text
 brew update
+brew install --HEAD usbmuxd
+brew link usbmuxd
 brew install --HEAD libimobiledevice
-brew install ideviceinstaller ios-deploy cocoapods
-pod setup
+brew install ideviceinstaller
 ```
+
+usbmuxd 是一个与 iOS 设备建立多路通信连接的 socket 守护进程，通过它，可以将 USB 通信抽象为 TCP 通信；libimobiledevice 是一个与 iOS 设备进行通信的跨平台协议库；而 ideviceinstaller 则是一个使用它们在 iOS 设备上管理 App 的工具。  
+
+> 进行 Xcode 签名配置
+
+项目中的ios/Runner.xcworkspace，在 Xcode 中，选择导航面板左侧最上方的 Runner 项目。  
+
+在 General > Signing > Team 中，我们需要配置一下开发团队，也就是用你的 Apple ID 登录 Xcode。当配置完成时，Xcode 会自动创建并下载开发证书。任意 Apple ID 都支持开发和测试，但如果想将应用发布到 App Store，则必须加入 Apple 开发者计划。开发者计划的详细信息，你可以通过苹果官方的compare memberships了解.  
 
 ### 1.3 Android设置
 
@@ -809,35 +826,164 @@ lib/是隐含的，所以它不应该包含在资产路径中。
 
 > 注意: 这意味着如果您不在应用程序的main()方法中调用runApp 函数 （或者更具体地说，如果您不调用window.render去响应window.onDrawFrame）的话， 启动屏幕将永远持续显示.  
 
-## 4. Desktop support for Flutter
+## 4. 生命周期
 
-1. Set up  
+通过父 Widget 初始化时传入的静态配置，StatelessWidget 就能完全控制其静态展示。而 StatefulWidget，还需要借助于 State 对象，在特定的阶段来处理用户的交互或其内部数据的变化，并体现在 UI 上。这些特定的阶段，就涵盖了一个组件从加载到卸载的全过程，即生命周期。与 iOS 的 ViewController、Android 的 Activity 一样，Flutter 中的 Widget 也存在生命周期，并且通过 State 来体现.  
 
-```text
-flutter channel master
-flutter upgrade
-flutter config --enable-macos-desktop
+App 则是一个特殊的 Widget。除了需要处理视图显示的各个阶段（即视图的生命周期）之外，还需要应对应用从启动到退出所经历的各个状态（App 的生命周期）。  
+
+从 Widget（的 State）和 App 这两个维度看生命周期。  
+
+### 4.1. State 生命周期
+
+State 的生命周期，指的是在用户参与的情况下，其关联的 Widget 所经历的，从创建到显示再到更新最后到停止，直至销毁等各个过程阶段。  
+
+![lifecycle](./readmeImages/lifecycle.jpg)
+
+State 的生命周期可以分为 3 个阶段：创建（插入视图树）、更新（在视图树中存在）、销毁（从视图树中移除）。  
+
+#### 4.1.1. 创建
+
+State初始化时会依次执行 ：构造方法 -> initState -> didChangeDependencies -> build，随后完成页面渲染。  
+
+1. 构造方法是 State 生命周期的起点，Flutter 会通过调用 StatefulWidget.createState() 来创建一个 State。我们可以通过构造方法，来接收父 Widget 传递的初始化 UI 配置数据。这些配置数据，决定了 Widget 最初的呈现效果。i
+2. nitState，会在 State 对象被插入视图树的时候调用。这个函数在 State 的生命周期中只会被调用一次，所以我们可以在这里做一些初始化工作，比如为状态变量设定默认值。
+3. didChangeDependencies 则用来专门处理 State 对象依赖关系变化，会在 initState() 调用结束后，被 Flutter 调用。
+4. build，作用是构建视图。经过以上步骤，Framework 认为 State 已经准备好了，于是调用 build。我们需要在这个函数中，根据父 Widget 传递过来的初始化配置数据，以及 State 的当前状态，创建一个 Widget 然后返回。
+
+#### 4.1.2. 更新
+
+Widget 的状态更新，主要由 3 个方法触发：setState、didchangeDependencies 与 didUpdateWidget。
+
+1. setState：当状态数据发生变化时，通过调用这个方法告诉 Flutter数据变啦，请使用更新后的数据重建 UI。
+2. didChangeDependencies：State 对象的依赖关系发生变化后，Flutter 会回调这个方法，随后触发组件构建。哪些情况下 State 对象的依赖关系会发生变化呢？典型的场景是，系统语言 Locale 或应用主题改变时，系统会通知 State 执行 didChangeDependencies 回调方法。
+3. didUpdateWidget：当 Widget 的配置发生变化时，比如，父 Widget 触发重建（即父 Widget 的状态发生变化时），热重载时，系统会调用这个函数。
+
+一旦这三个方法被调用，Flutter 随后就会销毁老 Widget，并调用 build 方法重建 Widget。
+
+#### 4.1.3. 销毁
+
+比如组件被移除，或是页面销毁的时候，系统会调用 deactivate 和 dispose 这两个方法，来移除或销毁组件。
+
+调用机制：
+
+- 当组件的可见状态发生变化时，deactivate 函数会被调用，这时 State 会被暂时从视图树中移除。页面切换时，由于 State 对象在视图树中的位置发生了变化，需要先暂时移除后再重新添加，重新触发组件构建，因此这个函数也会被调用。
+- 当 State 被永久地从视图树中移除时，Flutter 会调用 dispose 函数。而一旦到这个阶段，组件就要被销毁了，所以我们可以在这里进行最终的资源释放、移除监听、清理环境，等等。
+
+![lifestate](./readmeImages/lifestate.jpg)
+
+左边部分展示了当父 Widget 状态发生变化时，父子双方共同的生命周期；而中间和右边部分则描述了页面切换时，两个关联的 Widget 的生命周期函数是如何响应的。  
+
+
+| 方法名 | 功能 | 调用时机 | 调用次数 |
+| ----- | ----- | ----- | ----- | 
+| 构造方法 | 接受父Widget传递的初始化UI配置数据 | 创建State时 | 1 |
+| initState | 与渲染相关的初始化工作 | 在State被插入视图树时 | 1 |
+| didChangeDependencies | 处理State对象依赖关系变化 | initState后及State对象依赖关系变化时 | >=1 |
+| build | 构建视图 | State准备好数据需要渲染时 | >=1 |
+| setState | 触发视图重建 | 需要刷新UI时 | >=1 |
+| didUpdateWidget | 处理Widget的配置变化 | 父Widget setState 触发子Widget重建时  | >=1 |
+| deactivate | 组件被移除 | 组件不可视 | 1 |
+| dispose | 组件被销毁 | 组件被永久移除 | 1 |
+
+### 4.2. App 生命周期
+
+App 的生命周期，定义了 App 从启动到退出的全过程。
+
+在原生 Android、iOS 开发中，有时需要在对应的 App 生命周期事件中做相应处理，比如 App 从后台进入前台、从前台退到后台，或是在 UI 绘制完成后做一些处理。可以通过重写 Activity、ViewController 生命周期回调方法，或是注册应用程序的相关通知，来监听 App 的生命周期并做相应的处理。  
+
+而在 Flutter 中，可以利用 WidgetsBindingObserver 类，来实现同样的需求。  
+
+WidgetsBindingObserver 中具体有哪些回调函数：
+
+```dart
+abstract class WidgetsBindingObserver {
+  //页面pop
+  Future<bool> didPopRoute() => Future<bool>.value(false);
+  //页面push
+  Future<bool> didPushRoute(String route) => Future<bool>.value(false);
+  //系统窗口相关改变回调，如旋转
+  void didChangeMetrics() { }
+  //文本缩放系数变化
+  void didChangeTextScaleFactor() { }
+  //系统亮度变化
+  void didChangePlatformBrightness() { }
+  //本地化语言变化
+  void didChangeLocales(List<Locale> locale) { }
+  //App生命周期变化
+  void didChangeAppLifecycleState(AppLifecycleState state) { }
+  //内存警告回调
+  void didHaveMemoryPressure() { }
+  //Accessibility相关特性回调
+  void didChangeAccessibilityFeatures() {}
+}
 ```
 
-2. Create and run  
+官方文档：https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html  
 
-```text
-mkdir myapp
-cd myapp
+
+#### 4.2.1. 生命周期回调
+
+didChangeAppLifecycleState 回调函数中，有一个参数类型为 AppLifecycleState 的枚举类，这个枚举类是 Flutter 对 App 生命周期状态的封装。它的常用状态包括 resumed、inactive、paused 这三个。  
+
+- resumed：可见的，并能响应用户的输入。
+- inactive：处在不活动状态，无法处理用户响应。
+- paused：不可见并不能响应用户的输入，但是在后台继续活动中。  
+
+在 initState 时注册了监听器，在 didChangeAppLifecycleState 回调方法中打印了当前的 App 状态，最后在 dispose 时把监听器移除：  
+
+```dart
+
+class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver{
+  @override
+  @mustCallSuper
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);//注册监听器
+  }
+  @override
+  @mustCallSuper
+  void dispose(){
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);//移除监听器
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    print("$state");
+    if (state == AppLifecycleState.resumed) {
+      //do sth
+    }
+  }
+}
 ```
 
-3. Set up  
+- 从后台切入前台，控制台打印的 App 生命周期变化如下: AppLifecycleState.paused->AppLifecycleState.inactive->AppLifecycleState.resumed；
+- 从前台退回后台，控制台打印的 App 生命周期变化则变成了：AppLifecycleState.resumed->AppLifecycleState.inactive->AppLifecycleState.paused。
 
-```text
- flutter create .
- flutter run -d macOS
+![applifecycle](./readmeImages/applifecycle.jpg)
+
+#### 4.4.2. 帧绘制回调
+
+WidgetsBinding 提供了单次 Frame 绘制回调，以及实时 Frame 绘制回调两种机制，来分别满足不同的需求：  
+
+单次 Frame 绘制回调，通过 addPostFrameCallback 实现。它会在当前 Frame 绘制完成后进行进行回调，并且只会回调一次，如果要再次监听则需要再设置一次。
+
+```dart
+WidgetsBinding.instance.addPostFrameCallback((_){
+  print("单次Frame绘制回调");//只回调一次
+});
 ```
 
-4. Build  
+实时 Frame 绘制回调，则通过 addPersistentFrameCallback 实现。这个函数会在每次绘制 Frame 结束后进行回调，可以用做 FPS 监测。
 
-```text
- flutter build macos
+```dart
+WidgetsBinding.instance.addPersistentFrameCallback((_){
+  print("实时Frame绘制回调");//每帧都回调
+});
 ```
+
+
+
 
 ## 5. 基础组件
 
@@ -2213,7 +2359,12 @@ class _ProgressRouteState extends State<ProgressRoute>
 
 定制进度指示器风格样式，可以通过CustomPainter Widget 来自定义绘制逻辑，实际上LinearProgressIndicator和CircularProgressIndicator也正是通过CustomPainter来实现外观绘制的。
 
-## 8. 文件操作
+
+## 6. 跨组件传递数据
+
+## 7. 定制不同风格的App主题
+
+## 8. 本地存储与数据库的使用
 
 ## 9. http 请求
 
@@ -2497,9 +2648,40 @@ cd flutterwebapp
 
 ## 12. flutter desktop
 
+### 12.1. macOS
+
+1. Set up  
+
+```text
+flutter channel master
+flutter upgrade
+flutter config --enable-macos-desktop
+```
+
+2. Create and run  
+
+```text
+mkdir myapp
+cd myapp
+```
+
+3. Set up  
+
+```text
+ flutter create .
+ flutter run -d macOS
+```
+
+4. Build  
+
+```text
+flutter build macos
+```
+
+文档：https://flutter.dev/docs/deployment/macos  
+
+
 学习资料：  
 [flutter官网](https://flutter.dev/docs/get-started/install)  
-[极客时间课程](https://time.geekbang.org/column/intro/200?code=0NDBjgqiiw4VWefF8wtD-e1yhlWj5gG9ijWGD6ZH9KA%3D)  
 [flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html)  
 [flutterbyexample](https://flutterbyexample.com/about-flutter)  
-[flutter中文网](https://book.flutterchina.club/chapter3/flutter_widget_intro.html)  
