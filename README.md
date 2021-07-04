@@ -132,6 +132,9 @@ flutter run -d macOS
       - [进度色动画](#进度色动画)
       - [自定义进度指示器样式](#自定义进度指示器样式)
   - [6. 跨组件传递数据](#6-跨组件传递数据)
+    - [6.1. InheritedWidget](#61-inheritedwidget)
+    - [6.2. Notification](#62-notification)
+    - [6.3. EventBus](#63-eventbus)
   - [7. 定制不同风格的App主题](#7-定制不同风格的app主题)
   - [8. 本地存储与数据库的使用](#8-本地存储与数据库的使用)
   - [9. http 请求](#9-http-请求)
@@ -2361,6 +2364,12 @@ class _ProgressRouteState extends State<ProgressRoute>
 
 
 ## 6. 跨组件传递数据
+
+### 6.1. InheritedWidget
+
+### 6.2. Notification
+
+### 6.3. EventBus
 
 ## 7. 定制不同风格的App主题
 
