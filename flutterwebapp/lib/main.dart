@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterwebapp/pages/user_info.dart';
 import 'package:flutterwebapp/pages/chat_list.dart';
 import 'package:flutterwebapp/pages/chat_container.dart';
-import 'package:flutterwebapp/pages/chat_im2.dart';
 
 void main() {
   runApp(MyApp());

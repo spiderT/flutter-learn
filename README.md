@@ -40,6 +40,13 @@ flutter create .
 flutter run -d macOS
 ```
 
+> websocket聊天
+
+```text
+cd server
+node index.js
+```
+
 - [flutter-learn](#flutter-learn)
   - [1. 在macOS上搭建Flutter开发环境](#1-在macos上搭建flutter开发环境)
     - [1.1. 获取Flutter SDK](#11-获取flutter-sdk)
@@ -2365,7 +2372,75 @@ class _ProgressRouteState extends State<ProgressRoute>
 
 ## 6. 跨组件传递数据
 
+在 Flutter 中实现跨组件数据传递的标准方式是通过属性传值。  
+
+但是，对于稍微复杂一点的、尤其视图层级比较深的 UI 样式，一个属性可能需要跨越很多层才能传递给子组件，这种传递方式就会导致中间很多并不需要这个属性的组件也需要接收其子 Widget 的数据，不仅繁琐而且冗余。  
+
+对于数据的跨层传递，Flutter 还提供了三种方案：InheritedWidget、Notification 和 EventBus。
+
+demo路径：flutter_demos/demo2_data_transfer
+
 ### 6.1. InheritedWidget
+
+InheritedWidget 是 Flutter 中的一个功能型 Widget，适用于在 Widget 树中共享数据的场景。  
+
+以 Flutter 工程模板中的计数器为例。
+
+- 首先，为了使用 InheritedWidget，我们定义了一个继承自它的新类 CountContainer。
+- 然后，我们将计数器状态 count 属性放到 CountContainer 中，并提供了一个 of 方法方便其子 Widget 在 Widget 树中找到它。
+- 最后，我们重写了 updateShouldNotify 方法，这个方法会在 Flutter 判断 InheritedWidget 是否需要重建，从而通知下层观察者组件更新数据时被调用到。在这里，我们直接判断 count 是否相等即可。
+
+```dart
+class CountContainer extends InheritedWidget {
+  static CountContainer of(BuildContext context) => context.inheritFromWidgetOfExactType(CountContainer) as CountContainer;
+  
+  final int count;
+
+  CountContainer({
+    Key key,
+    @required this.count,
+    @required Widget child,
+  }): super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(CountContainer oldWidget) => count != oldWidget.count;
+}
+```
+
+使用 CountContainer 作为根节点，并用 0 初始化 count。随后在其子 Widget Counter 中，我们通过 InheritedCountContainer.of 方法找到它，获取计数状态 count 并展示：
+
+```dart
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+   //将CountContainer作为根节点，并使用0作为初始化count
+    return CountContainer(
+      count: 0,
+      child: Counter()
+    );
+  }
+}
+
+class Counter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //获取InheritedWidget节点
+    CountContainer state = CountContainer.of(context);
+    return Scaffold(
+      appBar: AppBar(title: Text("InheritedWidget demo")),
+      body: Text(
+        'You have pushed the button this many times: ${state.count}',
+      ),
+    );
+}
+```
+
+
+
+
+
+
 
 ### 6.2. Notification
 

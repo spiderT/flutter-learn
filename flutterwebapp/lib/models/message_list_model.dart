@@ -6,9 +6,9 @@ class MsgModel {
   final int id;
 
   // type,
-    // 1 文本
-    // 2 系统
-    // 3 图片
+  // 1 文本
+  // 2 系统
+  // 3 图片
   // content,
   // fromId,
   // toId,
@@ -20,14 +20,14 @@ class MsgModel {
 List<MsgModel> dummyData = [
   new MsgModel(
     type: 1,
-    content: '你好，我是蜘蛛侠，全名彼得·本杰明·帕克（Peter Benjamin Parker），是美国的一名普通学生。',
+    content: 'how are you',
     fromId: 'zhizhuxia',
     toId: 'ivy',
     id: DateTime.now().millisecondsSinceEpoch,
   ),
   new MsgModel(
     type: 1,
-    content: '很高兴认识你。',
+    content: 'fine, thank you',
     fromId: 'ivy',
     toId: 'zhizhuxia',
     id: DateTime.now().millisecondsSinceEpoch,

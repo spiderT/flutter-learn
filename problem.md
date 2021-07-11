@@ -48,3 +48,14 @@ flutter: SocketException: Connection failed
 address = example.com, port = 443
 ```
 
+## 3. 其他问题
+
+### 3.1. Cannot run with sound null safety because dependencies don't support null safety
+
+解决方法：https://stackoverflow.com/questions/64917744/cannot-run-with-sound-null-safety-because-dependencies-dont-support-null-safety  
+
+### 3.2. Error: The method 'inheritFromWidgetOfExactType' isn't defined for the class 'BuildContext'
+
+解决方法：https://stackoverflow.com/questions/65749767/error-the-method-inheritfromwidgetofexacttype-isnt-defined-for-the-class-bu  
+
+
