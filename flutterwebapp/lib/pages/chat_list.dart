@@ -30,7 +30,9 @@ class ChatListState extends State<ChatList> {
             height: 1.0,
           ),
           new Container(
-              color: _operation == i ? Color.fromRGBO(243, 243, 243, 1.0) : Colors.white,
+              color: _operation == i
+                  ? Color.fromRGBO(243, 243, 243, 1.0)
+                  : Colors.white,
               child: new ListTile(
                 leading: Image.asset(
                   dummyData[i].avatarUrl,

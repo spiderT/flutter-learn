@@ -47,6 +47,10 @@ cd server
 node index.js
 ```
 
+✅发文字  
+❎发表情  
+❎发图片  
+
 - [flutter-learn](#flutter-learn)
   - [1. 在macOS上搭建Flutter开发环境](#1-在macos上搭建flutter开发环境)
     - [1.1. 获取Flutter SDK](#11-获取flutter-sdk)
@@ -153,9 +157,27 @@ node index.js
     - [10.4. 关闭WebSocket连接](#104-关闭websocket连接)
     - [10.5. 使用Socket API](#105-使用socket-api)
   - [11. flutter web](#11-flutter-web)
-    - [11.1. 支持web页面](#111-支持web页面)
   - [12. flutter desktop](#12-flutter-desktop)
     - [12.1. macOS](#121-macos)
+  - [13. 测试和调试](#13-测试和调试)
+    - [13.1. 调试工具](#131-调试工具)
+    - [13.2. 以编程方式调试应用](#132-以编程方式调试应用)
+      - [13.2.1. 日志输出](#1321-日志输出)
+      - [13.2.2. 设置断点](#1322-设置断点)
+      - [13.2.3. Debug 标识：应用程序层](#1323-debug-标识应用程序层)
+        - [13.2.3.1. Widget 树](#13231-widget-树)
+        - [13.2.3.2. Render 树](#13232-render-树)
+        - [13.2.3.3. Layer 树](#13233-layer-树)
+        - [13.2.3.4. Semantics 树](#13234-semantics-树)
+        - [13.2.3.5. Scheduling](#13235-scheduling)
+    - [13.2.4. 调试标志：布局](#1324-调试标志布局)
+    - [13.2.5. 调试动画](#1325-调试动画)
+    - [13.2.6. 调试标志：性能](#1326-调试标志性能)
+      - [13.2.6.1. 跟踪 Dart 代码性能](#13261-跟踪-dart-代码性能)
+    - [13.2.7. Widget 对齐网格](#1327-widget-对齐网格)
+  - [14. 自动化测试](#14-自动化测试)
+    - [14.1. 单元测试](#141-单元测试)
+    - [14.2. UI 测试](#142-ui-测试)
 
 ## 1. 在macOS上搭建Flutter开发环境
 
@@ -2696,8 +2718,6 @@ _request() async{
 
 https://flutter.dev/docs/get-started/web
 
-### 11.1. 支持web页面
-
 终端运行下面命令
 
 ```text
@@ -2734,6 +2754,8 @@ cd flutterwebapp
 
 ### 12.1. macOS
 
+文档：https://flutter.dev/docs/deployment/macos  
+
 1. Set up  
 
 ```text
@@ -2762,7 +2784,245 @@ cd myapp
 flutter build macos
 ```
 
-文档：https://flutter.dev/docs/deployment/macos  
+## 13. 测试和调试
+
+文档：https://flutter.dev/docs/testing/debugging
+
+### 13.1. 调试工具
+
+### 13.2. 以编程方式调试应用
+
+添加输出代码的方式调试 Flutter 应用
+
+#### 13.2.1. 日志输出
+
+
+#### 13.2.2. 设置断点
+
+在相关文件顶部引入 dart:developer 包。debugger() 语句有一个可选参数 when，用来指定该断点触发的特定条件
+
+```dart
+import 'dart:developer';
+
+void someFunction(double offset) {
+  debugger(when: offset > 30.0);
+  // ...
+}
+```
+
+#### 13.2.3. Debug 标识：应用程序层
+
+##### 13.2.3.1. Widget 树
+
+可以通过调用 debugDumpApp() 方法转储 widget 库的状态，如果应用已至少构建了一次，并且正处于调试模式时（runApp() 调用后的任何时间）。只要应用不在运行构建阶段，您可以调用随意该方法（也就是说，不能在 build() 方法中使用它）。  
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: AppHome(),
+    ),
+  );
+}
+
+class AppHome extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Center(
+        child: TextButton(
+          onPressed: () {
+            debugDumpApp();
+          },
+          child: Text('Dump App'),
+        ),
+      ),
+    );
+  }
+}
+```
+
+上面应用的输出内容如下
+
+```text
+I/flutter ( 6559): WidgetsFlutterBinding - CHECKED MODE
+I/flutter ( 6559): RenderObjectToWidgetAdapter<RenderBox>([GlobalObjectKey RenderView(497039273)]; renderObject: RenderView)
+I/flutter ( 6559): └MaterialApp(state: _MaterialAppState(1009803148))
+I/flutter ( 6559):  └ScrollConfiguration()
+I/flutter ( 6559):   └AnimatedTheme(duration: 200ms; state: _AnimatedThemeState(543295893; ticker inactive; ThemeDataTween(ThemeData(Brightness.light Color(0xff2196f3) etc...) → null)))
+I/flutter ( 6559):    └Theme(ThemeData(Brightness.light Color(0xff2196f3) etc...))
+I/flutter ( 6559):     └WidgetsApp([GlobalObjectKey _MaterialAppState(1009803148)]; state: _WidgetsAppState(552902158))
+I/flutter ( 6559):      └CheckedModeBanner()
+I/flutter ( 6559):       └Banner()
+I/flutter ( 6559):        └CustomPaint(renderObject: RenderCustomPaint)
+I/flutter ( 6559):         └DefaultTextStyle(inherit: true; color: Color(0xd0ff0000); family: "monospace"; size: 48.0; weight: 900; decoration: double Color(0xffffff00) TextDecoration.underline)
+I/flutter ( 6559):          └MediaQuery(MediaQueryData(size: Size(411.4, 683.4), devicePixelRatio: 2.625, textScaleFactor: 1.0, padding: EdgeInsets(0.0, 24.0, 0.0, 0.0)))
+I/flutter ( 6559):           └LocaleQuery(null)
+I/flutter ( 6559):            └Title(color: Color(0xff2196f3))
+I/flutter ( 6559):             └Navigator([GlobalObjectKey<NavigatorState> _WidgetsAppState(552902158)]; state: NavigatorState(240327618; tracking 1 ticker))
+I/flutter ( 6559):              └Listener(listeners: down, up, cancel; behavior: defer-to-child; renderObject: RenderPointerListener)
+I/flutter ( 6559):               └AbsorbPointer(renderObject: RenderAbsorbPointer)
+I/flutter ( 6559):                └Focus([GlobalKey 489139594]; state: _FocusState(739584448))
+I/flutter ( 6559):                 └Semantics(container: true; renderObject: RenderSemanticsAnnotations)
+I/flutter ( 6559):                  └_FocusScope(this scope has focus; focused subscope: [GlobalObjectKey MaterialPageRoute<void>(875520219)])
+I/flutter ( 6559):                   └Overlay([GlobalKey 199833992]; state: OverlayState(619367313; entries: [OverlayEntry@248818791(opaque: false; maintainState: false), OverlayEntry@837336156(opaque: false; maintainState: true)]))
+I/flutter ( 6559):                    └_Theatre(renderObject: _RenderTheatre)
+I/flutter ( 6559):                     └Stack(renderObject: RenderStack)
+I/flutter ( 6559):                      ├_OverlayEntry([GlobalKey 612888877]; state: _OverlayEntryState(739137453))
+I/flutter ( 6559):                      │└IgnorePointer(ignoring: false; renderObject: RenderIgnorePointer)
+I/flutter ( 6559):                      │ └ModalBarrier()
+I/flutter ( 6559):                      │  └Semantics(container: true; renderObject: RenderSemanticsAnnotations)
+I/flutter ( 6559):                      │   └GestureDetector()
+I/flutter ( 6559):                      │    └RawGestureDetector(state: RawGestureDetectorState(39068508; gestures: tap; behavior: opaque))
+I/flutter ( 6559):                      │     └_GestureSemantics(renderObject: RenderSemanticsGestureHandler)
+I/flutter ( 6559):                      │      └Listener(listeners: down; behavior: opaque; renderObject: RenderPointerListener)
+I/flutter ( 6559):                      │       └ConstrainedBox(BoxConstraints(biggest); renderObject: RenderConstrainedBox)
+I/flutter ( 6559):                      └_OverlayEntry([GlobalKey 727622716]; state: _OverlayEntryState(279971240))
+I/flutter ( 6559):                       └_ModalScope([GlobalKey 816151164]; state: _ModalScopeState(875510645))
+I/flutter ( 6559):                        └Focus([GlobalObjectKey MaterialPageRoute<void>(875520219)]; state: _FocusState(331487674))
+I/flutter ( 6559):                         └Semantics(container: true; renderObject: RenderSemanticsAnnotations)
+I/flutter ( 6559):                          └_FocusScope(this scope has focus)
+I/flutter ( 6559):                           └Offstage(offstage: false; renderObject: RenderOffstage)
+I/flutter ( 6559):                            └IgnorePointer(ignoring: false; renderObject: RenderIgnorePointer)
+I/flutter ( 6559):                             └_MountainViewPageTransition(animation: AnimationController(⏭ 1.000; paused; for MaterialPageRoute<void>(/))➩ProxyAnimation➩Cubic(0.40, 0.00, 0.20, 1.00)➩Tween<Offset>(Offset(0.0, 1.0) → Offset(0.0, 0.0))➩Offset(0.0, 0.0); state: _AnimatedState(552160732))
+I/flutter ( 6559):                              └SlideTransition(animation: AnimationController(⏭ 1.000; paused; for MaterialPageRoute<void>(/))➩ProxyAnimation➩Cubic(0.40, 0.00, 0.20, 1.00)➩Tween<Offset>(Offset(0.0, 1.0) → Offset(0.0, 0.0))➩Offset(0.0, 0.0); state: _AnimatedState(714726495))
+I/flutter ( 6559):                               └FractionalTranslation(renderObject: RenderFractionalTranslation)
+I/flutter ( 6559):                                └RepaintBoundary(renderObject: RenderRepaintBoundary)
+I/flutter ( 6559):                                 └PageStorage([GlobalKey 619728754])
+I/flutter ( 6559):                                  └_ModalScopeStatus(active)
+I/flutter ( 6559):                                   └AppHome()
+I/flutter ( 6559):                                    └Material(MaterialType.canvas; elevation: 0; state: _MaterialState(780114997))
+I/flutter ( 6559):                                     └AnimatedContainer(duration: 200ms; has background; state: _AnimatedContainerState(616063822; ticker inactive; has background))
+I/flutter ( 6559):                                      └Container(bg: BoxDecoration())
+I/flutter ( 6559):                                       └DecoratedBox(renderObject: RenderDecoratedBox)
+I/flutter ( 6559):                                        └Container(bg: BoxDecoration(backgroundColor: Color(0xfffafafa)))
+I/flutter ( 6559):                                         └DecoratedBox(renderObject: RenderDecoratedBox)
+I/flutter ( 6559):                                          └NotificationListener<LayoutChangedNotification>()
+I/flutter ( 6559):                                           └_InkFeature([GlobalKey ink renderer]; renderObject: _RenderInkFeatures)
+I/flutter ( 6559):                                            └AnimatedDefaultTextStyle(duration: 200ms; inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 400; baseline: alphabetic; state: _AnimatedDefaultTextStyleState(427742350; ticker inactive))
+I/flutter ( 6559):                                             └DefaultTextStyle(inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 400; baseline: alphabetic)
+I/flutter ( 6559):                                              └Center(alignment: Alignment.center; renderObject: RenderPositionedBox)
+I/flutter ( 6559):                                               └TextButton()
+I/flutter ( 6559):                                                └MaterialButton(state: _MaterialButtonState(398724090))
+I/flutter ( 6559):                                                 └ConstrainedBox(BoxConstraints(88.0<=w<=Infinity, h=36.0); renderObject: RenderConstrainedBox relayoutBoundary=up1)
+I/flutter ( 6559):                                                  └AnimatedDefaultTextStyle(duration: 200ms; inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 500; baseline: alphabetic; state: _AnimatedDefaultTextStyleState(315134664; ticker inactive))
+I/flutter ( 6559):                                                   └DefaultTextStyle(inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 500; baseline: alphabetic)
+I/flutter ( 6559):                                                    └IconTheme(color: Color(0xdd000000))
+I/flutter ( 6559):                                                     └InkWell(state: _InkResponseState<InkResponse>(369160267))
+I/flutter ( 6559):                                                      └GestureDetector()
+I/flutter ( 6559):                                                       └RawGestureDetector(state: RawGestureDetectorState(175370983; gestures: tap; behavior: opaque))
+I/flutter ( 6559):                                                        └_GestureSemantics(renderObject: RenderSemanticsGestureHandler relayoutBoundary=up2)
+I/flutter ( 6559):                                                         └Listener(listeners: down; behavior: opaque; renderObject: RenderPointerListener relayoutBoundary=up3)
+I/flutter ( 6559):                                                          └Container(padding: EdgeInsets(16.0, 0.0, 16.0, 0.0))
+I/flutter ( 6559):                                                           └Padding(renderObject: RenderPadding relayoutBoundary=up4)
+I/flutter ( 6559):                                                            └Center(alignment: Alignment.center; widthFactor: 1.0; renderObject: RenderPositionedBox relayoutBoundary=up5)
+I/flutter ( 6559):                                                             └Text("Dump App")
+I/flutter ( 6559):                                                              └RichText(renderObject: RenderParagraph relayoutBoundary=up6)
+```
+
+##### 13.2.3.2. Render 树
+
+如果您试图调试一个布局问题，那么 Widget 层的树可能不够详细。在这种情况下，您可以通过调用 debugDumpRenderTree() 转储 Render 树信息。和 debugDumpApp() 一样，除了在布局或绘制阶段，可以在任何时候调用它。一般来说，最好在 frame callback 或事件处理中调用它。  
+
+想要调用 debugDumpRenderTree() 方法，您需要在源码文件中添加 import 'package:flutter/rendering.dart';。
+
+
+```text
+
+```
+
+
+
+##### 13.2.3.3. Layer 树
+##### 13.2.3.4. Semantics 树
+##### 13.2.3.5. Scheduling
+
+
+### 13.2.4. 调试标志：布局
+
+
+通过将 debugPaintSizeEnabled 设置为 true，您也可以可视地调试布局问题。该布尔值在 rendering 库中，可以在任何时候被启用，并且当其为 true 时，会影响界面上所有的绘制。最简单的方式是在程序顶部入口 void main()中设置它
+
+```dart
+//add import to rendering library
+import 'package:flutter/rendering.dart';
+
+void main() {
+  debugPaintSizeEnabled=true;
+  runApp(MyApp());
+}
+```
+当它被启用时，所有的 box 都会有明亮的蓝绿色边框，内边距（来自于 widgets，比如 Padding）显示为淡蓝色，并在 child 周围有一个深蓝色的 box，对齐方式（来自于 widgets，比如 Center 和 Align）显示为黄色箭头，还有间隔（来自于 widgets，比如当 Container 没有 child 时）显示灰色。
+
+debugPaintBaselinesEnabled][] 标志和它类似，但只针对于带有基线的对象。 alphabetic 基线用亮绿色显示，ideographic 基线用橙色显示。
+
+![debugPaintSizeEnabled](readmeImages/debugPaintSizeEnabled.png)
+
+### 13.2.5. 调试动画
+
+### 13.2.6. 调试标志：性能
+
+#### 13.2.6.1. 跟踪 Dart 代码性能
+
+
+### 13.2.7. Widget 对齐网格
+
+
+## 14. 自动化测试
+
+Flutter 提供了包括单元测试和 UI 测试的能力。其中，单元测试可以方便地验证单个函数、方法或类的行为，而 UI 测试则提供了与 Widget 进行交互的能力，确认其功能是否符合预期。
+
+### 14.1. 单元测试
+
+单元测试是指，对软件中的最小可测试单元进行验证的方式，并通过验证结果来确定最小单元的行为是否与预期一致。所谓最小可测试单元，一般来说，就是人为规定的、最小的被测功能模块，比如语句、函数、方法或类。
+
+写单元测试用例，在 pubspec.yaml 文件中使用 test 包来完成。其中，test 包提供了编写单元测试用例的核心框架，即定义、执行和验证。
+
+```yaml
+dev_dependencies:
+  test:
+```
+
+> test 包的声明需要在 dev_dependencies 下完成，在这个标签下面定义的包只会在开发模式生效。
+
+Flutter 单元测试用例也是通过 main 函数来定义测试入口的。不过，这两个程序入口的目录位置有些区别：应用程序的入口位于工程中的 lib 目录下，而测试用例的入口位于工程中的 test 目录下。  
+
+
+...todo  
+
+
+
+### 14.2. UI 测试
+
+编写 UI 测试用例，需要在 pubspec.yaml 中使用 flutter_test 包，来提供编写 UI 测试的核心框架，即定义、执行和验证：
+
+- 定义，即通过指定规则，找到 UI 测试用例需要验证的、特定的子 Widget 对象；
+- 执行，意味着我们要在找到的子 Widget 对象中，施加用户交互事件；
+- 验证，表示在施加了交互事件后，判断待验证的 Widget 对象的整体表现是否符合预期。
+
+```yaml
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+```
+
+
+...todo  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 学习资料：  

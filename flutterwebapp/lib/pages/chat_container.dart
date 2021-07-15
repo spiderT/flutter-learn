@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp/pages/message_list.dart';
 import 'package:web_socket_channel/io.dart';
-// import 'package:event_bus/event_bus.dart';
-// import 'dart:async';
 import 'dart:convert';
 import '../models/message_list_model.dart';
-
-// class CustomEvent {
-//   String msg;
-//   CustomEvent(this.msg);
-// }
-
-// EventBus eventBus = new EventBus();
 
 class ChatContainer extends StatefulWidget {
   ChatContainer({Key key}) : super(key: key);
@@ -30,7 +21,7 @@ class _ChatContainer extends State<ChatContainer> {
     super.initState();
     // 监听消息
     _webSocketChannel.stream.listen((message) {
-      print(json.decode(message));
+      // print(json.decode(message));
       var msg = json.decode(message);
       var data = new MsgModel(
         type: msg['type'],
@@ -150,7 +141,6 @@ class _ChatContainer extends State<ChatContainer> {
                         // onSubmitted: (value) {
                         //   print('onSubmitted');
                         // },
-
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
                         autofocus: true,
@@ -184,7 +174,6 @@ class _ChatContainer extends State<ChatContainer> {
   }
 
   // 监听消息
-
   void _close() {
     this._webSocketChannel.sink.close().then((value) {
       print("关闭");

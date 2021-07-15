@@ -48,6 +48,10 @@ flutter: SocketException: Connection failed
 address = example.com, port = 443
 ```
 
+3. flutter build macos——Building without sound null safety
+
+解决方法：https://stackoverflow.com/questions/65504664/how-to-build-apk-with-no-sound-null-safety  
+
 ## 3. 其他问题
 
 ### 3.1. Cannot run with sound null safety because dependencies don't support null safety

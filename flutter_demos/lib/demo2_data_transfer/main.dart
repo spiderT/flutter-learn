@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'count_container.dart';
-import 'notification_widget.dart';
-import 'event_bus_page.dart';
+import './count_container.dart';
+// import './notification_widget.dart';
+import './event_bus_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,13 +26,13 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: [
             CounterPage(),
-            NotificationWidget(),
+            // NotificationWidget(),
             FirstPage(),
           ],
         ),
@@ -42,10 +42,10 @@ class MyHomePage extends StatelessWidget {
               icon: Icon(Icons.home),
               text: "InheritedWidget",
             ),
-            Tab(
-              icon: Icon(Icons.rss_feed),
-              text: "Notification",
-            ),
+            // Tab(
+            //   icon: Icon(Icons.rss_feed),
+            //   text: "Notification",
+            // ),
             Tab(
               icon: Icon(Icons.perm_identity),
               text: "EventBus",
