@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp/pages/message_list.dart';
+import 'package:flutterwebapp/pages/emoji_package.dart';
 import 'package:web_socket_channel/io.dart';
 import 'dart:convert';
 import '../models/message_list_model.dart';
+import '../widget/popup_window.dart';
 
 class ChatContainer extends StatefulWidget {
   ChatContainer({Key key}) : super(key: key);
@@ -15,10 +17,12 @@ class _ChatContainer extends State<ChatContainer> {
   TextEditingController _textcontroller = new TextEditingController();
   var _webSocketChannel =
       new IOWebSocketChannel.connect('ws://localhost:8080/ws');
+  GlobalKey popLeftKey;
 
   @override
   void initState() {
     super.initState();
+    popLeftKey = GlobalKey();
     // 监听消息
     _webSocketChannel.stream.listen((message) {
       // print(json.decode(message));
@@ -100,18 +104,42 @@ class _ChatContainer extends State<ChatContainer> {
                   color: Color.fromRGBO(243, 243, 243, 1.0),
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: Row(children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Image.asset(
-                        "images/icons/xiaolian.png",
-                        width: 22.0,
-                      ),
+                    PopupWindowButton(
+                      offset: Offset(-90, -240),
+                      buttonBuilder: (BuildContext context) {
+                        return Image.asset(
+                          "images/icons/xiaolian.png",
+                          width: 22.0,
+                        );
+                      },
+                      windowBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) {
+                        return Container(
+                            padding: EdgeInsets.all(0),
+                            alignment: Alignment.center,
+                            height: 240,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              border: Border.all(
+                                  color: Colors.grey[100],
+                                  width: 3,
+                                  style: BorderStyle.solid),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Emoji(
+                                sendEmoji: (value) => this._sendEmoji(value)));
+                      },
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Image.asset(
-                        "images/icons/wenjian.png",
-                        width: 22.0,
+                    InkWell(
+                      onTap: () => {},
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 4),
+                        child: Image.asset(
+                          "images/icons/wenjian.png",
+                          width: 22.0,
+                        ),
                       ),
                     ),
                     Container(
@@ -134,7 +162,6 @@ class _ChatContainer extends State<ChatContainer> {
                         left: 16.0, right: 16.0, top: 0.0, bottom: 0.0),
                     child: TextField(
                         controller: _textcontroller,
-                        //按回车时调用 ??? 没有用，是换行
                         // onEditingComplete: () {
                         //   print('onEditingComplete');
                         // },
@@ -151,26 +178,38 @@ class _ChatContainer extends State<ChatContainer> {
               ],
             )),
         floatingActionButton: new FloatingActionButton(
-          onPressed: _sendMessage,
+          onPressed: _sendText,
           tooltip: 'Send message',
           child: new Text("发送"),
         ));
   }
 
-  void _sendMessage() {
+  void _sendMessage(value) {
+    var str = json.encode({
+      "type": 1,
+      "content": value,
+      "fromId": 'ivy',
+      "toId": 'zhizhuxia',
+      "id": DateTime.now().millisecondsSinceEpoch,
+    });
+    this._webSocketChannel.sink.add(str);
+  }
+
+  void _sendText() {
     if (_textcontroller.text.isNotEmpty) {
-      var str = json.encode({
-        "type": 1,
-        "content": _textcontroller.text,
-        "fromId": 'ivy',
-        "toId": 'zhizhuxia',
-        "id": DateTime.now().millisecondsSinceEpoch,
-      });
+      this._sendMessage(_textcontroller.text);
       setState(() {
         _textcontroller?.clear();
       });
-      this._webSocketChannel.sink.add(str);
     }
+  }
+
+  void _sendEmoji(value) {
+    print('_sendMessage');
+    print(value);
+    this._sendMessage(value);
+    // 关闭弹窗
+    Navigator.pop(context);
   }
 
   // 监听消息

@@ -48,8 +48,8 @@ node index.js
 ```
 
 ✅发文字  
-❎发表情  
-❎发图片  
+✅发表情  
+❎发文件——目前的库都是基于移动端选择相册图片，没有desktop选择文件  
 
 - [flutter-learn](#flutter-learn)
   - [1. 在macOS上搭建Flutter开发环境](#1-在macos上搭建flutter开发环境)
