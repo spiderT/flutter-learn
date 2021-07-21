@@ -1,8 +1,15 @@
 # flutter-learn
 
-模仿微信，做了一个单机版的聊天，因为只有mac，没有Windows机器，以下仅根据mac来开发。也用electron做过这样一个[demo](https://github.com/spiderT/electron-learn)  
+模仿微信，做了一个单机版的聊天，因为只有mac，没有Windows机器，以下仅根据mac来开发。也用electron做过这样一个[demo](https://github.com/spiderT/electron-learn)(分支切为chatwithflutter)  
 
 ![效果图](./readmeImages/xiaoguo.png)
+
+> websocket聊天
+
+```text
+cd server
+node index.js
+```
 
 > web chrome 启动方法
 
@@ -38,13 +45,6 @@ cd flutterwebapp
 flutter pub get
 flutter create .
 flutter run -d macOS
-```
-
-> websocket聊天
-
-```text
-cd server
-node index.js
 ```
 
 ✅发文字  
@@ -180,6 +180,7 @@ node index.js
   - [14. 自动化测试](#14-自动化测试)
     - [14.1. 单元测试](#141-单元测试)
     - [14.2. UI 测试](#142-ui-测试)
+  - [15. 自动更新](#15-自动更新)
 
 ## 1. 在macOS上搭建Flutter开发环境
 
@@ -3047,7 +3048,146 @@ dev_dependencies:
 
 
 
+## 15. 自动更新
 
+... todo 
+
+```dart
+/// 执行版本更新的网络请求
+_getNewVersionAPP(context) async {
+    HttpUtils.send(
+    context,
+    'http://update.rwworks.com:8088/appManager/monitor/app/version/check/flutterTempldate',
+  ).then((res) {
+      serviceVersionCode = res.data["versionNo"];
+      appId = res.data['id'];
+    _checkVersionCode();
+  });
+}
+
+/// 检查当前版本是否为最新，若不是，则更新
+void _checkVersionCode() {
+  PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+    var currentVersionCode = packageInfo.version;
+    if (double.parse(serviceVersionCode.substring(0,3))> double.parse(currentVersionCode.substring(0,3))) {
+      _showNewVersionAppDialog();
+    }
+  });
+}
+
+/// 版本更新提示对话框
+Future<void> _showNewVersionAppDialog() async {
+  return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Row(
+            children: <Widget>[
+              new Padding(
+                  padding: const EdgeInsets.fromLTRB(30.0, 0.0, 10.0, 0.0),
+                  child: new Text("发现新版本"))
+            ],
+          ),
+          content: new Text(
+              serviceVersionCode
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('下次再说'),
+              onPressed: () {
+                Navigator.of(context).pop();              
+              },
+            ),
+            new FlatButton(
+              child: new Text('立即更新'),
+              onPressed: () {
+                _doUpdate(context);           
+              },
+            )
+          ],
+        );
+      });
+
+}
+
+
+/// 执行更新操作
+_doUpdate(BuildContext context) async {
+  Navigator.pop(context);
+    _executeDownload(context);
+}
+
+/// 下载最新apk包
+Future<void> _executeDownload(BuildContext context) async {
+      pr = new ProgressDialog(
+      context,
+      type: ProgressDialogType.Download, 
+      isDismissible: true, 
+      showLogs: true,
+    );
+    pr.style(message: '准备下载...');
+    if (!pr.isShowing()) {
+      pr.show();
+    }
+
+    final path = await _apkLocalPath;
+    await FlutterDownloader.enqueue(
+      url: 'http://update.rwworks.com:8088/appManager/monitor/app/appload/' + appId + '',
+      savedDir: path,
+      fileName: apkName,
+      showNotification: true,
+      openFileFromNotification: true
+    );
+  }
+  
+  /// 下载进度回调函数
+  static void _downLoadCallback(String id, DownloadTaskStatus status, int progress) {
+    final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port');
+    send.send([id, status, progress]);
+  }
+  
+  /// 更新下载进度框
+  _updateDownLoadInfo(dynamic data) {
+    DownloadTaskStatus status = data[1];
+    int progress = data[2];
+    if (status == DownloadTaskStatus.running) {
+      pr.update(progress: double.parse(progress.toString()), message: "下载中，请稍后…");
+    }
+    if (status == DownloadTaskStatus.failed) {
+      if (pr.isShowing()) {
+        pr.hide();
+      }
+    }
+
+    if (status == DownloadTaskStatus.complete) {
+      if (pr.isShowing()) {
+        pr.hide();
+      }
+      _installApk();
+    }
+  }
+  
+  /// 安装apk
+  Future<Null> _installApk() async {
+      await OpenFile.open(appPath + '/' + apkName);
+  }
+  
+  /// 获取apk存储位置
+  Future<String> get _apkLocalPath async {
+    final directory = await getExternalStorageDirectory();
+    String path = directory.path  + Platform.pathSeparator + 'Download';;
+    final savedDir = Directory(path);
+    bool hasExisted = await savedDir.exists();
+    if (!hasExisted) {
+      await savedDir.create();
+    }
+    this.setState((){
+        appPath = path;
+    });
+    return path;
+  }
+```
 
 
 
