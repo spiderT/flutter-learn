@@ -2809,9 +2809,14 @@ open macos/Runner.xcworkspace
 
 1. 编译运行桌面程序
 2. 会生成一个App文件，找到项目中的Products目录
-3. 鼠标右键点击app文件–>Show in Finder->直接拖拽到应用程序里
+3. 鼠标右键点击app文件–>Show in Finder->复制拷贝此程序->在桌面上创建个新的文件夹，把上面复制的APP程序粘贴进来
+
+可直接拖拽到应用程序安装
 
 ![buildmacos](readmeImages/buildmacos.png)
+
+4. 在电脑上启动台----->打开磁盘工具
+5. 在磁盘工具上，点击左上方。文件–>新建映像–>来自文件夹的映像—>选择你刚在桌面上创建的文件夹–>点击选取(确认)->生成打包dmg格式文件
 
 ## 13. 测试和调试
 
