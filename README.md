@@ -159,6 +159,8 @@ node index.js
   - [11. flutter web](#11-flutter-web)
   - [12. flutter desktop](#12-flutter-desktop)
     - [12.1. macOS](#121-macos)
+      - [12.1.1. 配置环境](#1211-配置环境)
+      - [12.1.2. 打包](#1212-打包)
   - [13. 测试和调试](#13-测试和调试)
     - [13.1. 调试工具](#131-调试工具)
     - [13.2. 以编程方式调试应用](#132-以编程方式调试应用)
@@ -2756,6 +2758,8 @@ cd flutterwebapp
 
 文档：https://flutter.dev/docs/deployment/macos  
 
+#### 12.1.1. 配置环境
+
 1. Set up  
 
 ```text
@@ -2783,6 +2787,31 @@ cd myapp
 ```text
 flutter build macos
 ```
+
+#### 12.1.2. 打包
+
+> 设置应用图标
+
+位置：macos/Runner/Assets.xcassets/AppIcon.appiconset
+
+> 打包成dmg
+
+**需要先使用 flutter build 命令生成所需的工程文件，然后打开工程。**
+
+```text
+flutter build macos
+open macos/Runner.xcworkspace
+```
+
+**在 Xcode 里打包成dmg**
+
+参考：https://blog.csdn.net/qq_37523448/article/details/107838678  
+
+1. 编译运行桌面程序
+2. 会生成一个App文件，找到项目中的Products目录
+3. 鼠标右键点击app文件–>Show in Finder->直接拖拽到应用程序里
+
+![buildmacos](readmeImages/buildmacos.png)
 
 ## 13. 测试和调试
 

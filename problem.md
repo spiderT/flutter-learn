@@ -65,3 +65,10 @@ address = example.com, port = 443
 ### 3.3. error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
 
 解决方法：https://stackoverflow.com/questions/63226903/how-to-resolve-an-error-the-sandbox-is-not-in-sync-with-the-podfile-lock  
+
+```text
+cd macos
+flutter pub get
+pod install
+pod update
+```
