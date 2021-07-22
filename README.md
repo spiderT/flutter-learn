@@ -2,7 +2,10 @@
 
 模仿微信，做了一个单机版的聊天，因为只有mac，没有Windows机器，以下仅根据mac来开发。也用electron做过这样一个[demo](https://github.com/spiderT/electron-learn)(分支切为chatwithflutter)  
 
-![效果图](./readmeImages/xiaoguo.png)
+dmg安装包在package文件夹里
+
+![登录图](./readmeImages/xiaoguo.jpg)
+![聊天图](./readmeImages/xiaoguo1.jpg)
 
 > websocket聊天
 
