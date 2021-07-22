@@ -63,7 +63,7 @@ class MessageListState extends State<MessageList> {
                                     child: Text(
                                       dummyData[i].content,
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 12.0),
+                                      style: TextStyle(fontSize: 14.0),
                                     )))
                           ]))
                   : ListTile(
@@ -88,7 +88,7 @@ class MessageListState extends State<MessageList> {
                                     child: Text(dummyData[i].content,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
-                                          fontSize: 12.0,
+                                          fontSize: 14.0,
                                         ))))
                           ]))),
         ],
