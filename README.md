@@ -3056,7 +3056,7 @@ dev_dependencies:
 ... todo 
 
 ```dart
-/// 执行版本更新的网络请求
+// 执行版本更新的网络请求
 _getNewVersionAPP(context) async {
     HttpUtils.send(
     context,
@@ -3068,7 +3068,7 @@ _getNewVersionAPP(context) async {
   });
 }
 
-/// 检查当前版本是否为最新，若不是，则更新
+// 检查当前版本是否为最新，若不是，则更新
 void _checkVersionCode() {
   PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
     var currentVersionCode = packageInfo.version;
@@ -3078,7 +3078,7 @@ void _checkVersionCode() {
   });
 }
 
-/// 版本更新提示对话框
+// 版本更新提示对话框
 Future<void> _showNewVersionAppDialog() async {
   return showDialog<void>(
       context: context,
@@ -3115,13 +3115,13 @@ Future<void> _showNewVersionAppDialog() async {
 }
 
 
-/// 执行更新操作
+// 执行更新操作
 _doUpdate(BuildContext context) async {
   Navigator.pop(context);
     _executeDownload(context);
 }
 
-/// 下载最新apk包
+// 下载最新apk包
 Future<void> _executeDownload(BuildContext context) async {
       pr = new ProgressDialog(
       context,
@@ -3144,13 +3144,13 @@ Future<void> _executeDownload(BuildContext context) async {
     );
   }
   
-  /// 下载进度回调函数
+  // 下载进度回调函数
   static void _downLoadCallback(String id, DownloadTaskStatus status, int progress) {
     final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port');
     send.send([id, status, progress]);
   }
   
-  /// 更新下载进度框
+  // 更新下载进度框
   _updateDownLoadInfo(dynamic data) {
     DownloadTaskStatus status = data[1];
     int progress = data[2];
@@ -3171,12 +3171,12 @@ Future<void> _executeDownload(BuildContext context) async {
     }
   }
   
-  /// 安装apk
+  // 安装apk
   Future<Null> _installApk() async {
       await OpenFile.open(appPath + '/' + apkName);
   }
   
-  /// 获取apk存储位置
+  // 获取apk存储位置
   Future<String> get _apkLocalPath async {
     final directory = await getExternalStorageDirectory();
     String path = directory.path  + Platform.pathSeparator + 'Download';;

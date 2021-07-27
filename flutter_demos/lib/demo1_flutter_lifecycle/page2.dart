@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Parent extends StatefulWidget {
-  Parent({Key key}) : super(key: key);
+  Parent({Key? key}) : super(key: key);
 
   _ParentState createState() => _ParentState();
 }
@@ -40,7 +40,7 @@ class _ParentState extends State<Parent> {
       appBar: AppBar(title: Text("setState demo")),
       body: Center(
           child: RaisedButton(
-        ///点击事件
+        //点击事件
         onPressed: () {
           setState(() {
             _counter++;
@@ -75,7 +75,7 @@ class _ParentState extends State<Parent> {
 
 class Child extends StatefulWidget {
   final int count;
-  Child({Key key, this.count}) : super(key: key);
+  Child({Key? key, required this.count}) : super(key: key);
 
   @override
   _ChildState createState() => _ChildState();

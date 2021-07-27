@@ -20,16 +20,16 @@ class PopupWindowButton<T> extends StatefulWidget {
       : assert(buttonBuilder != null && windowBuilder != null),
         super(key: key);
 
-  /// 显示按钮button
+  // 显示按钮button
   final WidgetBuilder buttonBuilder;
 
-  /// window 出现的位置。
+  // window 出现的位置。
   final Offset offset;
 
-  /// 按钮按钮后到显示window 出现的时间
+  // 按钮按钮后到显示window 出现的时间
   final int duration;
 
-  /// 需要显示的window
+  // 需要显示的window
   final AnimatedWidgetBuilder windowBuilder;
 
   final VoidCallback onWindowShow;

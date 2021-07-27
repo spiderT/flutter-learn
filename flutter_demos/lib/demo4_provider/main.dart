@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './demo4_provider/comsumer_demo.dart';
-import './demo4_provider/provider_demo.dart';
-import './demo4_provider/counter_model.dart';
+import 'comsumer_demo.dart';
+import 'provider_demo.dart';
+import 'counter_model.dart';
 
 void main() {
   runApp(MyApp());

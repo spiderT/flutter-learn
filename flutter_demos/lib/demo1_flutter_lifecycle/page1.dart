@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import './page2.dart';
 
 class Page1 extends StatefulWidget {
-  Page1({Key key}) : super(key: key);
+  Page1({Key? key}) : super(key: key);
   _Page1State createState() => _Page1State();
 }
 
@@ -12,13 +12,13 @@ class _Page1State extends State<Page1> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     print("page1 initState......");
-    WidgetsBinding.instance.addObserver(this); //注册监听器
+    WidgetsBinding.instance?.addObserver(this); //注册监听器
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       print("单次Frame绘制回调"); //只回调一次
     });
 
-    WidgetsBinding.instance.addPersistentFrameCallback((_) {
+    WidgetsBinding.instance?.addPersistentFrameCallback((_) {
       print("实时Frame绘制回调"); //每帧都回调
     });
   }
@@ -80,7 +80,7 @@ class _Page1State extends State<Page1> with WidgetsBindingObserver {
   void dispose() {
     super.dispose();
     print('page1 dispose......');
-    WidgetsBinding.instance.removeObserver(this); //移除监听器
+    WidgetsBinding.instance?.removeObserver(this); //移除监听器
   }
 
   //监听App生命周期回调
