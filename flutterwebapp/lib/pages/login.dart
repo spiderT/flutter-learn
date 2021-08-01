@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widget/loadding.dart';
+import '../utils/app_platform.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -67,7 +68,9 @@ class _LoginState extends State<Login> {
     List<Widget> childrens = [];
     final _main = Center(
       child: ListView(
-        padding: EdgeInsets.only(left: 500.0, right: 30.0, top: 200.0),
+        padding: AppPlatform.isMobile()
+            ? EdgeInsets.only(left: 30.0, right: 30.0, top: 400.0)
+            : EdgeInsets.only(left: 500.0, right: 30.0, top: 200.0),
         children: [
           Padding(
             padding: EdgeInsets.only(bottom: 40),
@@ -88,10 +91,10 @@ class _LoginState extends State<Login> {
                   //用户名
                   controller: _unameController,
                   // 以下移动端要求
-                  // focusNode: focusNode1, //关联focusNode1
-                  // keyboardType: TextInputType.text, //键盘类型
+                  focusNode: focusNode1, //关联focusNode1
+                  keyboardType: TextInputType.text, //键盘类型
                   // maxLength: 12,
-                  // textInputAction: TextInputAction.next, //显示'下一步'
+                  textInputAction: TextInputAction.next, //显示'下一步'
                   decoration: InputDecoration(
                       hintText: '请输入账号',
                       labelText: "账号",
@@ -131,7 +134,7 @@ class _LoginState extends State<Login> {
                   controller: _pwdController,
                   focusNode: focusNode2,
                   obscureText: isEye, //密码类型 内容用***显示
-                  maxLength: 12,
+                  // maxLength: 12,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                       hintText: '请输入密码',
@@ -191,7 +194,9 @@ class _LoginState extends State<Login> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg.jpg"),
+            image: AppPlatform.isMobile()
+                ? AssetImage("images/mobile.jpeg")
+                : AssetImage("images/bg.jpg"),
             fit: BoxFit.cover,
           ),
         ),

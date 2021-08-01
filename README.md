@@ -1,17 +1,49 @@
 # flutter-learn
 
-模仿微信，做了一个单机版的聊天，因为只有mac，没有Windows机器，以下仅根据mac来开发。也用electron做过这样一个[demo](https://github.com/spiderT/electron-learn)(分支切为chatwithflutter)  
+模仿微信，做了一个单机版的聊天，支持移动端，桌面端，以及web端
 
-dmg安装包在package文件夹里
+> 移动端ios 
+
+![登录图](./readmeImages/mobile1.png)
+![列表图](./readmeImages/mobile2.png)
+![聊天图](./readmeImages/mobile3.png)
+
+> 桌面端mac
 
 ![登录图](./readmeImages/xiaoguo.jpg)
 ![聊天图](./readmeImages/xiaoguo1.jpg)
+
 
 > websocket聊天
 
 ```text
 cd server
 node index.js
+```
+
+> 移动端, 启动方法  
+
+```text
+cd flutterwebapp
+flutter pub get
+open -a simulator
+flutter run
+```
+
+> macos桌面端应用，启动方法  
+
+配置环境
+
+```text
+flutter config --enable-macos-desktop
+```
+
+项目启动
+
+```text
+cd flutterwebapp
+flutter pub get
+flutter run -d macOS
 ```
 
 > web chrome 启动方法
@@ -28,26 +60,7 @@ flutter config --enable-web
 ```text
 cd flutterwebapp
 flutter pub get
-flutter create .
 flutter run -d chrome
-```
-
-> macos桌面端应用，启动方法  
-
-配置环境
-
-```text
-flutter channel dev
-flutter config --enable-macos-desktop
-```
-
-项目启动
-
-```text
-cd flutterwebapp
-flutter pub get
-flutter create .
-flutter run -d macOS
 ```
 
 ✅发文字  

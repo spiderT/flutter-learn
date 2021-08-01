@@ -19,18 +19,18 @@ class _FirstPageState extends State<FirstPage> {
   StreamSubscription? subscription;
   @override
   void initState() {
+    super.initState();
     //监听CustomEvent事件，刷新UI
     subscription = eventBus.on<CustomEvent>().listen((event) {
-      print(event);
+      // print(event);
       setState(() {
-        msg += event.msg;
+        msg += event.msg + ',';
       });
     });
-    super.initState();
   }
 
   dispose() {
-    // subscription.cancel(); //State销毁时，清理注册
+    subscription?.cancel(); //State销毁时，清理注册
     super.dispose();
   }
 

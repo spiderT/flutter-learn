@@ -8,7 +8,7 @@ class CustomNotification extends Notification {
 class CustomChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return MaterialButton(
       //按钮点击时分发通知
       onPressed: () => CustomNotification("Hi").dispatch(context),
       child: Text("Fire Notification"),
@@ -29,8 +29,9 @@ class _NotificationState extends State<NotificationWidget> {
     return NotificationListener<CustomNotification>(
         onNotification: (notification) {
           setState(() {
-            _msg += notification.msg + "  ";
+            _msg += notification.msg + ",";
           });
+          return true;
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

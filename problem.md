@@ -67,8 +67,18 @@ address = example.com, port = 443
 解决方法：https://stackoverflow.com/questions/63226903/how-to-resolve-an-error-the-sandbox-is-not-in-sync-with-the-podfile-lock  
 
 ```text
-cd macos
+cd macos  # 移动端 cd ios
 flutter pub get
 pod install
 pod update
 ```
+
+### 3.4. Flutter web 开发 “Unsupported operation: Platform._version”
+
+Android 和 IOS 端使用的是
+
+IOWebSocketChannel.connect(connectUrl);  
+
+对于 Web 端来说应该使用的是
+
+HtmlWebSocketChannel.connect(connectUrl); 

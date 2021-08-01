@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import './components/user_info.dart';
-import './components/chat_list.dart';
-import './components/chat_container.dart';
+import '../components/user_info.dart';
+import '../components/chat_list.dart';
+import '../components/chat_container.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,7 +20,6 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
               child: ChatContainer(),
-              // child: ChatIM(),
             )
           ],
         ),

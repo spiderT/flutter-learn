@@ -17,10 +17,7 @@ class _CounterPageState extends State<CounterPage> {
   @override
   Widget build(BuildContext context) {
     return CountContainer(
-        //increment: _incrementCounter,
-        model: this,
-        increment: _incrementCounter,
-        child: Counter());
+        model: this, increment: _incrementCounter, child: Counter());
   }
 }
 
@@ -51,10 +48,10 @@ class Counter extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("InheritedWidget demo"),
+        title: const Text("InheritedWidget demo"),
       ),
       body: Text(
-        'You have pushed the button this many times: ${state.model.count}',
+        'click times: ${state.model.count}',
       ),
       floatingActionButton: FloatingActionButton(onPressed: state.increment),
     );

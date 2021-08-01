@@ -13,7 +13,7 @@ class _LoaddingState extends State<Loadding> {
       constraints: BoxConstraints.expand(),
       child: Opacity(
         opacity: 1,
-        child: SpinKitCubeGrid(
+        child: SpinKitThreeBounce(
           color: Colors.white,
           size: 100.0,
         ),

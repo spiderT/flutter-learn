@@ -55,6 +55,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
       - images/bg.jpg
+      - images/mobile.jpeg
       - images/users/user.png
       - images/icons/bubble.png
       - images/icons/bubble_green.png

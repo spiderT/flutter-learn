@@ -1,125 +1,109 @@
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:async';
+import 'package:flutter_crash_plugin/flutter_crash_plugin.dart';
+import 'dart:io';
 
-void main() => runApp(MyApp());
+bool get isInDebugMode {
+  bool inDebugMode = false;
+  assert(inDebugMode = true);
+  return inDebugMode;
+}
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+/// Reports [error] along with its [stackTrace] to Bugly.
+Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
+  print('Caught error: $error');
+
+  print('Reporting to Bugly...');
+
+  FlutterCrashPlugin.postException(error, stackTrace);
+}
+
+Future<Null> main() async {
+  // This captures errors reported by the Flutter framework.
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    Zone.current.handleUncaughtError(details.exception, details.stack);
+  };
+
+  ErrorWidget.builder = (FlutterErrorDetails flutterErrorDetails) {
+    print(flutterErrorDetails.toString());
+    return Scaffold(
+        body: Center(
+      child: Text("Custom Error Widget"),
+    ));
+  };
+
+  runZoned<Future<Null>>(() async {
+    runApp(MyApp());
+  }, onError: (error, stackTrace) async {
+    await _reportError(error, stackTrace);
+  });
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+  // This widget is the root of your application.
+
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    if (Platform.isAndroid) {
+      FlutterCrashPlugin.setUp('43eed8b173');
+    } else if (Platform.isIOS) {
+      FlutterCrashPlugin.setUp('088aebe0d5');
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Welcome to Flutter'),
-          ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.all(32.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                'Hello world',
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 18.0,
-                    fontFamily: 'Courier',
-                    backgroundColor: Colors.yellow,
-                    decoration: TextDecoration.underline,
-                    decorationStyle: TextDecorationStyle.dashed),
-              ),
-              Text(
-                'Hello world! Welcome to Flutter. This part is for Text Widget!',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text.rich(TextSpan(children: [
-                TextSpan(text: 'Home: '),
-                TextSpan(
-                  text: 'https://flutterchina.club',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ])),
-              // Image(image: AssetImage('images/zhizhuxia.png'), width: 100.0),
-              // Image(
-              //     image: NetworkImage('https://picsum.photos/250?image=1'),
-              //     width: 100.0),
-              Image.asset('images/zhizhuxia.png', width: 100.0),
-              Image.network('https://picsum.photos/250?image=1', width: 100.0),
-              FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: 'https://picsum.photos/250?image=2',
-                  width: 100.0),
-              FadeInImage.assetNetwork(
-                  placeholder: 'assets/loading.gif',
-                  image: 'https://picsum.photos/250?image=9',
-                  width: 100.0),
-              CachedNetworkImage(
-                  imageUrl: "http://xxx/xxx/jpg",
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  width: 100.0),
-              new MaterialButton(
-                child: new Text('MaterialButton'),
-                onPressed: () {
-                  print('MaterialButton');
-                },
-              ),
-              new RaisedButton(
-                child: new Text('RaisedButton'),
-                onPressed: () {
-                  print('RaisedButton');
-                },
-              ),
-              new FlatButton(
-                child: new Text('FlatButton'),
-                onPressed: () {
-                  print('FlatButton');
-                },
-              ),
-              new IconButton(
-                icon: new Icon(Icons.wifi),
-                tooltip: 'click IconButton',
-                onPressed: () {
-                  print('IconButton');
-                },
-              ),
-              new FloatingActionButton(
-                child: new Icon(Icons.add_a_photo),
-//            child: new Text('FloatingActionButton'),
-                tooltip: 'click FloatingActionButton',
-                onPressed: () {
-                  print('FloatingActionButton');
-                },
-              ),
-              OutlineButton(
-                child: Text("OutlineButton"),
-                borderSide: new BorderSide(color: Colors.pink),
-                onPressed: () {
-                  print('OutlineButton');
-                },
-              ),
-              OutlineButton.icon(
-                icon: Icon(Icons.add),
-                label: Text("添加"),
-                onPressed: () {
-                  print('OutlineButton.icon');
-                },
-              ),
-              FlatButton(
-                color: Colors.blue,
-                highlightColor: Colors.blue[700],
-                colorBrightness: Brightness.dark,
-                splashColor: Colors.grey,
-                child: Text("Submit"),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
-                onPressed: () {
-                  print('Submit');
-                },
-              )
-            ]),
-          )),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Crashy'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              child: Text('Dart exception'),
+              elevation: 1.0,
+              onPressed: () {
+                throw StateError('This is a Dart exception.');
+              },
+            ),
+            new RaisedButton(
+              child: Text('async Dart exception'),
+              elevation: 1.0,
+              onPressed: () {
+                try {
+                  //Future.delayed(Duration(seconds: 1)).then((e) => Future.error("This is an async Dart exception."));
+                  Future.delayed(Duration(seconds: 1)).then((e) =>
+                      throw StateError('This is a Dart exception in Future.'));
+                } catch (e) {
+                  print("This line will never be executed. ");
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

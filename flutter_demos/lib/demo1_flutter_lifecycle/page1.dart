@@ -19,7 +19,7 @@ class _Page1State extends State<Page1> with WidgetsBindingObserver {
     });
 
     WidgetsBinding.instance?.addPersistentFrameCallback((_) {
-      print("实时Frame绘制回调"); //每帧都回调
+      // print("实时Frame绘制回调"); //每帧都回调
     });
   }
 

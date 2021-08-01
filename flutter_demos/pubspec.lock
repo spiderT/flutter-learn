@@ -125,6 +125,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  flutter_crash_plugin:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "50b7a36239c511ac2cc45d8e7e1d03dd1a0023e7"
+      url: "https://github.com/cyndibaby905/39_flutter_crash_plugin.git"
+    source: git
+    version: "0.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
