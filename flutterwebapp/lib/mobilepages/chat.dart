@@ -1,37 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/html.dart';
 import 'dart:convert';
-import '../components/message_list.dart';
 import '../../models/message_list_model.dart';
-import '../utils/app_platform.dart';
+import '../widget/chatItem_widget.dart';
 
 class Chat extends StatefulWidget {
   Chat({Key key}) : super(key: key);
 
   @override
-  _ChatContainer createState() => new _ChatContainer();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _ChatContainer extends State<Chat> {
-  TextEditingController _textcontroller = new TextEditingController();
-  var _webSocketChannel;
-  GlobalKey popLeftKey;
+class _MyHomePageState extends State<Chat> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final _webSocketChannel =
+      new IOWebSocketChannel.connect('ws://localhost:8080/ws');
 
   @override
   void initState() {
     super.initState();
-    popLeftKey = GlobalKey();
-    print('AppPlatform.isWeb()');
-    print(AppPlatform.isWeb());
-    if (AppPlatform.isWeb()) {
-      _webSocketChannel =
-          new HtmlWebSocketChannel.connect('ws://localhost:8080/ws');
-    } else {
-      _webSocketChannel =
-          new IOWebSocketChannel.connect('ws://localhost:8080/ws');
-    }
+    _scrollController.addListener(scrollListener);
+    _focusNode.addListener(textFocusListener);
     // 监听消息
     _webSocketChannel.stream.listen((message) {
       var msg = json.decode(message);
@@ -45,9 +37,17 @@ class _ChatContainer extends State<Chat> {
       setState(() {
         dummyData.add(data);
       });
+
+      var scrollHight = dummyData.length * 44 + 0.0;
+      print(scrollHight);
+      if (scrollHight > 250) {
+        // todo 有弹跳动画
+        _scrollController.jumpTo(scrollHight);
+      }
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -57,70 +57,87 @@ class _ChatContainer extends State<Chat> {
         ),
         backgroundColor: Colors.grey[300],
       ),
-      body: Container(
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(243, 243, 243, 1.0),
-            border: Border(
-              left: BorderSide(
-                  color: Color.fromRGBO(214, 214, 214, 1.0),
-                  width: 1,
-                  style: BorderStyle.solid),
+      backgroundColor: Color(0xFFF3F3F3),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: ListView.builder(
+                padding: EdgeInsets.only(bottom: 10),
+                itemBuilder: (context, i) => ChatItemWidget(item: dummyData[i]),
+                controller: _scrollController,
+                itemCount: dummyData.length,
+              ),
             ),
           ),
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 640,
-                padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(243, 243, 243, 1.0),
-                  border: Border(
-                    bottom: BorderSide(
-                        color: Color.fromRGBO(214, 214, 214, 1.0),
-                        width: 1,
-                        style: BorderStyle.solid),
-                  ),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Flexible(child: MessageList(dummyData: dummyData)),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: TextArea(),
-              )
-            ],
-          )),
+          editMessageWidget(),
+        ],
+      ),
     );
   }
 
-  Widget TextArea() => RawKeyboardListener(
-        focusNode: FocusNode(),
-        onKey: (event) {
-          if (event.runtimeType == RawKeyDownEvent) {
-            if (event.physicalKey == PhysicalKeyboardKey.enter) {
-              this._sendText();
-            }
-          }
-        },
-        child: Container(
-          color: Color.fromRGBO(243, 243, 243, 1.0),
-          constraints: BoxConstraints(
-            maxHeight: 300.0,
-            minHeight: 300.0,
+  Widget editMessageWidget() {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+      color: Colors.white,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: TextField(
+              focusNode: _focusNode,
+              controller: _textEditingController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
           ),
-          padding:
-              EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 0.0),
-          child: TextField(
-              controller: _textcontroller,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              autofocus: true,
-              // 无边框
-              decoration: InputDecoration(border: InputBorder.none)),
-        ),
-      );
+          SizedBox(
+            width: 10,
+          ),
+          Material(
+            color: Colors.grey,
+            borderRadius: BorderRadius.circular(5),
+            child: InkWell(
+              onTap: _sendText,
+              child: Container(
+                  height: 30,
+                  width: 50,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "发送",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void scrollListener() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      print('scrollListener');
+    }
+  }
+
+  void textFocusListener() {
+    _scrollController.animateTo(0.0,
+        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
+  }
+
+  void _sendText() {
+    if (_textEditingController.text.isNotEmpty) {
+      this._sendMessage(_textEditingController.text);
+      setState(() {
+        _textEditingController?.clear();
+      });
+    }
+  }
 
   void _sendMessage(value) {
     var data = value.trim();
@@ -134,22 +151,6 @@ class _ChatContainer extends State<Chat> {
       });
       this._webSocketChannel.sink.add(str);
     }
-  }
-
-  void _sendText() {
-    if (_textcontroller.text.isNotEmpty) {
-      this._sendMessage(_textcontroller.text);
-      setState(() {
-        _textcontroller?.clear();
-      });
-    }
-  }
-
-  void _sendEmoji(value) {
-    print(value);
-    this._sendMessage(value);
-    // 关闭弹窗
-    Navigator.pop(context);
   }
 
   // 监听消息

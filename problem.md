@@ -75,10 +75,21 @@ pod update
 
 ### 3.4. Flutter web 开发 “Unsupported operation: Platform._version”
 
-Android 和 IOS 端使用的是
+https://pub.dev/packages/web_socket_channel  
+https://pub.dev/packages/shelf_web_socket  
 
-IOWebSocketChannel.connect(connectUrl);  
+### 3.5. Dart Error: Can't load Kernel binary: Invalid SDK hash.
 
-对于 Web 端来说应该使用的是
+https://github.com/flutter/flutter/issues/67222  
 
-HtmlWebSocketChannel.connect(connectUrl); 
+### 3.6. flutter Invalid depfile
+
+flutter clean
+
+### 3.7. ios模拟器唤不起键盘, 安卓模拟器正常，可以唤起键盘  
+
+原因：由于在iOS8.0及以后的模拟器中,Xcode默认是使用电脑键盘作为外接键盘，将不会不再弹出虚拟键盘。  
+
+怎么取消使用电脑键盘作为外接键盘呢? IO->Keyboard->消选Connect Hardware Keyboard即可。  
+
+

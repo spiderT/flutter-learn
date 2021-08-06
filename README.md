@@ -2,17 +2,10 @@
 
 模仿微信，做了一个单机版的聊天，支持移动端，桌面端，以及web端
 
-> 移动端ios 
 
-![登录图](./readmeImages/mobile1.png)
-![列表图](./readmeImages/mobile2.png)
-![聊天图](./readmeImages/mobile3.png)
-
-> 桌面端mac
-
-![登录图](./readmeImages/xiaoguo.jpg)
-![聊天图](./readmeImages/xiaoguo1.jpg)
-
+![登录图](./readmeImages/xiaoguo1.png)
+![列表图](./readmeImages/xiaoguo2.png)
+![聊天图](./readmeImages/xiaoguo3.png)
 
 > websocket聊天
 
@@ -51,7 +44,6 @@ flutter run -d macOS
 配置环境
 
 ```text
-flutter channel beta
 flutter config --enable-web
 ```
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:async';
-import 'package:flutter_crash_plugin/flutter_crash_plugin.dart';
+import './flutter_crash_plugin.dart';
 import 'dart:io';
+import 'dart:core';
 
 bool get isInDebugMode {
   bool inDebugMode = false;
@@ -21,8 +22,15 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 
 Future<Null> main() async {
   // This captures errors reported by the Flutter framework.
-  FlutterError.onError = (FlutterErrorDetails details) async {
-    Zone.current.handleUncaughtError(details.exception, details.stack);
+  FlutterError.onError = (FlutterErrorDetails details) {
+    if (isInDebugMode) {
+      // debug模式直接打印在控制台
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      // 在生产模式下,重定向到 runZone 中处理
+      Zone.current
+          .handleUncaughtError(details.exception, details.stack as StackTrace);
+    }
   };
 
   ErrorWidget.builder = (FlutterErrorDetails flutterErrorDetails) {
@@ -43,8 +51,6 @@ Future<Null> main() async {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MyAppState();
-  // This widget is the root of your application.
-
 }
 
 class _MyAppState extends State<MyApp> {
@@ -75,25 +81,22 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crashy'),
+        title: Text('Crash'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
+            TextButton(
               child: Text('Dart exception'),
-              elevation: 1.0,
               onPressed: () {
                 throw StateError('This is a Dart exception.');
               },
             ),
-            new RaisedButton(
+            TextButton(
               child: Text('async Dart exception'),
-              elevation: 1.0,
               onPressed: () {
                 try {
-                  //Future.delayed(Duration(seconds: 1)).then((e) => Future.error("This is an async Dart exception."));
                   Future.delayed(Duration(seconds: 1)).then((e) =>
                       throw StateError('This is a Dart exception in Future.'));
                 } catch (e) {

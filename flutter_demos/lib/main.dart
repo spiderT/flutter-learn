@@ -1,109 +1,302 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'dart:async';
-import 'package:flutter_crash_plugin/flutter_crash_plugin.dart';
-import 'dart:io';
 
-bool get isInDebugMode {
-  bool inDebugMode = false;
-  assert(inDebugMode = true);
-  return inDebugMode;
+void main() {
+  runApp(MyApp());
 }
 
-/// Reports [error] along with its [stackTrace] to Bugly.
-Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
-  print('Caught error: $error');
-
-  print('Reporting to Bugly...');
-
-  FlutterCrashPlugin.postException(error, stackTrace);
-}
-
-Future<Null> main() async {
-  // This captures errors reported by the Flutter framework.
-  FlutterError.onError = (FlutterErrorDetails details) async {
-    Zone.current.handleUncaughtError(details.exception, details.stack);
-  };
-
-  ErrorWidget.builder = (FlutterErrorDetails flutterErrorDetails) {
-    print(flutterErrorDetails.toString());
-    return Scaffold(
-        body: Center(
-      child: Text("Custom Error Widget"),
-    ));
-  };
-
-  runZoned<Future<Null>>(() async {
-    runApp(MyApp());
-  }, onError: (error, stackTrace) async {
-    await _reportError(error, stackTrace);
-  });
-}
-
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _MyAppState();
-  // This widget is the root of your application.
-
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    if (Platform.isAndroid) {
-      FlutterCrashPlugin.setUp('43eed8b173');
-    } else if (Platform.isIOS) {
-      FlutterCrashPlugin.setUp('088aebe0d5');
-    }
-    super.initState();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  // bool _isLoading = false;
+  List<Map<String, dynamic>> _chatRecords = [];
+
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(scrollListener);
+    _focusNode.addListener(textFocusListener);
+    // for (int i = 0; i < 10; i++) {
+    //   _chatRecords.addAll([
+    //     {
+    //       "host": i % 2 == 0 ? false : true,
+    //       "name": i % 2 == 0 ? "jack" : "andy",
+    //       "content": i % 2 == 0 ? "hello....." : "hi......."
+    //     },
+    //   ]);
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crashy'),
+        title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              child: Text('Dart exception'),
-              elevation: 1.0,
-              onPressed: () {
-                throw StateError('This is a Dart exception.');
-              },
+      backgroundColor: Color(0xFFF3F3F3),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: ListView.builder(
+                padding: EdgeInsets.only(bottom: 10),
+                itemBuilder: (ctx, index) {
+                  return chatItemWidget(index);
+                },
+                controller: _scrollController,
+                // physics: ScrollPhysics(),
+                reverse: true,
+                itemCount: _chatRecords.length,
+              ),
             ),
-            new RaisedButton(
-              child: Text('async Dart exception'),
-              elevation: 1.0,
-              onPressed: () {
-                try {
-                  //Future.delayed(Duration(seconds: 1)).then((e) => Future.error("This is an async Dart exception."));
-                  Future.delayed(Duration(seconds: 1)).then((e) =>
-                      throw StateError('This is a Dart exception in Future.'));
-                } catch (e) {
-                  print("This line will never be executed. ");
-                }
-              },
-            ),
-          ],
-        ),
+          ),
+          editMessageWidget(),
+        ],
       ),
     );
+  }
+
+  Widget chatItemWidget(int index) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 10,
+        ),
+        _chatRecords[index]['host']
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        _chatRecords[index]['name'],
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF8EBC48),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          _chatRecords[index]['content'],
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _chatRecords[index]['host']
+                          ? Colors.green
+                          : Colors.blue,
+                    ),
+                    width: 40,
+                    height: 40,
+                    alignment: Alignment.center,
+                    child: Text(
+                      _chatRecords[index]['name'],
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
+                    ),
+                    width: 40,
+                    height: 40,
+                    alignment: Alignment.center,
+                    child: Text(
+                      _chatRecords[index]['name'],
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        _chatRecords[index]['name'],
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          _chatRecords[index]['content'],
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+      ],
+    );
+  }
+
+  Widget editMessageWidget() {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+      color: Colors.white,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: TextField(
+              focusNode: _focusNode,
+              controller: _textEditingController,
+              maxLines: 1,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Material(
+            color: Colors.green,
+            borderRadius: BorderRadius.circular(5),
+            child: InkWell(
+              onTap: onSendMessage,
+              child: Container(
+                  height: 30,
+                  width: 50,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "send",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void scrollListener() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      // if (_isLoading) return;
+      // _isLoading = true;
+      // onLoadMore();
+    }
+  }
+
+  void textFocusListener() {
+    _scrollController.animateTo(0.0,
+        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
+  }
+
+  void onLoadMore() async {
+    // 模拟请求接口
+    await Future.delayed(Duration(seconds: 1));
+    for (int i = 0; i < 10; i++) {
+      _chatRecords.addAll([
+        {
+          "host": i % 2 == 0 ? false : true,
+          "name": i % 2 == 0 ? "jack" : "andy",
+          "content": i % 2 == 0 ? "hello" : "hi"
+        },
+      ]);
+    }
+    // _isLoading = false;
+    setState(() {});
+  }
+
+  void onSendMessage() async {
+    if (_textEditingController.text.trim().length == 0) return;
+    // ?? 滚动的问题在这里
+    _chatRecords.insert(0, {
+      // _chatRecords.add({
+      "host": true,
+      "name": "andy",
+      "content": _textEditingController.text.trim()
+    });
+    _textEditingController.text = "";
+    setState(() {});
   }
 }
