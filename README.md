@@ -1,11 +1,15 @@
 # flutter-learn
 
-模仿微信，做了一个单机版的聊天，支持移动端，桌面端，以及web端
-
+模仿微信，做了一个单机版的聊天，支持移动端，桌面端，以及web端和h5，通过MediaQuery做多端适配
 
 ![登录图](./readmeImages/xiaoguo1.png)
 ![列表图](./readmeImages/xiaoguo2.png)
 ![聊天图](./readmeImages/xiaoguo3.png)
+![web](./readmeImages/xiaoguo4.png)
+![web](./readmeImages/xiaoguo5.png)
+![web](./readmeImages/xiaoguo6.png)
+![web](./readmeImages/xiaoguo7.png)
+
 
 > websocket聊天
 

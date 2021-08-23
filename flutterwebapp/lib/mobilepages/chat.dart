@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/io.dart';
 import 'dart:convert';
 import '../../models/message_list_model.dart';
 import '../widget/chatItem_widget.dart';
+import '../utils/socket_channel_platform.dart';
 
 class Chat extends StatefulWidget {
   Chat({Key key}) : super(key: key);
@@ -16,8 +16,7 @@ class _MyHomePageState extends State<Chat> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  final _webSocketChannel =
-      new IOWebSocketChannel.connect('ws://localhost:8080/ws');
+  final _webSocketChannel = SocketChannel.getSocketChannel();
 
   @override
   void initState() {

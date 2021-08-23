@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:web_socket_channel/io.dart';
 import 'dart:convert';
 import './message_list.dart';
 import './emoji_package.dart';
 import '../../models/message_list_model.dart';
 import '../../widget/popup_window.dart';
+import '../utils/socket_channel_platform.dart';
 
 class ChatContainer extends StatefulWidget {
   ChatContainer({Key key}) : super(key: key);
@@ -16,8 +16,7 @@ class ChatContainer extends StatefulWidget {
 
 class _ChatContainer extends State<ChatContainer> {
   TextEditingController _textcontroller = new TextEditingController();
-  var _webSocketChannel =
-      new IOWebSocketChannel.connect('ws://localhost:8080/ws');
+  var _webSocketChannel = SocketChannel.getSocketChannel();
   GlobalKey popLeftKey;
 
   @override

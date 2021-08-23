@@ -64,6 +64,8 @@ address = example.com, port = 443
 
 ### 3.3. error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
 
+从flutter config --enable-web 切换到移动端或桌面端会遇到这个问题  
+
 解决方法：https://stackoverflow.com/questions/63226903/how-to-resolve-an-error-the-sandbox-is-not-in-sync-with-the-podfile-lock  
 
 ```text
@@ -92,4 +94,25 @@ flutter clean
 
 怎么取消使用电脑键盘作为外接键盘呢? IO->Keyboard->消选Connect Hardware Keyboard即可。  
 
+### 3.8. 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 9.0 to 14.5.99.
 
+
+解决方法：https://stackoverflow.com/questions/63973136/the-ios-deployment-target-iphoneos-deployment-target-is-set-to-8-0-in-flutter  
+
+修改 ios 目录下的 Podfile 文件  
+
+```text
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+    end
+  end
+end
+```
+
+### 3.9. Error: Not found: 'dart:html'
+
+原因：两端代码在同一工程，由于app端没有dart:html 文件编译时会报错Error: Not found: 'dart:html'  
+
+问题在：import 'package:web_socket_channel/html.dart';  

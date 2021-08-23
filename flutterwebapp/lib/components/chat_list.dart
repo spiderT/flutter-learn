@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/app_platform.dart';
+import '../utils/mediaquery_size.dart';
 import '../../models/chat_list_model.dart';
 
 class ChatList extends StatefulWidget {
@@ -19,7 +19,7 @@ class ChatListState extends State<ChatList> {
       _operation = data;
       print(_operation);
     });
-    if (AppPlatform.isMobile()) {
+    if (MediaQuerySize.isMobileLayout(context)) {
       Navigator.pushNamed(context, 'chat');
     }
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widget/loadding.dart';
-import '../utils/app_platform.dart';
+import '../utils/mediaquery_size.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -68,9 +68,12 @@ class _LoginState extends State<Login> {
     List<Widget> childrens = [];
     final _main = Center(
       child: ListView(
-        padding: AppPlatform.isMobile()
+        padding: MediaQuerySize.isMobileLayout(context)
             ? EdgeInsets.only(left: 30.0, right: 30.0, top: 400.0)
-            : EdgeInsets.only(left: 500.0, right: 30.0, top: 200.0),
+            : EdgeInsets.only(
+                left: MediaQuerySize.getLoginPadding(context),
+                right: 30.0,
+                top: 200.0),
         children: [
           Padding(
             padding: EdgeInsets.only(bottom: 40),
@@ -194,7 +197,7 @@ class _LoginState extends State<Login> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AppPlatform.isMobile()
+            image: MediaQuerySize.isMobileLayout(context)
                 ? AssetImage("images/mobile.jpeg")
                 : AssetImage("images/bg.jpg"),
             fit: BoxFit.cover,

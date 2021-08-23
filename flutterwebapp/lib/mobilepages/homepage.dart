@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/chat_list.dart';
 import '../components/empty.dart';
 
-class HomePage extends StatelessWidget {
+class MobileHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

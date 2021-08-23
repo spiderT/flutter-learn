@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 import '../widget/chatItem_widget.dart';
+import '../utils/socket_channel_platform.dart';
 
 class MessageList extends StatefulWidget {
   MessageList({Key key, this.dummyData}) : super(key: key);
@@ -15,8 +16,7 @@ class MessageListState extends State<MessageList> {
   MessageListState({Key key, this.dummyData});
   final List dummyData;
   ScrollController _controller = new ScrollController();
-  var _webSocketChannel =
-      new IOWebSocketChannel.connect('ws://localhost:8080/ws');
+  var _webSocketChannel = SocketChannel.getSocketChannel();
   @override
   void initState() {
     super.initState();
