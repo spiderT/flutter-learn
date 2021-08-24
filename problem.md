@@ -115,4 +115,15 @@ end
 
 原因：两端代码在同一工程，由于app端没有dart:html 文件编译时会报错Error: Not found: 'dart:html'  
 
-问题在：import 'package:web_socket_channel/html.dart';  
+问题在：import 'package:web_socket_channel/html.dart'; 
+
+解决方法：https://stackoverflow.com/questions/58710226/how-to-import-platform-specific-dependency-in-flutter-dart-combine-web-with-an/58713064#58713064  
+https://stackoverflow.com/questions/58670361/flutter-conditional-library-import-in-flutter-web  
+
+```dart
+// 直接用WebSocketChannel, 不区分平台
+import 'package:web_socket_channel/web_socket_channel.dart';
+final channel = WebSocketChannel.connect(
+  Uri.parse('wss://echo.websocket.org'),
+);
+```

@@ -1,13 +1,7 @@
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/html.dart';
-import './app_platform.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketChannel {
   static getSocketChannel() {
-    if (AppPlatform.isWeb()) {
-      return new HtmlWebSocketChannel.connect('ws://localhost:8080/ws');
-    } else {
-      return new IOWebSocketChannel.connect('ws://localhost:8080/ws');
-    }
+    return new WebSocketChannel.connect(Uri.parse('ws://localhost:8080/ws'));
   }
 }

@@ -7,13 +7,17 @@ class MediaQuerySize {
     final screenSize = MediaQuery.of(context).size;
     print('屏幕 Size -> ${screenSize}');
 
-    const int mobizeWith = 400;
+    const int mobizeWith = 500;
     return screenSize.width <= mobizeWith;
   }
 
-  static double getLoginPadding(context) {
-    final screenSize = MediaQuery.of(context).size;
+  static double getLoginPaddingLeft(context) {
+    final width = MediaQuery.of(context).size.width;
+    return width - 400;
+  }
 
-    return screenSize.width < 500 ? screenSize.width / 2 : 500;
+  static double getLoginPaddingTop(context) {
+    final height = MediaQuery.of(context).size.height;
+    return height - 400;
   }
 }

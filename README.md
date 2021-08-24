@@ -5,10 +5,6 @@
 ![登录图](./readmeImages/xiaoguo1.png)
 ![列表图](./readmeImages/xiaoguo2.png)
 ![聊天图](./readmeImages/xiaoguo3.png)
-![web](./readmeImages/xiaoguo4.png)
-![web](./readmeImages/xiaoguo5.png)
-![web](./readmeImages/xiaoguo6.png)
-![web](./readmeImages/xiaoguo7.png)
 
 
 > websocket聊天

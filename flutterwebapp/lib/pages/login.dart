@@ -69,11 +69,14 @@ class _LoginState extends State<Login> {
     final _main = Center(
       child: ListView(
         padding: MediaQuerySize.isMobileLayout(context)
-            ? EdgeInsets.only(left: 30.0, right: 30.0, top: 400.0)
-            : EdgeInsets.only(
-                left: MediaQuerySize.getLoginPadding(context),
+            ? EdgeInsets.only(
+                left: 30.0,
                 right: 30.0,
-                top: 200.0),
+                top: MediaQuerySize.getLoginPaddingTop(context))
+            : EdgeInsets.only(
+                left: MediaQuerySize.getLoginPaddingLeft(context),
+                right: 30.0,
+                top: MediaQuerySize.getLoginPaddingTop(context)),
         children: [
           Padding(
             padding: EdgeInsets.only(bottom: 40),
