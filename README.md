@@ -23,12 +23,17 @@ open -a simulator
 flutter run
 ```
 
-> macos桌面端应用，启动方法  
+> 桌面端应用，启动方法  
 
 配置环境
 
 ```text
+flutter config --enable-<platform>-desktop
+
+# Where <platform> is windows, macos, or linux:
+flutter config --enable-windows-desktop
 flutter config --enable-macos-desktop
+flutter config --enable-linux-desktop
 ```
 
 项目启动
@@ -36,7 +41,10 @@ flutter config --enable-macos-desktop
 ```text
 cd flutterwebapp
 flutter pub get
-flutter run -d macOS
+
+flutter run -d windows
+flutter run -d macos
+flutter run -d linux
 ```
 
 > web chrome 启动方法
@@ -55,32 +63,22 @@ flutter pub get
 flutter run -d chrome
 ```
 
-✅发文字  
-✅发表情  
-❎发文件——目前的库都是基于移动端选择相册图片，没有desktop选择文件  
-
 - [flutter-learn](#flutter-learn)
-  - [1. 在macOS上搭建Flutter开发环境](#1-在macos上搭建flutter开发环境)
-    - [1.1. 获取Flutter SDK](#11-获取flutter-sdk)
-      - [1.1.1. 运行 flutter doctor](#111-运行-flutter-doctor)
-      - [1.1.2. 更新环境变量](#112-更新环境变量)
-    - [1.2. iOS 设置](#12-ios-设置)
-      - [1.2.1 安装 Xcode](#121-安装-xcode)
-      - [1.2.2 设置iOS模拟器](#122-设置ios模拟器)
-      - [1.2.3 安装到iOS设备](#123-安装到ios设备)
-    - [1.3 Android设置](#13-android设置)
-      - [1.3.1 Flutter需要安装和配置Android Studio:](#131-flutter需要安装和配置android-studio)
-      - [1.3.2 设置您的Android设备](#132-设置您的android设备)
-      - [1.3.3 设置Android模拟器](#133-设置android模拟器)
-  - [2. flutter 核心技术](#2-flutter-核心技术)
-    - [2.1 flutter 原理](#21-flutter-原理)
+  - [1. 搭建Flutter开发环境](#1-搭建flutter开发环境)
+  - [2. flutter 原理](#2-flutter-原理)
+    - [2.1 flutter 架构](#21-flutter-架构)
     - [2.2 flutter 界面渲染过程](#22-flutter-界面渲染过程)
+    - [2.3. 垃圾回收机制](#23-垃圾回收机制)
+    - [2.4. flutter Event Loop](#24-flutter-event-loop)
+      - [2.4.1. Future](#241-future)
+      - [2.4.2. 异步函数](#242-异步函数)
+      - [2.4.3. Isolate](#243-isolate)
+    - [2.5. Hot Reload原理](#25-hot-reload原理)
   - [3. 生成应用](#3-生成应用)
-    - [3.1. 方法](#31-方法)
-      - [工程结构](#工程结构)
-      - [工程代码](#工程代码)
-      - [3.1.1 应用入口、应用结构以及页面结构，可以帮助你理解构建 Flutter 程序的基本结构和套路；](#311-应用入口应用结构以及页面结构可以帮助你理解构建-flutter-程序的基本结构和套路)
-      - [3.1.2 应用结构](#312-应用结构)
+    - [3.1. 生成应用方法](#31-生成应用方法)
+      - [3.1.1. 工程结构](#311-工程结构)
+      - [3.1.2. 工程代码](#312-工程代码)
+      - [3.1.3. 应用结构](#313-应用结构)
     - [3.2. 路由管理](#32-路由管理)
     - [3.3. 包管理](#33-包管理)
       - [3.3.1. Pub仓库](#331-pub仓库)
@@ -89,14 +87,8 @@ flutter run -d chrome
       - [3.4.1. 指定 assets](#341-指定-assets)
       - [3.4.2. Asset 变体（variant）](#342-asset-变体variant)
       - [3.4.3. 加载 assets](#343-加载-assets)
-        - [加载文本assets](#加载文本assets)
       - [3.4.4. 加载图片](#344-加载图片)
-        - [声明分辨率相关的图片 assets](#声明分辨率相关的图片-assets)
-        - [加载图片](#加载图片)
-        - [依赖包中的资源图片](#依赖包中的资源图片)
-        - [打包包中的 assets](#打包包中的-assets)
       - [3.4.5. 特定平台 assets](#345-特定平台-assets)
-        - [设置APP图标](#设置app图标)
   - [4. 生命周期](#4-生命周期)
     - [4.1. State 生命周期](#41-state-生命周期)
       - [4.1.1. 创建](#411-创建)
@@ -111,7 +103,6 @@ flutter run -d chrome
       - [5.1.2. Widget与Element](#512-widget与element)
       - [5.1.3. Widget主要接口](#513-widget主要接口)
       - [5.1.4. StatelessWidget](#514-statelesswidget)
-        - [Context](#context)
       - [5.1.5. StatefulWidget](#515-statefulwidget)
     - [5.2. 文本及样式](#52-文本及样式)
       - [5.2.1. Text](#521-text)
@@ -119,43 +110,48 @@ flutter run -d chrome
       - [5.2.3. TextSpan](#523-textspan)
       - [5.2.4. DefaultTextStyle](#524-defaulttextstyle)
       - [5.2.5. 字体](#525-字体)
-        - [在asset中声明](#在asset中声明)
-        - [使用字体](#使用字体)
-        - [Package中的字体](#package中的字体)
+        - [5.2.5.1. 在asset中声明](#5251-在asset中声明)
+        - [5.2.5.2. 使用字体](#5252-使用字体)
+        - [5.2.5.3. Package中的字体](#5253-package中的字体)
     - [5.3. 按钮](#53-按钮)
       - [5.3.1. Material组件库中的按钮](#531-material组件库中的按钮)
-        - [RaisedButton](#raisedbutton)
-        - [FlatButton](#flatbutton)
-        - [OutlineButton](#outlinebutton)
-        - [IconButton](#iconbutton)
-        - [带图标的按钮](#带图标的按钮)
+        - [5.3.1.1. RaisedButton](#5311-raisedbutton)
+        - [5.3.1.2. FlatButton](#5312-flatbutton)
+        - [5.3.1.3. OutlineButton](#5313-outlinebutton)
+        - [5.3.1.4. IconButton](#5314-iconbutton)
+        - [5.3.1.5. 带图标的按钮](#5315-带图标的按钮)
       - [5.3.2. 自定义按钮外观](#532-自定义按钮外观)
     - [5.4. 图片及ICON](#54-图片及icon)
       - [5.4.1. 图片](#541-图片)
-        - [ImageProvider](#imageprovider)
-        - [Image](#image)
-        - [从asset中加载图片](#从asset中加载图片)
-        - [参数](#参数)
       - [5.4.2. icon](#542-icon)
         - [使用Material Design字体图标](#使用material-design字体图标)
-        - [使用自定义字体图标](#使用自定义字体图标)
     - [5.5. 单选开关和复选框](#55-单选开关和复选框)
-          - [属性及外观](#属性及外观)
     - [5.6. 输入框及表单](#56-输入框及表单)
       - [5.6.1. TextField](#561-textfield)
       - [5.6.2. 表单Form](#562-表单form)
     - [5.7. 进度指示器](#57-进度指示器)
-      - [LinearProgressIndicator](#linearprogressindicator)
-      - [CircularProgressIndicator](#circularprogressindicator)
-      - [自定义尺寸](#自定义尺寸)
-      - [进度色动画](#进度色动画)
-      - [自定义进度指示器样式](#自定义进度指示器样式)
-  - [6. 跨组件传递数据](#6-跨组件传递数据)
+      - [5.7.1. LinearProgressIndicator](#571-linearprogressindicator)
+      - [5.7.2. CircularProgressIndicator](#572-circularprogressindicator)
+      - [5.7.3. 自定义尺寸](#573-自定义尺寸)
+      - [5.7.4. 进度色动画](#574-进度色动画)
+      - [5.7.5. 自定义进度指示器样式](#575-自定义进度指示器样式)
+    - [5.8. 动画](#58-动画)
+      - [5.8.1. AnimatedWidget](#581-animatedwidget)
+      - [5.8.2. AnimatedBuilder](#582-animatedbuilder)
+      - [5.8.3. hero 动画](#583-hero-动画)
+  - [6. 组件通信](#6-组件通信)
     - [6.1. InheritedWidget](#61-inheritedwidget)
     - [6.2. Notification](#62-notification)
     - [6.3. EventBus](#63-eventbus)
+    - [6.4. fish-redux](#64-fish-redux)
   - [7. 定制不同风格的App主题](#7-定制不同风格的app主题)
+    - [7.1. 全局统一的视觉风格定制](#71-全局统一的视觉风格定制)
+    - [7.2. 局部独立的视觉风格定制](#72-局部独立的视觉风格定制)
+    - [7.3. 分平台主题定制](#73-分平台主题定制)
   - [8. 本地存储与数据库的使用](#8-本地存储与数据库的使用)
+    - [8.1. 文件](#81-文件)
+    - [8.2. SharedPreferences](#82-sharedpreferences)
+    - [8.3. 数据库](#83-数据库)
   - [9. http 请求](#9-http-请求)
     - [9.1. 通过HttpClient发起HTTP请求](#91-通过httpclient发起http请求)
   - [10. websocket](#10-websocket)
@@ -165,12 +161,13 @@ flutter run -d chrome
     - [10.4. 关闭WebSocket连接](#104-关闭websocket连接)
     - [10.5. 使用Socket API](#105-使用socket-api)
   - [11. flutter web](#11-flutter-web)
+    - [11.1. web-renderers](#111-web-renderers)
   - [12. flutter desktop](#12-flutter-desktop)
     - [12.1. macOS](#121-macos)
       - [12.1.1. 配置环境](#1211-配置环境)
       - [12.1.2. 打包](#1212-打包)
   - [13. 测试和调试](#13-测试和调试)
-    - [13.1. 调试工具](#131-调试工具)
+    - [13.1. 测量应用启动时间](#131-测量应用启动时间)
     - [13.2. 以编程方式调试应用](#132-以编程方式调试应用)
       - [13.2.1. 日志输出](#1321-日志输出)
       - [13.2.2. 设置断点](#1322-设置断点)
@@ -184,174 +181,55 @@ flutter run -d chrome
     - [13.2.5. 调试动画](#1325-调试动画)
     - [13.2.6. 调试标志：性能](#1326-调试标志性能)
       - [13.2.6.1. 跟踪 Dart 代码性能](#13261-跟踪-dart-代码性能)
-    - [13.2.7. Widget 对齐网格](#1327-widget-对齐网格)
+    - [13.2.7. 性能图层](#1327-性能图层)
+    - [13.2.8. Widget 对齐网格](#1328-widget-对齐网格)
   - [14. 自动化测试](#14-自动化测试)
     - [14.1. 单元测试](#141-单元测试)
     - [14.2. UI 测试](#142-ui-测试)
   - [15. 自动更新](#15-自动更新)
+  - [16. 混合开发](#16-混合开发)
 
-## 1. 在macOS上搭建Flutter开发环境
+## 1. 搭建Flutter开发环境
 
-### 1.1. 获取Flutter SDK
+直接看官网：https://flutter.dev/docs/get-started/install
 
-[去flutter官网下载其最新可用的安装包](https://flutter.io/sdk-archive/#macos) 。
-
-```text
-cd ~/development
-unzip ~/Downloads/flutter_macos_v0.5.1-beta.zip
-```
-
-添加flutter相关工具到path中：
-
-```text
-export PATH=`pwd`/flutter/bin:$PATH
-```
-
-#### 1.1.1. 运行 flutter doctor
-
-该命令检查您的环境并在终端窗口中显示报告。Dart SDK已经在捆绑在Flutter里了，没有必要单独安装Dart。 仔细检查命令行输出以获取可能需要安装的其他软件或进一步需要执行的任
-
-#### 1.1.2. 更新环境变量
-
-1. 确定您Flutter SDK的目录，您将在步骤3中用到。
-2. 打开(或创建) $HOME/.bash_profile. 文件路径和文件名可能在您的机器上不同.
-3. 添加以下行并更改[PATH_TO_FLUTTER_GIT_DIRECTORY]为克隆Flutter的git repo的路径:
-
-```text
-export PUB_HOSTED_URL=https://pub.flutter-io.cn //国内用户需要设置
-export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn //国内用户需要设置
-export PATH= PATH_TO_FLUTTER_GIT_DIRECTORY/flutter/bin:$PATH
-```
-
-注意：PATH_TO_FLUTTER_GIT_DIRECTORY 为你flutter的路径，比如“~/document/code”
-
-```text
-export PATH= ~/document/code/flutter/bin:$PATH
-```
-
-4. 运行 source $HOME/.bash_profile 刷新当前终端窗口.  
-
-**注意**: 如果你使用的是zsh，终端启动时 ~/.bash_profile 将不会被加载，解决办法就是修改 ~/.zshrc ，在其中添加：source ~/.bash_profile
-
-5. 通过运行flutter/bin命令验证目录是否在已经在PATH中:
-
-```text
-echo $PATH
-```
-
-### 1.2. iOS 设置
-
-#### 1.2.1 安装 Xcode
-
-1. 要为iOS开发Flutter应用程序，您需要Xcode 7.2或更高版本:
-
-2. 安装Xcode 7.2或更新版本.
-
-配置Xcode命令行工具以使用新安装的Xcode版本 sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer 对于大多数情况，当您想要使用最新版本的Xcode时，这是正确的路径。如果您需要使用不同的版本，请指定相应路径。
-
-3. 确保Xcode许可协议是通过打开一次Xcode或通过命令sudo xcodebuild -license同意过了.
-
-使用Xcode，您可以在iOS设备或模拟器上运行Flutter应用程序。
-
-#### 1.2.2 设置iOS模拟器
-
-1. 要准备在iOS模拟器上运行并测试您的Flutter应用，请按以下步骤操作：
-
-在Mac上，通过Spotlight或使用以下命令找到模拟器:
-
-```text
-open -a Simulator
-```
-
-2. 通过检查模拟器 硬件>设备 菜单中的设置，确保您的模拟器正在使用64位设备（iPhone 5s或更高版本）.
-3. 根据您的开发机器的屏幕大小，模拟的高清屏iOS设备可能会使您的屏幕溢出。在模拟器的 Window> Scale 菜单下设置设备比例
-4. 运行 flutter run启动您的应用.
-
-#### 1.2.3 安装到iOS设备
-
-要将您的Flutter应用安装到iOS真机设备，您需要一些额外的工具和一个Apple帐户，您还需要在Xcode中进行设置。
-
-1. 安装 homebrew （如果已经安装了brew,跳过此步骤）.
-2. 打开终端并运行这些命令来安装用于将Flutter应用安装到iOS设备的工具
-
-```text
-brew update
-brew install --HEAD usbmuxd
-brew link usbmuxd
-brew install --HEAD libimobiledevice
-brew install ideviceinstaller
-```
-
-usbmuxd 是一个与 iOS 设备建立多路通信连接的 socket 守护进程，通过它，可以将 USB 通信抽象为 TCP 通信；libimobiledevice 是一个与 iOS 设备进行通信的跨平台协议库；而 ideviceinstaller 则是一个使用它们在 iOS 设备上管理 App 的工具。  
-
-> 进行 Xcode 签名配置
-
-项目中的ios/Runner.xcworkspace，在 Xcode 中，选择导航面板左侧最上方的 Runner 项目。  
-
-在 General > Signing > Team 中，我们需要配置一下开发团队，也就是用你的 Apple ID 登录 Xcode。当配置完成时，Xcode 会自动创建并下载开发证书。任意 Apple ID 都支持开发和测试，但如果想将应用发布到 App Store，则必须加入 Apple 开发者计划。开发者计划的详细信息，你可以通过苹果官方的compare memberships了解.  
-
-### 1.3 Android设置
-
-#### 1.3.1 Flutter需要安装和配置Android Studio:
-
-1. 下载并安装 Android Studio.
-
-2. 启动Android Studio，然后执行“Android Studio安装向导”。这将安装最新的Android SDK，Android SDK平台工具和Android SDK构建工具，这是Flutter为Android开发时所必需的
-
-#### 1.3.2 设置您的Android设备
-
-要准备在Android设备上运行并测试您的Flutter应用，需要安装Android 4.1（API level 16）或更高版本的Android设备.
-
-1. 在您的设备上启用 开发人员选项 和 USB调试 。详细说明可在Android文档中找到。
-2. 使用USB将手机插入电脑。如果您的设备出现提示，请授权您的计算机访问您的设备。
-3. 在终端中，运行 flutter devices 命令以验证Flutter识别您连接的Android设备。
-4. 运行启动您的应用程序 flutter run。
-默认情况下，Flutter使用的Android SDK版本是基于你的 adb 工具版本。 如果您想让Flutter使用不同版本的Android SDK，则必须将该 ANDROID_HOME 环境变量设置为SDK安装目录。
-
-#### 1.3.3 设置Android模拟器
-
-要准备在Android模拟器上运行并测试您的Flutter应用，请按照以下步骤操作：
-
-1. 在您的机器上启用 VM acceleration .
-2. 启动 Android Studio>Tools>Android>AVD Manager 并选择 Create Virtual Device.
-3. 选择一个设备并选择 Next。
-4. 为要模拟的Android版本选择一个或多个系统映像，然后选择 Next. 建议使用 x86 或 x86_64 image .
-5. 在 Emulated Performance下, 选择 Hardware - GLES 2.0 以启用 硬件加速.
-6. 验证AVD配置是否正确，然后选择 Finish。
-7. 在 Android Virtual Device Manager中, 点击工具栏的 Run。模拟器启动并显示所选操作系统版本或设备的启动画面.
-8. 运行 flutter run 启动您的设备. 连接的设备名是 Android SDK built for <platform>,其中 platform 是芯片系列, 如 x86.
-
-## 2. flutter 核心技术
+## 2. flutter 原理
 
 Flutter 是构建 Google 物联网操作系统 Fuchsia 的 SDK，主打跨平台、高保真、高性能。开发者可以通过 Dart 语言开发 App，一套代码可以同时运行在 iOS 和 Android 平台。 Flutter 使用 Native 引擎渲染视图，并提供了丰富的组件和接口，这无疑为开发者和用户都提供了良好的体验。
 
 1. 与用于构建移动应用程序的其他大多数框架不同，Flutter 是重写了一整套包括底层渲染逻辑和上层开发语言的完整解决方案。这样不仅可以保证视图渲染在 Android 和 iOS 上的高度一致性（即高保真），在代码执行效率和渲染性能上也可以媲美原生 App 的体验（即高性能）。
 
-2. 可以看到，Flutter 关注如何尽可能快地在两个硬件时钟的 VSync 信号之间计算并合成视图数据，然后通过 Skia 交给 GPU 渲染：UI 线程使用 Dart 来构建视图结构数据，这些数据会在 GPU 线程进行图层合成，随后交给 Skia 引擎加工成 GPU 数据，而这些数据会通过 OpenGL 最终提供给 GPU 渲染。
+2. Flutter 关注如何尽可能快地在两个硬件时钟的 VSync 信号之间计算并合成视图数据，然后通过 Skia 交给 GPU 渲染：UI 线程使用 Dart 来构建视图结构数据，这些数据会在 GPU 线程进行图层合成，随后交给 Skia 引擎加工成 GPU 数据，而这些数据会通过 OpenGL 最终提供给 GPU 渲染。
 
 ![flutter绘制原理](./readmeImages/flutter1.png)
 
-3. Skia 是一款用 C++ 开发的、性能彪悍的 2D 图像绘制引擎，其前身是一个向量绘图软件。2005 年被 Google 公司收购后，因为其出色的绘制表现被广泛应用在 Chrome 和 Android 等核心产品上。Skia 在图形转换、文字渲染、位图渲染方面都表现卓越，并提供了开发者友好的 API。
+3. Skia 是一款用 C++ 开发的、性能彪悍的 2D 图像绘制引擎，其前身是一个向量绘图软件。2005 年被 Google 公司收购后，因为其出色的绘制表现被广泛应用在 Chrome 和 Android 等核心产品上。Skia 在图形转换、文字渲染、位图渲染方面都表现卓越，并提供了开发者友好的 API。Skia 引擎会将使用 Dart 构建的抽象的视图结构数据加工成 GPU 数据，交由 OpenGL 最终提供给 GPU 渲染，至此完成渲染闭环，因此可以在最大程度上保证一款应用在不同平台、不同设备上的体验一致性。
 
 4. Dart
 
 + Dart 同时支持即时编译 JIT 和事前编译 AOT。在开发期使用 JIT，开发周期异常短，调试方式颠覆常规（支持有状态的热重载）；而发布期使用 AOT，本地代码的执行更高效，代码性能和用户体验也更卓越。
 
-+ Dart 作为一门现代化语言，集百家之长，拥有其他优秀编程语言的诸多特性（比如，完善的包管理机制）。也正是这个原因，Dart 的学习成本并不高，很容易上手。
++ 内存分配与垃圾回收。 Dart VM 的内存分配策略比较简单，创建对象时只需要在堆上移动指针，内存增长始终是线性的，省去了查找可用内存的过程。在 Dart 中，并发是通过 Isolate 实现的。Isolate 是类似于线程但不共享内存，独立运行的 worker。这样的机制，就可以让 Dart 实现无锁的快速分配。
 
-+ Dart 避免了抢占式调度和共享内存，可以在没有锁的情况下进行对象分配和垃圾回收，在性能方面表现相当不错。
+Dart 的垃圾回收，则是采用了多生代算法。新生代在回收内存时采用“半空间”机制，触发垃圾回收时，Dart 会将当前半空间中的“活跃”对象拷贝到备用空间，然后整体释放当前空间的所有内存。回收过程中，Dart 只需要操作少量的“活跃”对象，没有引用的大量“死亡”对象则被忽略，这样的回收机制很适合 Flutter 框架中大量 Widget 销毁重建的场景。
 
-### 2.1 flutter 原理
++ 单线程模型。一旦某个函数开始执行，就将执行到这个函数结束，而不会被其他 Dart 代码打断。所以，Dart 中并没有线程，只有 Isolate（隔离区）。Isolates 之间不会共享内存，就像几个运行在不同进程中的 worker，通过事件循环（Event Looper）在事件队列（Event Queue）上传递消息通信。
+
+### 2.1 flutter 架构
 
 ![flutter架构图](./readmeImages/flutter2.png)
 
 Flutter 架构采用分层设计，从下到上分为三层，依次为：Embedder、Engine、Framework。
 
-1. Embedder 是操作系统适配层，实现了渲染 Surface 设置，线程设置，以及平台插件等平台相关特性的适配。从这里我们可以看到，Flutter 平台相关特性并不多，这就使得从框架层面保持跨端一致性的成本相对较低。
+1. 对于底层操作系统而言，Flutter 应用程序的包装方式与其他原生应用相同。在每一个平台上，会包含一个特定的嵌入层，从而提供一个程序入口，程序由此可以与底层操作系统进行协调，访问诸如 surface 渲染、辅助功能和输入等服务，并且管理事件循环队列。该嵌入层采用了适合当前平台的语言编写，例如 Android 使用的是 Java 和 C++， iOS 和 macOS 使用的是 Objective-C 和 Objective-C++，Windows 和 Linux 使用的是 C++。 Flutter 代码可以通过嵌入层，以模块方式集成到现有的应用中，也可以作为应用的主体。 
 
-2. Engine 层主要包含 Skia、Dart 和 Text，实现了 Flutter 的渲染引擎、文字排版、事件处理和 Dart 运行时等功能。Skia 和 Text 为上层接口提供了调用底层渲染和排版的能力，Dart 则为 Flutter 提供了运行时调用 Dart 和渲染引擎的能力。而 Engine 层的作用，则是将它们组合起来，从它们生成的数据中实现视图渲染。
+2. Engine 层毫无疑问是 Flutter 的核心，它主要使用 C++ 编写，并提供了 Flutter 应用所需的原语。当需要绘制新一帧的内容时，引擎将负责对需要合成的场景进行栅格化。它提供了 Flutter 核心 API 的底层实现，包括图形（通过 Skia）、文本布局、文件及网络 IO、辅助功能支持、插件架构和 Dart 运行环境及编译环境的工具链。
 
-3. Framework 层则是一个用 Dart 实现的 UI SDK，包含了动画、图形绘制和手势识别等功能。为了在绘制控件等固定样式的图形时提供更直观、更方便的接口，Flutter 还基于这些基础能力，根据 Material 和 Cupertino 两种视觉设计风格封装了一套 UI 组件库。我们在开发 Flutter 的时候，可以直接使用这些组件库。
+3. 通过 Flutter 框架层 与 Flutter 交互，该框架提供了以 Dart 语言编写的现代响应式框架。它包括由一系列层组成的一组丰富的平台，布局和基础库。从下层到上层，依次有：
+基础的 foundational 类及一些基层之上的构建块服务，如 animation、 painting 和 gestures，它们可以提供上层常用的抽象。
+渲染层 用于提供操作布局的抽象。有了渲染层，你可以构建一棵可渲染对象的树。在你动态更新这些对象时，渲染树也会自动根据你的变更来更新布局。
+widget 层 是一种组合的抽象。每一个渲染层中的渲染对象，都在 widgets 层中有一个对应的类。此外，widgets 层让你可以自由组合你需要复用的各种类。响应式编程模型就在该层级中被引入。
+Material 和 Cupertino 库提供了全面的 widgets 层的原语组合，这套组合分别实现了 Material 和 iOS 设计规范。
 
 ### 2.2 flutter 界面渲染过程
 
@@ -387,9 +265,204 @@ Flutter 采用深度优先机制遍历渲染对象树，决定渲染对象树中
 
 ![flutter知识体系](./readmeImages/flutter3.png)
 
+### 2.3. 垃圾回收机制
+
+Dart的垃圾回收分代为："新生代"，"老生代"。专门设计了调度器，当检测到空闲且没有用户交互时进行GC操作.  
+
+调度器: 在Flutter引擎中，为了最小化垃圾收集对应用程序和UI性能的影响，为垃圾收集器提供了hooks，当引擎检测到应用程序处于空闲状态（没有与用户交互），会发出警报，为垃圾收集器提供运行其收集阶段而不影响性能的机会。并且垃圾收集器可以在这些空闲时间运行内存压缩，从而较少内存碎片来优化内存。
+
+> 新生代:
+
+1. Dart对象分配用的是bump指针方式，意思是所有用过的内存在一边，空闲的内存放另外一边，中间放着一个指针作为分界点的指示器，分配内存就仅仅是把指针指向空闲那边挪动一段与对象大小相等的距离罢了。
+
+2. 新对象被分配到连续、可用的内存空间，这个区域包含两个部分：活跃区和非活跃区，新对象在创建时被分配到活跃区、一旦填充完毕，仍然活跃的对象会被移动到非活跃区，不再活跃的对象会被清理掉，然后非活跃区变成活跃区，活跃区变成非活跃区，以此循环。
+
+![gc](./readmeImages/gc1.png)
+
+确定Object是存活还是死亡，GC从根对象开始检测，将有引用的Object（存活的）移动到非活动状态，直到所有存活的Object都被移动，死亡的Object就被留下，此方式采用了Cheney算法：
+
+![gc](./readmeImages/gc2.png)
+
+> 老生代
+
+在新生代阶段未被回收的对象，将会由老生代收集器管理新的内存空间：mark-sweep。在老生代收集器的管理分为两个阶段：
+
+1. 遍历对象图，然后标记在使用的对象
+2. 扫描整个内存，并且回收所有未标记的对象
+
+### 2.4. flutter Event Loop
+
+Dart 是单线程的。单线程模型可以在等待的过程中做别的事情，等真正需要响应结果了，再去做对应的处理。因为等待过程并不是阻塞的，等待这个行为是通过 Event Loop 驱动的。
+
+Dart 有一个巨大的事件循环，在不断的轮询事件队列，取出事件（比如，键盘事件、I\O 事件、网络事件等），在主线程同步执行其回调函数，在 Dart 中，有两个队列，一个事件队列（Event Queue），另一个则是微任务队列（Microtask Queue）。在每一次事件循环中，Dart 总是先去第一个微任务队列中查询是否有可执行的任务，如果没有，才会处理后续的事件队列的流程。
+
+![gc](./readmeImages/loop.png)
+
+微任务队列在事件循环中的优先级是最高的，只要队列中还有任务，就可以一直霸占着事件循环。微任务是由 scheduleMicroTask 建立的。如下所示，这段代码会在下一个事件循环中输出一段字符串：
+
+```dart
+scheduleMicrotask(() => print('This is a microtask'));
+```
+
+Flutter 内部微任务,只有 7 处用到了而已（比如，手势识别、文本输入、滚动视图、保存页面效果等需要高优执行任务的场景）.  
+
+#### 2.4.1. Future
+
+Dart 为 Event Queue 的任务建立提供了一层封装，叫作 Future。表示一个在未来时间才会完成的任务。  
+把一个函数体放入 Future，就完成了从同步任务到异步任务的包装。Future 还提供了链式调用的能力，可以在异步任务执行完毕后依次执行链路上的其他函数体。  
+
+```dart
+Future(() => print('f1'));//声明一个匿名Future
+Future fx = Future(() =>  null);//声明Future fx，其执行体为null
+
+//声明一个匿名Future，并注册了两个then。在第一个then回调里启动了一个微任务
+Future(() => print('f2')).then((_) {
+  print('f3');
+  scheduleMicrotask(() => print('f4'));
+}).then((_) => print('f5'));
+
+//声明了一个匿名Future，并注册了两个then。第一个then是一个Future
+Future(() => print('f6'))
+  .then((_) => Future(() => print('f7')))
+  .then((_) => print('f8'));
+
+//声明了一个匿名Future
+Future(() => print('f9'));
+
+//往执行体为null的fx注册了了一个then
+fx.then((_) => print('f10'));
+
+//启动一个微任务
+scheduleMicrotask(() => print('f11'));
+print('f12');
+```
+
+上述各个异步任务会依次打印其内部执行结果：
+
+```text
+f12
+f11
+f1
+f10
+f2
+f3
+f5
+f4
+f6
+f9
+f7
+f8
+```
+
+then 会在 Future 函数体执行完毕后立刻执行，无论是共用同一个事件循环还是进入下一个微任务。
+
+#### 2.4.2. 异步函数
+
+对于异步函数返回的 Future 对象，如果调用者决定同步等待，则需要在调用处使用 await 关键字，并且在调用处的函数体使用 async 关键字。
+
+```dart
+//声明了一个延迟3秒返回Hello的Future，并注册了一个then返回拼接后的Hello 2019
+Future<String> fetchContent() => 
+  Future<String>.delayed(Duration(seconds:3), () => "Hello")
+    .then((x) => "$x 2019");
+
+  main() async{
+    print(await fetchContent());//等待Hello 2019的返回
+  }
+```
+
+#### 2.4.3. Isolate
+
+尽管 Dart 是基于单线程模型的，但为了进一步利用多核 CPU，将 CPU 密集型运算进行隔离，Dart 也提供了多线程机制，即 Isolate。在 Isolate 中，资源隔离做得非常好，每个 Isolate 都有自己的 Event Loop 与 Queue，Isolate 之间不共享任何资源，只能依靠消息机制通信，因此也就没有资源抢占问题。  
+
+```dart
+doSth(msg) => print(msg);
+
+main() {
+  Isolate.spawn(doSth, "Hi");
+  ...
+}
+```
+
+在 Isolate 中，发送管道是单向的：启动了一个 Isolate 执行某项任务，Isolate 执行完毕后，发送消息告知我们。如果 Isolate 执行任务时，需要依赖主 Isolate 给它发送参数，执行完毕后再发送执行结果给主 Isolate，这样双向通信的场景我们如何实现呢？答案也很简单，让并发 Isolate 也回传一个发送管道即可。
+
+以一个并发计算阶乘的例子来说明如何实现双向通信。
+
+```dart
+//并发计算阶乘
+Future<dynamic> asyncFactoriali(n) async{
+  final response = ReceivePort();//创建管道
+  //创建并发Isolate，并传入管道
+  await Isolate.spawn(_isolate,response.sendPort);
+  //等待Isolate回传管道
+  final sendPort = await response.first as SendPort;
+  //创建了另一个管道answer
+  final answer = ReceivePort();
+  //往Isolate回传的管道中发送参数，同时传入answer管道
+  sendPort.send([n,answer.sendPort]);
+  return answer.first;//等待Isolate通过answer管道回传执行结果
+}
+
+//Isolate函数体，参数是主Isolate传入的管道
+_isolate(initialReplyTo) async {
+  final port = ReceivePort();//创建管道
+  initialReplyTo.send(port.sendPort);//往主Isolate回传管道
+  final message = await port.first as List;//等待主Isolate发送消息(参数和回传结果的管道)
+  final data = message[0] as int;//参数
+  final send = message[1] as SendPort;//回传结果的管道 
+  send.send(syncFactorial(data));//调用同步计算阶乘的函数回传结果
+}
+
+//同步计算阶乘
+int syncFactorial(n) => n < 2 ? n : n * syncFactorial(n-1);
+main() async => print(await asyncFactoriali(4));//等待并发计算阶乘结果
+```
+
+Flutter 提供了支持并发计算的 compute 函数，其内部对 Isolate 的创建和双向通信进行了封装抽象，屏蔽了很多底层细节，我们在调用时只需要传入函数入口和函数参数，就能够实现并发计算和消息通知。
+
+```dart
+//同步计算阶乘
+int syncFactorial(n) => n < 2 ? n : n * syncFactorial(n-1);
+//使用compute函数封装Isolate的创建和结果的返回
+main() async => print(await compute(syncFactorial, 4));
+```
+
+> 使用场景
+
+方法执行在几毫秒或十几毫秒左右的，应使用Future
+如果一个任务需要几百毫秒或之上的，则建议compute（只有一次返回）或Isolate（用于订阅或有多次返回的）
+### 2.5. Hot Reload原理
+
+Flutter 的热重载是基于 JIT 编译模式的代码增量同步。JIT 属于动态编译，将 Dart 代码编译成生成中间代码，让 Dart VM 在运行时解释执行，因此可以动态更新中间代码实现增量同步。
+在收到代码变更后，并不会让 App 重新启动执行，而只会触发 Widget 树的重新绘制，因此可以保持改动前的状态，这就大大节省了调试复杂交互界面的时间。
+
+![gc](./readmeImages/hotreload.jpeg)
+
+总体来说，热重载的流程可以分为扫描工程改动、增量编译、推送更新、代码合并、Widget 重建 5 个步骤：
+
+1. 工程改动。热重载模块会逐一扫描工程中的文件，检查是否有新增、删除或者改动，直到找到在上次编译之后，发生变化的 Dart 代码。
+2. 增量编译。热重载模块会将发生变化的 Dart 代码，通过编译转化为增量的 Dart Kernel 文件。
+3. 推送更新。热重载模块将增量的 Dart Kernel 文件通过 HTTP 端口，发送给正在移动设备上运行的 Dart VM。
+4. 代码合并。Dart VM 会将收到的增量 Dart Kernel 文件，与原有的 Dart Kernel 文件进行合并，然后重新加载新的 Dart Kernel 文件。
+5. Widget 重建。在确认 Dart VM 资源加载成功后，Flutter 会将其 UI 线程重置，通知 Flutter Framework 重建 Widget。
+
+> 不支持热重载的场景
+
+1. 代码出现编译错误；
+
+2. Widget 状态无法兼容: 比如将某个类的定义从 StatelessWidget 改为 StatefulWidget 时，热重载就会直接报错；
+
+3. 全局变量和静态属性的更改: 全局变量和静态属性都被视为状态，在第一次运行应用程序时，会将它们的值设为初始化语句的执行结果，因此在热重载期间不会重新初始化；
+
+4. main 方法里的更改: 由于热重载之后只会根据原来的根节点重新创建控件树，因此 main 函数的任何改动并不会在热重载后重新执行；
+
+5. initState 方法里的更改: initState 方法是 Widget 状态的初始化方法，这个方法里的更改会与状态保存发生冲突，因此热重载后不会产生效果。；
+
+6. 枚举和泛类型更改: 枚举和泛型也被视为状态，因此对它们的修改也不支持热重载。
+
 ## 3. 生成应用
 
-### 3.1. 方法
+### 3.1. 生成应用方法
 
 1. 命令行生成应用
 
@@ -406,15 +479,15 @@ flutter create myapp
 + 指定放置项目的位置，然后按蓝色的确定按钮
 + 等待项目创建继续，并显示main.dart文件
 
-#### 工程结构
+#### 3.1.1. 工程结构
 
 ![flutter知识体系](./readmeImages/flutter-structure.png)
 
 除了 Flutter 本身的代码、资源、依赖和配置之外，Flutter 工程还包含了 Android 和 iOS 的工程目录。这也不难理解，因为 Flutter 虽然是跨平台开发方案，但却需要一个容器最终运行到 Android 和 iOS 平台上，所以 Flutter 工程实际上就是一个同时内嵌了 Android 和 iOS 原生子工程的父工程：我们在 lib 目录下进行 Flutter 代码的开发，而某些特殊场景下的原生功能，则在对应的 Android 和 iOS 工程中提供相应的代码实现，供对应的 Flutter 代码引用。Flutter 会将相关的依赖和构建产物注入这两个子工程，最终集成到各自的项目中。而我们开发的 Flutter 代码，最终则会以原生工程的形式运行。
 
-#### 工程代码
+#### 3.1.2. 工程代码
 
-#### 3.1.1 应用入口、应用结构以及页面结构，可以帮助你理解构建 Flutter 程序的基本结构和套路；
+> 应用入口、应用结构以及页面结构
 
 1. 导入包。
 
@@ -461,7 +534,7 @@ class MyApp extends StatelessWidget {
 
 + MaterialApp 类是对构建 material 设计风格应用的组件封装框架，里面还有很多可配置的属性，比如应用主题、应用名称、语言标识符、组件路由等。但是，这些配置属性并不是本次分享的重点，如果你感兴趣的话，可以参考 Flutter 官方的API 文档，来了解 MaterialApp 框架的其他配置能力。
 
-#### 3.1.2 应用结构
+#### 3.1.3. 应用结构
 
 ![flutter代码流出示意图](./readmeImages/flutter-flow.png)
 
@@ -590,7 +663,37 @@ class MyAnimationWidget extends AnimatedWidget{
 
 ### 3.2. 路由管理
 
-flutter中的路由管理和原生开发类似，无论是Android还是iOS，导航管理都会维护一个路由栈，路由入栈(push)操作对应打开一个新页面，路由出栈(pop)操作对应页面关闭操作  
+在 Flutter 中，页面之间的跳转是通过 Route 和 Navigator 来管理的：
+
+- Route 是页面的抽象，主要负责创建对应的界面，接收参数，响应 Navigator 打开和关闭；
+- 而 Navigator 则会维护一个路由栈管理 Route，Route 打开即入栈，Route 关闭即出栈，还可以直接替换栈内的某一个 Route。
+
+调用 Navigator.push 方法将新页面压到堆栈的顶部。  
+返回上一个页面，则需要调用 Navigator.pop 方法从堆栈中删除这个页面。  
+
+下面的代码演示了基本路由的使用方法：在第一个页面的按钮事件中打开第二个页面，并在第二个页面的按钮事件中回退到第一个页面：
+
+```dart
+class FirstScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      //打开页面
+      onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      // 回退页面
+      onPressed: ()=> Navigator.pop(context)
+    );
+  }
+}
+```
 
 ### 3.3. 包管理
 
@@ -733,7 +836,7 @@ flutter:
 
 可以通过AssetBundle对象访问其asset 。有两种主要方法允许从Asset bundle中加载字符串或图片（二进制）文件。
 
-##### 加载文本assets
+> 加载文本assets
 
 - 通过rootBundle 对象加载：每个Flutter应用程序都有一个rootBundle对象， 通过它可以轻松访问主资源包，直接使用package:flutter/services.dart中全局静态的rootBundle对象来加载asset即可。  
 
@@ -754,7 +857,7 @@ Future<String> loadAsset() async {
 
 类似于原生开发，Flutter也可以为当前设备加载适合其分辨率的图像。  
 
-##### 声明分辨率相关的图片 assets
+> 声明分辨率相关的图片 assets
 
 AssetImage 可以将asset的请求逻辑映射到最接近当前设备像素比例（dpi）的asset。为了使这种映射起作用，必须根据特定的目录结构来保存asset：  
 
@@ -776,7 +879,7 @@ AssetImage 可以将asset的请求逻辑映射到最接近当前设备像素比�
 
 pubspec.yaml中asset部分中的每一项都应与实际文件相对应，但主资源项除外。当主资源缺少某个资源时，会按分辨率从低到高的顺序去选择 ，也就是说1x中没有的话会在2x中找，2x中还没有的话就在3x中找。  
 
-##### 加载图片
+> 加载图片
 
 要加载图片，可以使用 AssetImage类。例如，我们可以从上面的asset声明中加载背景图片：
 
@@ -802,7 +905,7 @@ Widget build(BuildContext context) {
 
 使用默认的 asset bundle 加载资源时，内部会自动处理分辨率等，这些处理对开发者来说是无感知的。 (如果使用一些更低级别的类，如 ImageStream或 ImageCache 时你会注意到有与缩放相关的参数)
 
-##### 依赖包中的资源图片
+> 依赖包中的资源图片
 
 要加载依赖包中的图像，必须给AssetImage提供package参数。  
 
@@ -827,7 +930,7 @@ new Image.asset('icons/heart.png', package: 'my_icons')
 
 > 注意：包在使用本身的资源时也应该加上package参数来获取。
 
-##### 打包包中的 assets
+> 打包包中的 assets
 
 如果在pubspec.yaml文件中声明了期望的资源，它将会打包到相应的package中。特别是，包本身使用的资源必须在pubspec.yaml中指定。  
 
@@ -851,7 +954,7 @@ lib/是隐含的，所以它不应该包含在资产路径中。
 
 上面的资源都是flutter应用中的，这些资源只有在Flutter框架运行之后才能使用，如果要给我们的应用设置APP图标或者添加启动图，那我们必须使用特定平台的assets。
 
-##### 设置APP图标  
+> 设置APP图标  
 
 更新Flutter应用程序启动图标的方式与在本机Android或iOS应用程序中更新启动图标的方式相同。  
 
@@ -1025,9 +1128,6 @@ WidgetsBinding.instance.addPersistentFrameCallback((_){
 });
 ```
 
-
-
-
 ## 5. 基础组件
 
 ### 5.1. Widget简介
@@ -1135,7 +1235,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-##### Context
+> Context
 
 build方法有一个context参数，它是BuildContext类的一个实例，表示当前widget在widget树中的上下文，每一个widget都会对应一个context对象（因为每一个widget都是widget树上的一个节点）。实际上，context是当前widget在widget树中位置中执行”相关操作“的一个句柄，比如它提供了从当前widget开始向上遍历widget树以及按照widget类型查找父级widget的方法。下面是在子树中获取父级widget的一个示例：
 
@@ -1296,7 +1396,7 @@ DefaultTextStyle(
 
 在Flutter中使用字体分两步完成。首先在pubspec.yaml中声明它们，以确保它们会打包到应用程序中。然后通过TextStyle属性使用字体。
 
-##### 在asset中声明
+##### 5.2.5.1. 在asset中声明
 
 要将字体文件打包到应用中，和使用其它资源一样，要先在pubspec.yaml中声明它。然后将字体文件复制到在pubspec.yaml中指定的位置。如：
 
@@ -1315,7 +1415,7 @@ flutter:
         - asset: assets/fonts/abrilfatface/AbrilFatface-Regular.ttf
 ```
 
-##### 使用字体
+##### 5.2.5.2. 使用字体
 
 ```dart
 // 声明文本样式
@@ -1330,7 +1430,7 @@ var buttonText = const Text(
 );
 ```
 
-##### Package中的字体
+##### 5.2.5.3. Package中的字体
 
 要使用Package中定义的字体，必须提供package参数。例如，假设上面的字体声明位于my_package包中。然后创建TextStyle的过程如下：
 
@@ -1381,7 +1481,7 @@ Material 组件库中提供了多种按钮组件如RaisedButton、FlatButton、O
 按下时都会有“水波动画”（又称“涟漪动画”，就是点击时按钮上会出现水波荡漾的动画）。   
 有一个onPressed属性来设置点击回调，当按钮按下时会执行该回调，如果不提供该回调则按钮会处于禁用状态，禁用状态不响应用户点击。  
 
-##### RaisedButton
+##### 5.3.1.1. RaisedButton
 
 RaisedButton 即"漂浮"按钮，它默认带有阴影和灰色背景。按下后，阴影会变大。
 
@@ -1392,7 +1492,7 @@ RaisedButton(
 );
 ```
 
-##### FlatButton
+##### 5.3.1.2. FlatButton
 
 即扁平按钮，默认背景透明并不带阴影。按下后，会有背景色.
 
@@ -1403,7 +1503,7 @@ FlatButton(
 )
 ```
 
-##### OutlineButton
+##### 5.3.1.3. OutlineButton
 
 默认有一个边框，不带阴影且背景透明。按下后，边框颜色会变亮、同时出现背景和阴影(较弱).
 
@@ -1414,7 +1514,7 @@ OutlineButton(
 )
 ```
 
-##### IconButton
+##### 5.3.1.4. IconButton
 
 是一个可点击的Icon，不包括文字，默认没有背景，点击后会出现背景.
 
@@ -1425,7 +1525,7 @@ IconButton(
 )
 ```
 
-##### 带图标的按钮
+##### 5.3.1.5. 带图标的按钮
 
 RaisedButton、FlatButton、OutlineButton都有一个icon 构造函数，通过它可以轻松创建带图标的按钮
 
@@ -1474,15 +1574,15 @@ const FlatButton({
 
 Flutter中，我们可以通过Image组件来加载并显示图片，Image的数据源可以是asset、文件、内存以及网络。
 
-##### ImageProvider
+> ImageProvider
 
 ImageProvider 是一个抽象类，主要定义了图片数据获取的接口load()，从不同的数据源获取图片需要实现不同的ImageProvider ，如AssetImage是实现了从Asset中加载图片的ImageProvider，而NetworkImage实现了从网络加载图片的ImageProvider。
 
-##### Image
+> Image
 
 Image widget有一个必选的image参数，它对应一个ImageProvider。下面我们分别演示一下如何从asset和网络加载图片。
 
-##### 从asset中加载图片
+> 从asset中加载图片
 
 1. 在工程根目录下创建一个images目录，并将图片avatar.png拷贝到该目录。
 
@@ -1529,7 +1629,7 @@ Image.network(
 )
 ```
 
-##### 参数
+> 参数
 
 Image在显示图片时定义了一系列参数，通过这些参数我们可以控制图片的显示外观、大小、混合效果等。我们看一下Image的主要参数：
 
@@ -1633,7 +1733,7 @@ Row(
 )
 ```
 
-##### 使用自定义字体图标
+> 使用自定义字体图标
 
 我们也可以使用自定义字体图标。iconfont.cn上有很多字体图标素材，我们可以选择自己需要的图标打包下载后，会生成一些不同格式的字体文件，在Flutter中，我们使用ttf格式即可。  
 
@@ -1722,7 +1822,7 @@ class _SwitchAndCheckBoxTestRouteState extends State<SwitchAndCheckBoxTestRoute>
 
 上面代码中，由于需要维护Switch和Checkbox的选中状态，所以SwitchAndCheckBoxTestRoute继承自StatefulWidget 。在其build方法中分别构建了一个Switch和Checkbox，初始状态都为选中状态，当用户点击时，会将状态置反，然后回调用setState()通知Flutter framework重新构建UI。
 
-###### 属性及外观
+> 属性及外观
 
 Switch和Checkbox属性比较简单，它们都有一个activeColor属性，用于设置激活态的颜色。至于大小，到目前为止，Checkbox的大小是固定的，无法自定义，而Switch只能定义宽度，高度也是固定的。值得一提的是Checkbox有一个属性tristate ，表示是否为三态，其默认值为false ，这时Checkbox有两种状态即“选中”和“不选中”，对应的value值为true和false 。如果tristate值为true时，value的值会增加一个状态null
 
@@ -1988,13 +2088,13 @@ class _FocusTestRouteState extends State<FocusTestRoute> {
 FocusNode继承自ChangeNotifier，通过FocusNode可以监听焦点的改变事件，如：  
 
 ```dart
-...
+
 // 创建 focusNode   
 FocusNode focusNode = new FocusNode();
-...
+
 // focusNode绑定输入框   
 TextField(focusNode: focusNode);
-...
+
 // 监听焦点变化    
 focusNode.addListener((){
    print(focusNode.hasFocus);
@@ -2235,7 +2335,7 @@ Expanded(
 
 Material 组件库中提供了两种进度指示器：LinearProgressIndicator和CircularProgressIndicator，它们都可以同时用于精确的进度指示和模糊的进度指示。精确进度通常用于任务进度可以计算和预估的情况，比如文件下载；而模糊进度则用户任务进度无法准确获得的情况，如下拉刷新，数据提交等。
 
-#### LinearProgressIndicator
+#### 5.7.1. LinearProgressIndicator
 
 LinearProgressIndicator是一个线性、条状的进度条，定义如下：
 
@@ -2270,7 +2370,7 @@ LinearProgressIndicator(
 
 第一个进度条在执行循环动画：蓝色条一直在移动，而第二个进度条是静止的，停在50%的位置。
 
-#### CircularProgressIndicator
+#### 5.7.2. CircularProgressIndicator
 
 CircularProgressIndicator是一个圆形进度条，定义如下：
 
@@ -2302,7 +2402,7 @@ CircularProgressIndicator(
 
 第一个进度条会执行旋转动画，而第二个进度条是静止的，它停在50%的位置
 
-#### 自定义尺寸
+#### 5.7.3. 自定义尺寸
 
 我们可以发现LinearProgressIndicator和CircularProgressIndicator，并没有提供设置圆形进度条尺寸的参数；如果我们希望LinearProgressIndicator的线细一些，或者希望CircularProgressIndicator的圆大一些该怎么做？  
 
@@ -2345,7 +2445,7 @@ SizedBox(
 ),
 ```
 
-#### 进度色动画
+#### 5.7.4. 进度色动画
 
 实现一个进度条在3秒内从灰色变成蓝色的动画：
 
@@ -2398,12 +2498,172 @@ class _ProgressRouteState extends State<ProgressRoute>
 }
 ```
 
-#### 自定义进度指示器样式
+#### 5.7.5. 自定义进度指示器样式
 
 定制进度指示器风格样式，可以通过CustomPainter Widget 来自定义绘制逻辑，实际上LinearProgressIndicator和CircularProgressIndicator也正是通过CustomPainter来实现外观绘制的。
 
+### 5.8. 动画
 
-## 6. 跨组件传递数据
+对动画系统而言，为了实现动画，它需要做三件事儿：
+
+1. 确定画面变化的规律；
+2. 根据这个规律，设定动画周期，启动动画；
+3. 定期获取当前动画的值，不断地微调、重绘画面。
+
+这三件事情对应到 Flutter 中，就是 Animation、AnimationController 与 Listener：
+
+1. Animation 是 Flutter 动画库中的核心类，会根据预定规则，在单位时间内持续输出动画的当前状态。Animation 知道当前动画的状态（比如，动画是否开始、停止、前进或者后退，以及动画的当前值），但却不知道这些状态究竟应用在哪个组件对象上。换句话说，Animation 仅仅是用来提供动画数据，而不负责动画的渲染。
+2. AnimationController 用于管理 Animation，可以用来设置动画的时长、启动动画、暂停动画、反转动画等。
+3. Listener 是 Animation 的回调函数，用来监听动画的进度变化，在这个回调函数中，根据动画的当前值重新渲染组件，实现动画的渲染。
+
+#### 5.8.1. AnimatedWidget
+
+在构建 Widget 时，AnimatedWidget 会将 Animation 的状态与其子 Widget 的视觉样式绑定。要使用 AnimatedWidget，需要一个继承自它的新类，并接收 Animation 对象作为其初始化参数。然后，在 build 方法中，读取出 Animation 对象的当前值，用作初始化 Widget 的样式。
+
+demo: 让大屏幕中间的 Flutter Logo 由小变大。
+
+```dart
+class WidgetAnimateWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _WidgetAnimateWidgetState();
+}
+
+class _WidgetAnimateWidgetState extends State<WidgetAnimateWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> animation;
+  @override
+  void initState() {
+    super.initState();
+    // 创建动画周期为1秒的AnimationController对象
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000));
+
+    final CurvedAnimation curve =
+        CurvedAnimation(parent: controller, curve: Curves.elasticOut);
+
+    // 创建从50到200线性变化的Animation对象
+    animation = Tween(begin: 50.0, end: 200.0).animate(curve);
+
+// 启动动画
+    controller.repeat(reverse: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            body: AnimatedLogo(
+      animation: animation,
+    )));
+  }
+
+  @override
+  void dispose() {
+    // 释放资源
+    controller.dispose();
+    super.dispose();
+  }
+}
+
+class AnimatedLogo extends AnimatedWidget {
+  AnimatedLogo({Key? key, required Animation<double> animation})
+      : super(key: key, listenable: animation);
+
+  Widget build(BuildContext context) {
+    final Animation<double> animation = listenable as Animation<double>;
+    return Center(
+      child: Container(
+        height: animation.value,
+        width: animation.value,
+        child: FlutterLogo(),
+      ),
+    );
+  }
+}
+
+```
+
+在创建 AnimationController 的时候，设置了一个 vsync 属性。这个属性是用来防止出现不可见动画的。vsync 对象会把动画绑定到一个 Widget，当 Widget 不显示时，动画将会暂停，当 Widget 再次显示时，动画会重新恢复执行，这样就可以避免动画的组件不在当前屏幕时白白消耗资源。
+
+Animation 只是用于提供动画数据，并不负责动画渲染，所以我们还需要在 Widget 的 build 方法中，把当前动画状态的值读出来，用于设置 Flutter Logo 容器的宽和高，才能最终实现动画效果：
+
+#### 5.8.2. AnimatedBuilder
+
+在 AnimatedLogo 的 build 方法中，使用 Animation 的 value 作为 logo 的宽和高。这样做对于简单组件的动画没有任何问题，但如果动画的组件比较复杂，一个更好的解决方案是，将动画和渲染职责分离：logo 作为外部参数传入，只做显示；而尺寸的变化动画则由另一个类去管理。这个分离工作，可以借助 AnimatedBuilder 来完成。
+
+AnimatedBuilder 也会自动监听 Animation 对象的变化，并根据需要将该控件树标记为 dirty 以自动刷新 UI。事实上， AnimatedBuilder 其实也是继承自 AnimatedWidget。
+
+```dart
+MaterialApp(
+  home: Scaffold(
+    body: Center(
+      child: AnimatedBuilder(
+        animation: animation,//传入动画对象
+        child:FlutterLogo(),
+        //动画构建回调
+        builder: (context, child) => Container(
+          width: animation.value,//使用动画的当前状态更新UI
+          height: animation.value,
+          child: child, //child参数即FlutterLogo()
+        )
+      )
+    )
+));
+```
+
+#### 5.8.3. hero 动画
+
+如何实现在两个页面之间切换的过渡动画呢？比如在社交类 App，在 Feed 流中点击小图进入查看大图页面的场景中，希望能够实现小图到大图页面逐步放大的动画切换效果，而当用户关闭大图时，也实现原路返回的动画。
+
+这样的跨页面共享的控件动画效果有一个专门的名词，即“共享元素变换”（Shared Element Transition）。  
+
+通过 Hero，可以在两个页面的共享元素之间，做出流畅的页面切换效果。  
+
+demo: 定义了两个页面，其中 page1 有一个位于底部的小 Flutter Logo，page2 有一个位于中部的大 Flutter Logo。在点击了 page1 的小 logo 后，会使用 hero 效果过渡到 page2。
+
+```dart
+class Page1 extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Page1'),
+        ),
+        body: GestureDetector(
+          child: Row(
+            children: <Widget>[
+              Hero(
+                  tag: 'hero',
+                  child:
+                      Container(width: 100, height: 100, child: FlutterLogo())),
+              Text('点击Logo查看Hero效果')
+            ],
+          ),
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => Page2()));
+          },
+        ));
+  }
+}
+
+class Page2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Page2'),
+        ),
+        body: Hero(
+            tag: 'hero',
+            child: Container(width: 300, height: 300, child: FlutterLogo())));
+  }
+}
+
+```
+
+
+## 6. 组件通信
 
 在 Flutter 中实现跨组件数据传递的标准方式是通过属性传值。  
 
@@ -2469,19 +2729,391 @@ class Counter extends StatelessWidget {
 }
 ```
 
-
-
-
-
-
-
 ### 6.2. Notification
+
+Notification 是 Flutter 中进行跨层数据共享的另一个重要的机制。如果说 InheritedWidget 的数据流动方式是从父 Widget 到子 Widget 逐层传递，那 Notificaiton 则恰恰相反，数据流动方式是从子 Widget 向上传递至父 Widget。这样的数据传递机制适用于子 Widget 状态变更，发送通知上报的场景。
+
+在下面的代码中，自定义了一个通知和子 Widget。子 Widget 是一个按钮，在点击时会发送通知：
+
+```dart
+class CustomNotification extends Notification {
+  CustomNotification(this.msg);
+  final String msg;
+}
+
+//抽离出一个子Widget用来发通知
+class CustomChild extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      //按钮点击时分发通知
+      onPressed: () => CustomNotification("Hi").dispatch(context),
+      child: Text("Fire Notification"),
+    );
+  }
+}
+```
+
+在子 Widget 的父 Widget 中，监听了这个通知，一旦收到通知，就会触发界面刷新，展示收到的通知信息：
+
+```dart
+class _MyHomePageState extends State<MyHomePage> {
+  String _msg = "通知：";
+  @override
+  Widget build(BuildContext context) {
+    //监听通知
+    return NotificationListener<CustomNotification>(
+        onNotification: (notification) {
+          setState(() {_msg += notification.msg+"  ";});//收到子Widget通知，更新msg
+        },
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[Text(_msg),CustomChild()],//将子Widget加入到视图树中
+        )
+    );
+  }
+}
+```
 
 ### 6.3. EventBus
 
+无论是 InheritedWidget 还是 Notificaiton，它们的使用场景都需要依靠 Widget 树，也就意味着只能在有父子关系的 Widget 之间进行数据共享。但是，组件间数据传递还有一种常见场景：这些组件间不存在父子关系。这时，事件总线 EventBus 就登场了。
+
+遵循发布 / 订阅模式，允许订阅者订阅事件，当发布者触发事件时，订阅者和发布者之间可以通过事件进行交互。发布者和订阅者之间无需有父子关系，甚至非 Widget 对象也可以发布 / 订阅。这些特点与其他平台的事件总线机制是类似的。  
+
+EventBus 是一个第三方插件，需要在 pubspec.yaml 文件中声明它：  
+
+```yaml
+dependencies:  
+  event_bus: 1.1.0
+```
+
+EventBus 的使用方式灵活，可以支持任意对象的传递。
+
+传输数据的载体就选择了一个有字符串属性的自定义事件类 CustomEvent：
+
+```dart
+class CustomEvent {
+  String msg;
+  CustomEvent(this.msg);
+}
+```
+
+定义了一个全局的 eventBus 对象，并在第一个页面监听了 CustomEvent 事件，一旦收到事件，就会刷新 UI。需要注意的是，千万别忘了在 State 被销毁时清理掉事件注册，否则会发现 State 永远被 EventBus 持有着，无法释放，从而造成内存泄漏：
+
+```dart
+//建立公共的event bus
+EventBus eventBus = new EventBus();
+//第一个页面
+class _FirstScreenState extends  State<FirstScreen>  {
+
+  String msg = "通知：";
+  StreamSubscription subscription;
+  @override
+  initState() {
+   //监听CustomEvent事件，刷新UI
+    subscription = eventBus.on<CustomEvent>().listen((event) {
+      setState(() {msg+= event.msg;});//更新msg
+    });
+    super.initState();
+  }
+  dispose() {
+    subscription.cancel();//State销毁时，清理注册
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body:Text(msg),
+      ...
+    );
+  }
+}
+```
+
+在第二个页面以按钮点击回调的方式，触发了 CustomEvent 事件：
+
+```dart
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      ...
+      body: RaisedButton(
+          child: Text('Fire Event'),
+          // 触发CustomEvent事件
+          onPressed: ()=> eventBus.fire(CustomEvent("hello"))
+      ),
+    );
+  }
+}
+```
+
+### 6.4. fish-redux
+
+
+
+
 ## 7. 定制不同风格的App主题
 
+主题，又叫皮肤、配色，一般由颜色、图片、字号、字体等组成，可以把它看做是视觉效果在不同场景下的可视资源，以及相应的配置集合。比如，App 的按钮，无论在什么场景下都需要背景图片资源、字体颜色、字号大小等，而所谓的主题切换只是在不同主题之间更新这些资源及配置集合而已。  
+
+视觉效果是易变的，将这些变化的部分抽离出来，把提供不同视觉效果的资源和配置按照主题进行归类，整合到一个统一的中间层去管理，这样就能实现主题的管理和切换了。
+
+在 iOS 中，我们通常会将主题的配置信息预先写到 plist 文件中，通过一个单例来控制 App 应该使用哪种配置；而 Android 的配置信息则写入各个 style 属性值的 xml 中，通过 activity 的 setTheme 进行切换；前端的处理方式也类似，简单更换 css 就可以实现多套主题 / 配色之间的切换。  
+
+Flutter 也提供了类似的能力，由 ThemeData 来统一管理主题的配置信息。  
+
+ThemeData 涵盖了 Material Design 规范的可自定义部分样式，比如应用明暗模式 brightness、应用主色调 primaryColor、应用次级色调 accentColor、文本字体 fontFamily、输入框光标颜色 cursorColor 等。如果你想深入了解 ThemeData 的其他 API 参数，可以参考官方文档ThemeData: https://api.flutter.dev/flutter/material/ThemeData/ThemeData.html。
+
+### 7.1. 全局统一的视觉风格定制
+
+在这段代码中，设置了 App 的明暗模式 brightness 为暗色、主色调为青色：
+
+```dart
+MaterialApp(
+  title: 'Flutter Demo',//标题
+  theme: ThemeData(//设置主题
+      brightness: Brightness.dark,//明暗模式为暗色
+      primaryColor: Colors.cyan,//主色调为青色
+  ),
+  home: MyHomePage(title: 'Flutter Demo Home Page'),
+);
+```
+
+虽然只修改了主色调和明暗模式两个参数，但按钮、文字颜色都随之调整了。这是因为默认情况下，ThemeData 中很多其他次级视觉属性，都会受到主色调与明暗模式的影响。如果想要精确控制它们的展示样式，需要再细化一下主题配置。
+
+将 icon 的颜色调整为黄色，文字颜色调整为红色，按钮颜色调整为黑色：
+
+```dart
+MaterialApp(
+  title: 'Flutter Demo',//标题
+  theme: ThemeData(//设置主题
+      brightness: Brightness.dark,//设置明暗模式为暗色
+      accentColor: Colors.black,//(按钮）Widget前景色为黑色
+      primaryColor: Colors.cyan,//主色调为青色
+      iconTheme:IconThemeData(color: Colors.yellow),//设置icon主题色为黄色
+      textTheme: TextTheme(body1: TextStyle(color: Colors.red))//设置文本颜色为红色
+  ),
+  home: MyHomePage(title: 'Flutter Demo Home Page'),
+);
+```
+
+### 7.2. 局部独立的视觉风格定制
+
+使用 Theme 来对 App 的主题进行局部覆盖。Theme 是一个单子 Widget 容器，与 MaterialApp 类似的，可以通过设置其 data 属性，对其子 Widget 进行样式定制：
+
+- 不想继承任何 App 全局的颜色或字体样式，可以直接新建一个 ThemeData 实例，依次设置对应的样式；
+- 如果不想在局部重写所有的样式，则可以继承 App 的主题，使用 copyWith 方法，只更新部分样式。
+
+```dart
+// 新建主题
+Theme(
+    data: ThemeData(iconTheme: IconThemeData(color: Colors.red)),
+    child: Icon(Icons.favorite)
+);
+
+// 继承主题
+Theme(
+    data: Theme.of(context).copyWith(iconTheme: IconThemeData(color: Colors.green)),
+    child: Icon(Icons.feedback)
+);
+```
+
+### 7.3. 分平台主题定制
+
+可以根据 defaultTargetPlatform 来判断当前应用所运行的平台，从而根据系统类型来设置对应的主题。  
+
+为 iOS 与 Android 分别创建了两个主题。在 MaterialApp 的初始化方法中，根据平台类型，设置了不同的主题：
+
+```dart
+// iOS浅色主题
+final ThemeData kIOSTheme = ThemeData(
+    brightness: Brightness.light,//亮色主题
+    accentColor: Colors.white,//(按钮)Widget前景色为白色
+    primaryColor: Colors.blue,//主题色为蓝色
+    iconTheme:IconThemeData(color: Colors.grey),//icon主题为灰色
+    textTheme: TextTheme(body1: TextStyle(color: Colors.black))//文本主题为黑色
+);
+// Android深色主题
+final ThemeData kAndroidTheme = ThemeData(
+    brightness: Brightness.dark,//深色主题
+    accentColor: Colors.black,//(按钮)Widget前景色为黑色
+    primaryColor: Colors.cyan,//主题色Wie青色
+    iconTheme:IconThemeData(color: Colors.blue),//icon主题色为蓝色
+    textTheme: TextTheme(body1: TextStyle(color: Colors.red))//文本主题色为红色
+);
+// 应用初始化
+MaterialApp(
+  title: 'Flutter Demo',
+  theme: defaultTargetPlatform == TargetPlatform.iOS ? kIOSTheme : kAndroidTheme,//根据平台选择不同主题
+  home: MyHomePage(title: 'Flutter Demo Home Page'),
+);
+```
+
 ## 8. 本地存储与数据库的使用
+
+### 8.1. 文件
+
+Flutter 提供了两种文件存储的目录，即临时（Temporary）目录与文档（Documents）目录：
+
+- 临时目录是操作系统可以随时清除的目录，通常被用来存放一些不重要的临时缓存数据。这个目录在 iOS 上对应着 NSTemporaryDirectory 返回的值，而在 Android 上则对应着 getCacheDir 返回的值。
+- 文档目录则是只有在删除应用程序时才会被清除的目录，通常被用来存放应用产生的重要数据文件。在 iOS 上，这个目录对应着 NSDocumentDirectory，而在 Android 上则对应着 AppData 目录。
+
+分别声明了三个函数，即创建文件目录函数、写文件函数与读文件函数。这里需要注意的是，由于文件读写是非常耗时的操作，所以这些操作都需要在异步环境下进行。另外，为了防止文件读取过程中出现异常，也需要在外层包上 try-catch：
+
+```dart
+//创建文件目录
+Future<File> get _localFile async {
+  final directory = await getApplicationDocumentsDirectory();
+  final path = directory.path;
+  return File('$path/content.txt');
+}
+//将字符串写入文件
+Future<File> writeContent(String content) async {
+  final file = await _localFile;
+  return file.writeAsString(content);
+}
+//从文件读出字符串
+Future<String> readContent() async {
+  try {
+    final file = await _localFile;
+    String contents = await file.readAsString();
+    return contents;
+  } catch (e) {
+    return "";
+  }
+}
+```
+
+有了文件读写函数，就可以在代码中对 content.txt 这个文件进行读写操作了。在下面的代码中，往这个文件写入了一段字符串后，隔了一会又把它读了出来：
+
+```dart
+writeContent("Hello World!");
+...
+readContent().then((value)=>print(value));
+```
+
+除了字符串读写之外，Flutter 还提供了二进制流的读写能力，可以支持图片、压缩包等二进制文件的读写。官方文档：https://api.flutter.dev/flutter/dart-io/File-class.html
+
+### 8.2. SharedPreferences
+
+文件比较适合大量的、有序的数据持久化，如果只是需要缓存少量的键值对信息（比如记录用户是否阅读了公告，或是简单的计数），则可以使用 SharedPreferences。
+
+SharedPreferences 会以原生平台相关的机制，为简单的键值对数据提供持久化存储，即在 iOS 上使用 NSUserDefaults，在 Android 使用 SharedPreferences。
+
+setter（setInt）方法会同步更新内存中的键值对，然后将数据保存至磁盘，因此无需再调用更新方法强制刷新缓存。同样地，由于涉及到耗时的文件读写，因此必须以异步的方式对这些操作进行包装：
+
+```dart
+//读取SharedPreferences中key为counter的值
+Future<int>_loadCounter() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int  counter = (prefs.getInt('counter') ?? 0);
+  return counter;
+}
+
+//递增写入SharedPreferences中key为counter的值
+Future<void>_incrementCounter() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+    int counter = (prefs.getInt('counter') ?? 0) + 1;
+    prefs.setInt('counter', counter);
+}
+```
+
+注意的是，以键值对的方式只能存储基本类型的数据，比如 int、double、bool 和 string。
+
+
+### 8.3. 数据库
+
+如果需要持久化大量格式化后的数据，并且这些数据还会以较高的频率更新，为了考虑进一步的扩展性，通常会选用 [sqlite 数据库](https://pub.dev/documentation/sqflite/latest/)来应对这样的场景。与文件和 SharedPreferences 相比，数据库在数据读写上可以提供更快、更灵活的解决方案。
+
+```dart
+class Student{
+  String id;
+  String name;
+  int score;
+  //构造方法
+  Student({this.id, this.name, this.score,});
+  //用于将JSON字典转换成类对象的工厂类方法
+  factory Student.fromJson(Map<String, dynamic> parsedJson){
+    return Student(
+      id: parsedJson['id'],
+      name : parsedJson['name'],
+      score : parsedJson ['score'],
+    );
+  }
+}
+```
+
+JSON 类拥有一个可以将 JSON 字典转换成类对象的工厂类方法，也可以提供将类对象反过来转换成 JSON 字典的实例方法。因为最终存入数据库的并不是实体类对象，而是字符串、整型等基本类型组成的字典，所以可以通过这两个方法，实现数据库的读写。同时，分别定义了 3 个 Student 对象，用于后续插入数据库：
+
+```dart
+class Student{
+  ...
+  //将类对象转换成JSON字典，方便插入数据库
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'name': name, 'score': score,};
+  }
+}
+
+var student1 = Student(id: '123', name: '张三', score: 90);
+var student2 = Student(id: '456', name: '李四', score: 80);
+var student3 = Student(id: '789', name: '王五', score: 85);
+```
+
+有了实体类作为数据库存储的对象，接下来就需要创建数据库了。在下面的代码中，通过 openDatabase 函数，给定了一个数据库存储地址，并通过数据库表初始化语句，创建了一个用于存放 Student 对象的 students 表：
+
+```dart
+final Future<Database> database = openDatabase(
+  join(await getDatabasesPath(), 'students_database.db'),
+  onCreate: (db, version)=>db.execute("CREATE TABLE students(id TEXT PRIMARY KEY, name TEXT, score INTEGER)"),
+  onUpgrade: (db, oldVersion, newVersion){
+     //dosth for migration
+  },
+  version: 1,
+);
+```
+
+以上代码属于通用的数据库创建模板，有三个地方需要注意：
+
+1. 在设定数据库存储地址时，使用 join 方法对两段地址进行拼接。join 方法在拼接时会使用操作系统的路径分隔符，这样就无需关心路径分隔符究竟是“/”还是“\”了。
+2. 创建数据库时，传入了一个 version 1，在 onCreate 方法的回调里面也有一个 version。这两个 version 是相等的。
+3. 数据库只会创建一次，也就意味着 onCreate 方法在应用从安装到卸载的生命周期中只会执行一次。如果在版本升级过程中，想对数据库的存储字段进行改动又该如何处理呢？sqlite 提供了 onUpgrade 方法，可以根据这个方法传入的 oldVersion 和 newVersion 确定升级策略。其中，前者代表用户手机上的数据库版本，而后者代表当前版本的数据库版本。比如，应用有 1.0、1.1 和 1.2 三个版本，在 1.1 把数据库 version 升级到了 2。考虑到用户的升级顺序并不总是连续的，可能会直接从 1.0 升级到 1.2，因此可以在 onUpgrade 函数中，对数据库当前版本和用户手机上的数据库版本进行比较，制定数据库升级方案。
+
+数据库创建好了之后，接下来就可以把之前创建的 3 个 Student 对象插入到数据库中了。数据库的插入需要调用 insert 方法，在下面的代码中，将 Student 对象转换成了 JSON，在指定了插入冲突策略（如果同样的对象被插入两次，则后者替换前者）和目标数据库表后，完成了 Student 对象的插入：
+
+```dart
+Future<void> insertStudent(Student std) async {
+  final Database db = await database;
+  await db.insert(
+    'students',
+    std.toJson(),
+    //插入冲突策略，新的替换旧的
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
+//插入3个Student对象
+await insertStudent(student1);
+await insertStudent(student2);
+await insertStudent(student3);
+```
+
+就可以调用 query 方法把它们取出来了。需要注意的是，写入的时候是一个接一个地有序插入，读的时候则采用批量读的方式（当然也可以指定查询规则读特定对象）。读出来的数据是一个 JSON 字典数组，因此我们还需要把它转换成 Student 数组。最后，别忘了把数据库资源释放掉：
+
+```dart
+Future<List<Student>> students() async {
+  final Database db = await database;
+  final List<Map<String, dynamic>> maps = await db.query('students');
+  return List.generate(maps.length, (i)=>Student.fromJson(maps[i]));
+}
+
+//读取出数据库中插入的Student对象集合
+students().then((list)=>list.forEach((s)=>print(s.name)));
+//释放数据库资源
+final Database db = await database;
+db.close();
+```
 
 ## 9. http 请求
 
@@ -2761,6 +3393,26 @@ cd flutterwebapp
 
 构建命令：flutter build web  
 
+### 11.1. web-renderers 
+
+官方文档：https://flutter.dev/docs/development/tools/web-renderers  
+
+--web-renderer 可选参数值为 auto、html 或 canvaskit。
+
+1. auto（默认）- 自动选择渲染器。移动端浏览器选择 HTML，桌面端浏览器选择 CanvasKit。
+
+2. html - 强制使用 HTML 渲染器。
+
+3. canvaskit - 强制使用 CanvasKit 渲染器。
+
+此选项适用于 run 和 build 命令。例如：
+
+```text
+flutter run -d chrome --web-renderer html
+flutter build web --web-renderer canvaskit
+```
+
+
 ## 12. flutter desktop
 
 ### 12.1. macOS
@@ -2831,7 +3483,46 @@ open macos/Runner.xcworkspace
 
 文档：https://flutter.dev/docs/testing/debugging
 
-### 13.1. 调试工具
+### 13.1. 测量应用启动时间
+
+使用分析模式运行应用的方法：
+
+在 Android Studio 和 IntelliJ 使用 Run > Flutter Run main.dart in Profile Mode 选项
+
+在 VS Code 中，打开 launch.json 文件，设置 flutterMode 属性为 profile（当分析完成后，改回 release 或者 debug）：
+
+```json
+"configurations": [
+  {
+    "name": "Flutter",
+    "request": "launch",
+    "type": "dart",
+    "flutterMode": "profile"
+  }
+]
+```
+
+```text
+flutter run --trace-startup --profile
+```
+
+
+输出列出了从应用程序启动到这些跟踪事件（以微秒捕获）所用的时间：
+
+- 进入 Flutter 引擎时
+- 展示应用第一帧时
+- 初始化Flutter框架时
+- 完成Flutter框架初始化时
+
+```text
+{
+  "engineEnterTimestampMicros": 96025565262,
+  "timeToFirstFrameMicros": 2171978,
+  "timeToFrameworkInitMicros": 514585,
+  "timeAfterFrameworkInitMicros": 1657393
+}
+```
+
 
 ### 13.2. 以编程方式调试应用
 
@@ -2839,6 +3530,18 @@ open macos/Runner.xcworkspace
 
 #### 13.2.1. 日志输出
 
+使用 dart:developer 中的 log() 方法。通过这种方式，可以在输出日志中包含更精细化的信息。示例：
+
+```dart
+import 'dart:developer' as developer;
+
+void main() {
+  developer.log('log me', name: 'my.app.category');
+
+  developer.log('log me 1', name: 'my.other.category');
+  developer.log('log me 2', name: 'my.other.category');
+}
+```
 
 #### 13.2.2. 设置断点
 
@@ -2857,7 +3560,7 @@ void someFunction(double offset) {
 
 ##### 13.2.3.1. Widget 树
 
-可以通过调用 debugDumpApp() 方法转储 widget 库的状态，如果应用已至少构建了一次，并且正处于调试模式时（runApp() 调用后的任何时间）。只要应用不在运行构建阶段，您可以调用随意该方法（也就是说，不能在 build() 方法中使用它）。  
+可以通过调用 debugDumpApp() 方法转储 widget 库的状态，如果应用已至少构建了一次，并且正处于调试模式时（runApp() 调用后的任何时间）。只要应用不在运行构建阶段，可以调用随意该方法（也就是说，不能在 build() 方法中使用它）。  
 
 ```dart
 import 'package:flutter/material.dart';
@@ -2887,7 +3590,9 @@ class AppHome extends StatelessWidget {
 }
 ```
 
-上面应用的输出内容如下
+上面应用的输出内容如下:
+
+这是一个「被拉平的树」，通过它们的各种 build 函数，显示出所有 widget 信息。
 
 ```text
 I/flutter ( 6559): WidgetsFlutterBinding - CHECKED MODE
@@ -2972,19 +3677,18 @@ I/flutter ( 6559):                                                              
 想要调用 debugDumpRenderTree() 方法，您需要在源码文件中添加 import 'package:flutter/rendering.dart';。
 
 
-```text
-
-```
-
-
-
 ##### 13.2.3.3. Layer 树
+
+可以使用 debugDumpLayerTree()
+
 ##### 13.2.3.4. Semantics 树
+
+使用 debugDumpSemanticsTree() 获得 Semantics 树（该树提供了系统的 accessibility API）的转储信息。想要使用它，首先必须启用 accessibility，例如，通过启用系统 accessibility 工具或 SemanticsDebugger。  
 ##### 13.2.3.5. Scheduling
 
+想要找到事件触发对应的开始或结束帧，可以将 debugPrintBeginFrameBanner 和 debugPrintEndFrameBanner 这两个布尔值切换为 true，在控制台中打印开始和结束帧的信息。
 
 ### 13.2.4. 调试标志：布局
-
 
 通过将 debugPaintSizeEnabled 设置为 true，您也可以可视地调试布局问题。该布尔值在 rendering 库中，可以在任何时候被启用，并且当其为 true 时，会影响界面上所有的绘制。最简单的方式是在程序顶部入口 void main()中设置它
 
@@ -3005,13 +3709,60 @@ debugPaintBaselinesEnabled][] 标志和它类似，但只针对于带有基线�
 
 ### 13.2.5. 调试动画
 
+调试动画最简单的方法是让它们变慢。 Flutter inspector 提供一个 放慢动画(Slow Animations) 的按钮，可以在 DevTools 的 Inspector view 通过 Slow Animations 按钮来实现动画慢放，这会使动画速度降低 5 倍。
+
 ### 13.2.6. 调试标志：性能
+
+> debugDumpRenderTree()  
+当不在布局或重新绘制阶段时，调用此函数将 render 树转储到控制台。（可以从 flutter run 按下 t 调用此命令。）通过搜索其中的「RepaintBoundary」可以查看关于边界的有用诊断信息。
+
+> debugRepaintRainbowEnabled  
+可以通过点击 Highlight Repaints 按钮，在 Flutter inspector 中启用此标志。如果任何静态 widget 在彩虹七颜色之间轮转（比如一个静态标题），那么这些区域就可能需要添加重新绘制边界进行优化。
+
+> debugPrintMarkNeedsLayoutStacks  
+如果您看到的布局比预期的要多（比如，在 timeline 、profile 或者一个布局方法中的 print 语句中)，可以启用这个标志。一旦启用，控制台将会充满堆栈跟踪，来显示在布局时每个渲染对象被标记为 dirty 的原因。如果有需要的话，可以使用 services 库中的 debugPrintStack() 方法按需打印出堆栈的跟踪信息。
+
+> debugPrintMarkNeedsPaintStacks  
+它和 debugPrintMarkNeedsLayoutStacks 类似，但用于多余的绘制。如果有需要的话，可以使用 services 库中的 debugPrintStack() 方法按需打印出堆栈的跟踪信息。
 
 #### 13.2.6.1. 跟踪 Dart 代码性能
 
+使用 DevTools 中的 Timeline view 来执行跟踪。  
 
-### 13.2.7. Widget 对齐网格
+想要以编程方式执行自定义性能跟踪和测量任意代码片段的 wall/CPU 时间，可以使用 dart:developer 包中的 Timeline 类提供的一些静态方法包裹您想测量的代码，比如:
 
+```dart
+import 'dart:developer';
+
+Timeline.startSync('interesting function');
+Timeline.finishSync();
+```
+
+### 13.2.7. 性能图层
+
+可以使用 Flutter inspector 中的 Performance Overlay 按钮，来切换显示的应用的性能图层。
+
+可以通过编程方式启用 PerformanceOverlay widget，在 MaterialApp、CupertinoApp或 WidgetsApp 构造函数中，将 showPerformanceOverlay 属性设置为 true 即可。
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      showPerformanceOverlay: true,
+      title: 'My Awesome App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'My Awesome App'),
+    );
+  }
+}
+```
+
+### 13.2.8. Widget 对齐网格
+
+可以通过编程的方式将 Material Design 基线网格 覆盖在应用的顶层来辅助对齐校验，通过使用 MaterialApp 构造函数 中的 debugShowMaterialGrid 参数进行设置。
 
 ## 14. 自动化测试
 
@@ -3196,6 +3947,12 @@ Future<void> _executeDownload(BuildContext context) async {
     return path;
   }
 ```
+
+## 16. 混合开发
+
+官方文档： https://flutter.dev/docs/development/add-to-app/ios/project-setup  
+
+https://flutter.dev/docs/development/add-to-app/android/project-setup  
 
 
 
