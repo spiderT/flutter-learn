@@ -1,0 +1,18 @@
+language: objective-c
+osx_image: xcode10.3
+
+xcode_workspace: iOSDemo.xcworkspace
+xcode_scheme: iOSDemo
+xcode_destination: platform=iOS Simulator,OS=12.4,name=iPhone X
+
+podfile: ./podfile
+
+before_install:
+- bundle install
+
+install:
+  - pod repo update
+  - pod install
+
+cache:
+  - cocoapods

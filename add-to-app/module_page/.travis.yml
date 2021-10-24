@@ -1,0 +1,69 @@
+matrix:
+  include:
+    - os: linux
+      language: android
+      dist: trusty
+      licenses:
+        - 'android-sdk-preview-license-.+'
+        - 'android-sdk-license-.+'
+        - 'google-gdk-license-.+'
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-28.0.3
+          - android-28
+          - sys-img-armeabi-v7a-google_apis-28
+          - extra-android-m2repository
+          - extra-google-m2repository
+          - extra-google-android-support
+      jdk: oraclejdk8
+      sudo: false
+      addons:
+        apt:
+          # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
+          sources:
+            - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
+          packages:
+            - libstdc++6
+            - fonts-droid
+      before_script:
+        - yes | sdkmanager --update
+      script:
+        - yes | flutter doctor --android-licenses
+        - flutter doctor && flutter -v build apk
+      deploy:
+        provider: releases
+        api_key: ${GITHUB_TOKEN}
+        file:
+          - .android/Flutter/build/outputs/aar/flutter-release.aar
+        skip_cleanup: true
+        on:
+          tags: true
+    - os: osx
+      language: objective-c
+      osx_image: xcode10.2
+      before_script:
+        - pod repo update
+      script:
+        - flutter doctor && flutter -v build ios --no-codesign
+      before_deploy:
+        - mkdir .ios/Outputs && mkdir .ios/Outputs/FlutterEngine
+        - cp FlutterEngine.podspec .ios/Outputs/
+        - cp -r .ios/Flutter/App.framework/ .ios/Outputs/FlutterEngine/App.framework/
+        - cp -r .ios/Flutter/engine/Flutter.framework/ .ios/Outputs/FlutterEngine/Flutter.framework/
+        - pushd .ios/Outputs && zip -r FlutterEngine.zip  ./ && popd
+      deploy:
+        provider: releases
+        api_key: ${GITHUB_TOKEN}
+        file:
+          - .ios/Outputs/FlutterEngine.zip
+        skip_cleanup: true
+        on:
+          tags: true
+before_install:
+    - git clone -b 'v1.5.4-hotfix.2' --depth 1 https://github.com/flutter/flutter.git
+    - export PATH="$PATH:`pwd`/flutter/bin"
+cache:
+  directories:
+    - $HOME/.pub-cache

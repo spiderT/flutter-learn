@@ -188,6 +188,8 @@ flutter run -d chrome
     - [14.2. UI 测试](#142-ui-测试)
   - [15. 自动更新](#15-自动更新)
   - [16. 混合开发](#16-混合开发)
+    - [16.1. Android 模块集成](#161-android-模块集成)
+    - [16.2. iOS 模块集成](#162-ios-模块集成)
 
 ## 1. 搭建Flutter开发环境
 
@@ -3951,16 +3953,84 @@ Future<void> _executeDownload(BuildContext context) async {
 ## 16. 混合开发
 
 官方文档： https://flutter.dev/docs/development/add-to-app/ios/project-setup  
-
 https://flutter.dev/docs/development/add-to-app/android/project-setup  
 
+使用 Flutter 从头开始写一个 App，是一件轻松惬意的事情。但，对于成熟产品来说，完全摒弃原有 App 的历史沉淀，而全面转向 Flutter 并不现实。用 Flutter 去统一 iOS/Android 技术栈，把它作为已有原生 App 的扩展能力，通过逐步试验有序推进从而提升终端开发效率，可能才是现阶段 Flutter 最具吸引力的地方。  
 
+有两个办法：  
+统一管理模式：将原生工程作为 Flutter 工程的子工程，由 Flutter 统一管理。  
+三端分离模式：将 Flutter 工程作为原生工程共用的子模块，维持原有的原生工程管理方式不变。  
 
+![add_app](./readmeImages/add_app.png)
 
+统一管理模式, 三端（Android、iOS、Flutter）代码耦合严重，相关工具链耗时也随之大幅增长，导致开发效率降低。
 
+三端代码分离模式, 除了可以轻量级接入，把 Flutter 模块作为原生工程的子模块，还可以快速实现 Flutter 功能的“热插拔”，降低原生工程的改造成本。
 
+三端工程分离模式的关键是抽离 Flutter 工程，将不同平台的构建产物依照标准组件化的形式进行管理，即 Android 使用 aar、iOS 使用 pod。将 Flutter 模块打包成 aar 和 pod，这样原生工程就可以像引用其他第三方原生组件库那样快速接入 Flutter 了。
 
+原生工程对 Flutter 的依赖主要分为两部分：  
+Flutter 库和引擎，也就是 Flutter 的 Framework 库和引擎库；  
+Flutter 工程，也就是Flutter 模块功能，主要包括 Flutter 工程 lib 目录下的 Dart 代码实现的这部分功能。  
 
+在已经有原生工程的情况下，需要在同级目录创建 Flutter 模块，构建 iOS 和 Android 各自的 Flutter 依赖库。  
+
+```text
+flutter create -t module flutter_library
+```
+
+### 16.1. Android 模块集成
+
+对 Android 的 Flutter 依赖抽取步骤如下：
+
+首先在 Flutter_library 的根目录下，执行 aar 打包构建命令：flutter build apk –debug
+
+其次，打包构建的 flutter-debug.aar 位于.android/Flutter/build/outputs/aar/ 目录下，把它拷贝到原生 Android 工程 AndroidDemo 的 app/libs 目录下，并在 App 的打包配置 build.gradle 中添加对它的依赖:
+
+```gradle
+dependencies {
+     ...
+    implementation(name: 'flutter-debug', ext: 'aar’)
+    ...
+}
+```
+
+最后，改一下 MainActivity.java 的代码，把它的 contentView 改成 Flutter 的 widget：
+
+```java
+View FlutterView = Flutter.createView(this, getLifecycle(), “defaultRoute”);      
+setContentView(FlutterView)
+```
+
+### 16.2. iOS 模块集成
+
+首先在 Flutter_library 的根目录下，执行 iOS 打包构建命令：flutter build ios –debug
+
+其次，在 iOSDemo 的根目录下创建一个名为 FlutterEngine 的目录，并把这两个 framework 文件拷贝进去。把这两个产物手动封装成 pod。还需要在该目录下创建 FlutterEngine.podspec，即 Flutter 模块的组件定义：
+
+```podspec
+Pod::Spec.new do |s| 
+s.name = 'FlutterEngine’ 
+s.version = '0.1.0’ 
+s.summary = 'XXXXXXX’
+s.description = <<-DESC
+```
+
+再修改 Podfile 文件把它集成到 iOSDemo 工程中：
+
+```text
+target 'iOSDemo' do
+    pod 'FlutterEngine', :path => './’
+end
+```
+
+最后，修改一下 AppDelegate.m 的代码，把 window 的 rootViewController 改成 FlutterViewController：
+
+```c
+FlutterViewController *vc = [[FlutterViewController alloc]init];
+[vc setInitialRoute:@"defaultRoute"]; 
+self.window.rootViewController = vc;
+```
 
 
 
