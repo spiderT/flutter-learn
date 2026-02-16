@@ -9,7 +9,7 @@ npm-debug.log
 *.log
 *.pyc
 *.swp
-.DS_Store
+.vscode
 .atom/
 .buildlog/
 .history
@@ -21,10 +21,6 @@ npm-debug.log
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/

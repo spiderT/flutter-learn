@@ -1,20 +1,21 @@
 # flutter-learn
 
-模仿微信，做了一个单机版的聊天，支持移动端，桌面端，以及web端和h5，通过MediaQuery做多端适配
+**Read this in other languages: [English](README.md) | [简体中文](README.zh-CN.md)**
 
-![登录图](./readmeImages/xiaoguo1.png)
-![列表图](./readmeImages/xiaoguo2.png)
-![聊天图](./readmeImages/xiaoguo3.png)
+Imitating WeChat, a standalone chat application has been developed, supporting mobile, desktop, web, and H5 platforms with multi-end adaptation via MediaQuery.
 
+![Login Page](./readmeImages/xiaoguo1.png)
+![Chat List Page](./readmeImages/xiaoguo2.png)
+![Chat Interface](./readmeImages/xiaoguo3.png)
 
-> websocket聊天
+> WebSocket Chat
 
 ```text
 cd server
 node index.js
 ```
 
-> 移动端, 启动方法  
+> Mobile Launch Method
 
 ```text
 cd flutterwebapp
@@ -23,9 +24,9 @@ open -a simulator
 flutter run
 ```
 
-> 桌面端应用，启动方法  
+> Desktop Application Launch Method
 
-配置环境
+Configure the environment:
 
 ```text
 flutter config --enable-<platform>-desktop
@@ -36,7 +37,7 @@ flutter config --enable-macos-desktop
 flutter config --enable-linux-desktop
 ```
 
-项目启动
+Launch the project:
 
 ```text
 cd flutterwebapp
@@ -47,15 +48,15 @@ flutter run -d macos
 flutter run -d linux
 ```
 
-> web chrome 启动方法
+> Web (Chrome) Launch Method
 
-配置环境
+Configure the environment:
 
 ```text
 flutter config --enable-web
 ```
 
-项目启动
+Launch the project:
 
 ```text
 cd flutterwebapp
@@ -64,282 +65,285 @@ flutter run -d chrome
 ```
 
 - [flutter-learn](#flutter-learn)
-  - [1. 搭建Flutter开发环境](#1-搭建flutter开发环境)
-  - [2. flutter 原理](#2-flutter-原理)
-    - [2.1 flutter 架构](#21-flutter-架构)
-    - [2.2 flutter 界面渲染过程](#22-flutter-界面渲染过程)
-    - [2.3. 垃圾回收机制](#23-垃圾回收机制)
-    - [2.4. flutter Event Loop](#24-flutter-event-loop)
-      - [2.4.1. Future](#241-future)
-      - [2.4.2. 异步函数](#242-异步函数)
-      - [2.4.3. Isolate](#243-isolate)
-    - [2.5. Hot Reload原理](#25-hot-reload原理)
-  - [3. 生成应用](#3-生成应用)
-    - [3.1. 生成应用方法](#31-生成应用方法)
-      - [3.1.1. 工程结构](#311-工程结构)
-      - [3.1.2. 工程代码](#312-工程代码)
-      - [3.1.3. 应用结构](#313-应用结构)
-    - [3.2. 路由管理](#32-路由管理)
-    - [3.3. 包管理](#33-包管理)
-      - [3.3.1. Pub仓库](#331-pub仓库)
-      - [3.3.2. 其它依赖方式](#332-其它依赖方式)
-    - [3.4. 资源管理](#34-资源管理)
-      - [3.4.1. 指定 assets](#341-指定-assets)
-      - [3.4.2. Asset 变体（variant）](#342-asset-变体variant)
-      - [3.4.3. 加载 assets](#343-加载-assets)
-      - [3.4.4. 加载图片](#344-加载图片)
-      - [3.4.5. 特定平台 assets](#345-特定平台-assets)
-  - [4. 生命周期](#4-生命周期)
-    - [4.1. State 生命周期](#41-state-生命周期)
-      - [4.1.1. 创建](#411-创建)
-      - [4.1.2. 更新](#412-更新)
-      - [4.1.3. 销毁](#413-销毁)
-    - [4.2. App 生命周期](#42-app-生命周期)
-      - [4.2.1. 生命周期回调](#421-生命周期回调)
-      - [4.4.2. 帧绘制回调](#442-帧绘制回调)
-  - [5. 基础组件](#5-基础组件)
-    - [5.1. Widget简介](#51-widget简介)
-      - [5.1.1. 概念](#511-概念)
-      - [5.1.2. Widget与Element](#512-widget与element)
-      - [5.1.3. Widget主要接口](#513-widget主要接口)
-      - [5.1.4. StatelessWidget](#514-statelesswidget)
-      - [5.1.5. StatefulWidget](#515-statefulwidget)
-    - [5.2. 文本及样式](#52-文本及样式)
-      - [5.2.1. Text](#521-text)
-      - [5.2.2. TextStyle](#522-textstyle)
-      - [5.2.3. TextSpan](#523-textspan)
-      - [5.2.4. DefaultTextStyle](#524-defaulttextstyle)
-      - [5.2.5. 字体](#525-字体)
-        - [5.2.5.1. 在asset中声明](#5251-在asset中声明)
-        - [5.2.5.2. 使用字体](#5252-使用字体)
-        - [5.2.5.3. Package中的字体](#5253-package中的字体)
-    - [5.3. 按钮](#53-按钮)
-      - [5.3.1. Material组件库中的按钮](#531-material组件库中的按钮)
-        - [5.3.1.1. RaisedButton](#5311-raisedbutton)
-        - [5.3.1.2. FlatButton](#5312-flatbutton)
-        - [5.3.1.3. OutlineButton](#5313-outlinebutton)
-        - [5.3.1.4. IconButton](#5314-iconbutton)
-        - [5.3.1.5. 带图标的按钮](#5315-带图标的按钮)
-      - [5.3.2. 自定义按钮外观](#532-自定义按钮外观)
-    - [5.4. 图片及ICON](#54-图片及icon)
-      - [5.4.1. 图片](#541-图片)
-      - [5.4.2. icon](#542-icon)
-        - [使用Material Design字体图标](#使用material-design字体图标)
-    - [5.5. 单选开关和复选框](#55-单选开关和复选框)
-    - [5.6. 输入框及表单](#56-输入框及表单)
-      - [5.6.1. TextField](#561-textfield)
-      - [5.6.2. 表单Form](#562-表单form)
-    - [5.7. 进度指示器](#57-进度指示器)
-      - [5.7.1. LinearProgressIndicator](#571-linearprogressindicator)
-      - [5.7.2. CircularProgressIndicator](#572-circularprogressindicator)
-      - [5.7.3. 自定义尺寸](#573-自定义尺寸)
-      - [5.7.4. 进度色动画](#574-进度色动画)
-      - [5.7.5. 自定义进度指示器样式](#575-自定义进度指示器样式)
-    - [5.8. 动画](#58-动画)
-      - [5.8.1. AnimatedWidget](#581-animatedwidget)
-      - [5.8.2. AnimatedBuilder](#582-animatedbuilder)
-      - [5.8.3. hero 动画](#583-hero-动画)
-  - [6. 组件通信](#6-组件通信)
+    - [1. Setting Up the Flutter Development Environment](#1-setting-up-the-flutter-development-environment)
+    - [2. Flutter Principles](#2-flutter-principles)
+        - [2.1 Flutter Architecture](#21-flutter-architecture)
+        - [2.2 Flutter UI Rendering Process](#22-flutter-ui-rendering-process)
+        - [2.3 Garbage Collection Mechanism](#23-garbage-collection-mechanism)
+        - [2.4 Flutter Event Loop](#24-flutter-event-loop)
+            - [2.4.1 Future](#241-future)
+            - [2.4.2 Asynchronous Functions](#242-asynchronous-functions)
+            - [2.4.3 Isolate](#243-isolate)
+        - [2.5 Hot Reload Principle](#25-hot-reload-principle)
+    - [3. Creating an Application](#3-creating-an-application)
+        - [3.1 Application Creation Methods](#31-application-creation-methods)
+            - [3.1.1 Project Structure](#311-project-structure)
+            - [3.1.2 Project Code](#312-project-code)
+            - [3.1.3 Application Structure](#313-application-structure)
+        - [English Translation of the Provided Flutter Documentation](#english-translation-of-the-provided-flutter-documentation)
+            - [Why this is clearly unreasonable](#why-this-is-clearly-unreasonable)
+        - [3.2. Route Management](#32-route-management)
+        - [3.3. Package Management](#33-package-management)
+            - [3.3.1. Pub Repository](#331-pub-repository)
+            - [3.3.2. Other Dependency Methods](#332-other-dependency-methods)
+        - [3.4. Asset Management](#34-asset-management)
+            - [3.4.1. Specifying Assets](#341-specifying-assets)
+            - [3.4.2. Asset Variants](#342-asset-variants)
+            - [3.4.3. Loading Assets](#343-loading-assets)
+            - [3.4.4. Loading Images](#344-loading-images)
+            - [3.4.5. Platform-Specific Assets](#345-platform-specific-assets)
+    - [4. Lifecycle](#4-lifecycle)
+        - [4.1. State Lifecycle](#41-state-lifecycle)
+            - [4.1.1. Creation](#411-creation)
+            - [4.1.2. Update](#412-update)
+            - [4.1.3. Destruction](#413-destruction)
+        - [4.2. App Lifecycle](#42-app-lifecycle)
+            - [4.2.1. Lifecycle Callback](#421-lifecycle-callback)
+            - [4.4.2. Frame Drawing Callback](#442-frame-drawing-callback)
+    - [5. Basic Components](#5-basic-components)
+        - [5.1. Widget Introduction](#51-widget-introduction)
+            - [5.1.1. Concept](#511-concept)
+            - [5.1.2. Widget and Element](#512-widget-and-element)
+            - [5.1.3. Main Widget Interfaces](#513-main-widget-interfaces)
+            - [5.1.4. StatelessWidget](#514-statelesswidget)
+            - [5.1.5. StatefulWidget](#515-statefulwidget)
+        - [5.2. Text and Styles](#52-text-and-styles)
+            - [5.2.1. Text](#521-text)
+            - [5.2.2. TextStyle](#522-textstyle)
+            - [5.2.3. TextSpan](#523-textspan)
+            - [5.2.4. DefaultTextStyle](#524-defaulttextstyle)
+            - [5.2.5. Fonts](#525-fonts)
+                - [5.2.5.1. Declare in Assets](#5251-declare-in-assets)
+                - [5.2.5.2. Using Fonts](#5252-using-fonts)
+                - [5.2.5.3. Fonts in Packages](#5253-fonts-in-packages)
+        - [5.3. Buttons](#53-buttons)
+            - [5.3.1. Buttons in the Material Component Library](#531-buttons-in-the-material-component-library)
+                - [5.3.1.1. RaisedButton](#5311-raisedbutton)
+                - [5.3.1.2. FlatButton](#5312-flatbutton)
+                - [5.3.1.3. OutlineButton](#5313-outlinebutton)
+                - [5.3.1.4. IconButton](#5314-iconbutton)
+                - [5.3.1.5. Buttons with Icons](#5315-buttons-with-icons)
+            - [5.3.2. Customizing Button Appearance](#532-customizing-button-appearance)
+        - [5.4. Images and Icons](#54-images-and-icons)
+            - [5.4.1. Images](#541-images)
+            - [5.4.2. Icons](#542-icons)
+                - [Using Material Design font icons](#using-material-design-font-icons)
+        - [5.5. Switches and Checkboxes](#55-switches-and-checkboxes)
+        - [5.6. Text Fields and Forms](#56-text-fields-and-forms)
+            - [5.6.1. TextField](#561-textfield)
+            - [5.6.2. Form](#562-form)
+        - [5.7. Progress Indicators](#57-progress-indicators)
+            - [5.7.1. LinearProgressIndicator](#571-linearprogressindicator)
+            - [5.7.2. CircularProgressIndicator](#572-circularprogressindicator)
+            - [5.7.3. Customizing Dimensions](#573-customizing-dimensions)
+            - [5.7.4. Progress Color Animation](#574-progress-color-animation)
+            - [5.7.5. Customizing Progress Indicator Styles](#575-customizing-progress-indicator-styles)
+        - [5.8. Animations](#58-animations)
+            - [5.8.1. AnimatedWidget](#581-animatedwidget)
+            - [5.8.2. AnimatedBuilder](#582-animatedbuilder)
+            - [5.8.3. Hero Animations](#583-hero-animations)
+- [6. Component Communication](#6-component-communication)
     - [6.1. InheritedWidget](#61-inheritedwidget)
     - [6.2. Notification](#62-notification)
     - [6.3. EventBus](#63-eventbus)
     - [6.4. fish-redux](#64-fish-redux)
-  - [7. 定制不同风格的App主题](#7-定制不同风格的app主题)
-    - [7.1. 全局统一的视觉风格定制](#71-全局统一的视觉风格定制)
-    - [7.2. 局部独立的视觉风格定制](#72-局部独立的视觉风格定制)
-    - [7.3. 分平台主题定制](#73-分平台主题定制)
-  - [8. 本地存储与数据库的使用](#8-本地存储与数据库的使用)
-    - [8.1. 文件](#81-文件)
-    - [8.2. SharedPreferences](#82-sharedpreferences)
-    - [8.3. 数据库](#83-数据库)
-  - [9. http 请求](#9-http-请求)
-    - [9.1. 通过HttpClient发起HTTP请求](#91-通过httpclient发起http请求)
-  - [10. websocket](#10-websocket)
-    - [10.1. 连接到WebSocket服务器](#101-连接到websocket服务器)
-    - [10.2. 监听来自服务器的消息](#102-监听来自服务器的消息)
-    - [10.3. 将数据发送到服务器](#103-将数据发送到服务器)
-    - [10.4. 关闭WebSocket连接](#104-关闭websocket连接)
-    - [10.5. 使用Socket API](#105-使用socket-api)
-  - [11. flutter web](#11-flutter-web)
-    - [11.1. web-renderers](#111-web-renderers)
-  - [12. flutter desktop](#12-flutter-desktop)
-    - [12.1. macOS](#121-macos)
-      - [12.1.1. 配置环境](#1211-配置环境)
-      - [12.1.2. 打包](#1212-打包)
-  - [13. 测试和调试](#13-测试和调试)
-    - [13.1. 测量应用启动时间](#131-测量应用启动时间)
-    - [13.2. 以编程方式调试应用](#132-以编程方式调试应用)
-      - [13.2.1. 日志输出](#1321-日志输出)
-      - [13.2.2. 设置断点](#1322-设置断点)
-      - [13.2.3. Debug 标识：应用程序层](#1323-debug-标识应用程序层)
-        - [13.2.3.1. Widget 树](#13231-widget-树)
-        - [13.2.3.2. Render 树](#13232-render-树)
-        - [13.2.3.3. Layer 树](#13233-layer-树)
-        - [13.2.3.4. Semantics 树](#13234-semantics-树)
-        - [13.2.3.5. Scheduling](#13235-scheduling)
-    - [13.2.4. 调试标志：布局](#1324-调试标志布局)
-    - [13.2.5. 调试动画](#1325-调试动画)
-    - [13.2.6. 调试标志：性能](#1326-调试标志性能)
-      - [13.2.6.1. 跟踪 Dart 代码性能](#13261-跟踪-dart-代码性能)
-    - [13.2.7. 性能图层](#1327-性能图层)
-    - [13.2.8. Widget 对齐网格](#1328-widget-对齐网格)
-  - [14. 自动化测试](#14-自动化测试)
-    - [14.1. 单元测试](#141-单元测试)
-    - [14.2. UI 测试](#142-ui-测试)
-  - [15. 自动更新](#15-自动更新)
-  - [16. 混合开发](#16-混合开发)
-    - [16.1. Android 模块集成](#161-android-模块集成)
-    - [16.2. iOS 模块集成](#162-ios-模块集成)
+    - [7. Customizing Different App Themes](#7-customizing-different-app-themes)
+        - [7.1. Global Unified Visual Style Customization](#71-global-unified-visual-style-customization)
+        - [7.2. Local Independent Visual Style Customization](#72-local-independent-visual-style-customization)
+        - [7.3. Platform-Specific Theme Customization](#73-platform-specific-theme-customization)
+    - [8. Local Storage and Database Usage](#8-local-storage-and-database-usage)
+        - [8.1. Files](#81-files)
+        - [8.2. SharedPreferences](#82-sharedpreferences)
+        - [8.3. Database](#83-database)
+    - [9. HTTP Requests](#9-http-requests)
+        - [9.1. Making HTTP Requests with HttpClient](#91-making-http-requests-with-httpclient)
+    - [10. WebSocket](#10-websocket)
+        - [10.1. Connecting to a WebSocket Server](#101-connecting-to-a-websocket-server)
+        - [10.2. Listening for Messages from the Server](#102-listening-for-messages-from-the-server)
+        - [10.3. Sending Data to the Server](#103-sending-data-to-the-server)
+        - [10.4. Closing the WebSocket Connection](#104-closing-the-websocket-connection)
+        - [10.5. Using the Socket API](#105-using-the-socket-api)
+    - [11. Flutter Web](#11-flutter-web)
+        - [11.1. Web Renderers](#111-web-renderers)
+    - [12. Flutter Desktop](#12-flutter-desktop)
+        - [12.1. macOS](#121-macos)
+            - [12.1.1. Environment Setup](#1211-environment-setup)
+            - [12.1.2. Packaging](#1212-packaging)
+    - [13. Testing and Debugging](#13-testing-and-debugging)
+        - [13.1. Measuring App Startup Time](#131-measuring-app-startup-time)
+        - [13.2. Debugging Apps Programmatically](#132-debugging-apps-programmatically)
+            - [13.2.1. Log Output](#1321-log-output)
+            - [13.2.2. Setting Breakpoints](#1322-setting-breakpoints)
+            - [13.2.3. Debug Flags: Application Layer](#1323-debug-flags-application-layer)
+                - [13.2.3.1. Widget Tree](#13231-widget-tree)
+                - [13.2.3.2. Render Tree](#13232-render-tree)
+                - [13.2.3.3. Layer Tree](#13233-layer-tree)
+                - [13.2.3.4. Semantics Tree](#13234-semantics-tree)
+                - [13.2.3.5. Scheduling](#13235-scheduling)
+        - [13.2.4. Debug Flags: Layout](#1324-debug-flags-layout)
+        - [13.2.5. Debugging Animations](#1325-debugging-animations)
+        - [13.2.6. Debug Flags: Performance](#1326-debug-flags-performance)
+            - [13.2.6.1. Tracing Dart Code Performance](#13261-tracing-dart-code-performance)
+        - [13.2.7. Performance Overlay](#1327-performance-overlay)
+        - [13.2.8. Widget Alignment Grid](#1328-widget-alignment-grid)
+    - [14. Automated Testing](#14-automated-testing)
+        - [14.1. Unit Testing](#141-unit-testing)
+        - [14.2. UI Testing](#142-ui-testing)
+    - [15. Auto Update](#15-auto-update)
+    - [16. Hybrid Development](#16-hybrid-development)
+        - [16.1. Android Module Integration](#161-android-module-integration)
+        - [16.2. iOS Module Integration](#162-ios-module-integration)
+    - [Learning Resources](#learning-resources)
 
-## 1. 搭建Flutter开发环境
+## 1. Setting Up the Flutter Development Environment
 
-直接看官网：https://flutter.dev/docs/get-started/install
+Refer directly to the official documentation: https://flutter.dev/docs/get-started/install
 
-## 2. flutter 原理
+## 2. Flutter Principles
 
-Flutter 是构建 Google 物联网操作系统 Fuchsia 的 SDK，主打跨平台、高保真、高性能。开发者可以通过 Dart 语言开发 App，一套代码可以同时运行在 iOS 和 Android 平台。 Flutter 使用 Native 引擎渲染视图，并提供了丰富的组件和接口，这无疑为开发者和用户都提供了良好的体验。
+Flutter is the SDK for building Google's IoT operating system Fuchsia, focusing on cross-platform, high fidelity, and high performance. Developers can develop apps using the Dart language, and a single codebase can run on both iOS and Android platforms. Flutter uses a native engine to render views and provides a wealth of components and interfaces, which undoubtedly provides a good experience for both developers and users.
 
-1. 与用于构建移动应用程序的其他大多数框架不同，Flutter 是重写了一整套包括底层渲染逻辑和上层开发语言的完整解决方案。这样不仅可以保证视图渲染在 Android 和 iOS 上的高度一致性（即高保真），在代码执行效率和渲染性能上也可以媲美原生 App 的体验（即高性能）。
+1. Unlike most other frameworks used to build mobile applications, Flutter is a complete solution that rewrites the entire set of underlying rendering logic and upper-level development languages. This not only ensures high consistency of view rendering on Android and iOS (i.e., high fidelity) but also achieves performance comparable to native apps in terms of code execution efficiency and rendering performance (i.e., high performance).
 
-2. Flutter 关注如何尽可能快地在两个硬件时钟的 VSync 信号之间计算并合成视图数据，然后通过 Skia 交给 GPU 渲染：UI 线程使用 Dart 来构建视图结构数据，这些数据会在 GPU 线程进行图层合成，随后交给 Skia 引擎加工成 GPU 数据，而这些数据会通过 OpenGL 最终提供给 GPU 渲染。
+2. Flutter focuses on calculating and compositing view data as quickly as possible between the VSync signals of two hardware clocks, then passing it to the GPU for rendering via Skia: the UI thread uses Dart to build view structure data, which is composited into layers on the GPU thread, then processed into GPU data by the Skia engine, and finally provided to the GPU for rendering via OpenGL.
 
-![flutter绘制原理](./readmeImages/flutter1.png)
+![Flutter Rendering Principle](./readmeImages/flutter1.png)
 
-3. Skia 是一款用 C++ 开发的、性能彪悍的 2D 图像绘制引擎，其前身是一个向量绘图软件。2005 年被 Google 公司收购后，因为其出色的绘制表现被广泛应用在 Chrome 和 Android 等核心产品上。Skia 在图形转换、文字渲染、位图渲染方面都表现卓越，并提供了开发者友好的 API。Skia 引擎会将使用 Dart 构建的抽象的视图结构数据加工成 GPU 数据，交由 OpenGL 最终提供给 GPU 渲染，至此完成渲染闭环，因此可以在最大程度上保证一款应用在不同平台、不同设备上的体验一致性。
+3. Skia is a high-performance 2D graphics rendering engine developed in C++. Its predecessor was a vector graphics software. Acquired by Google in 2005, it is widely used in core products such as Chrome and Android due to its excellent rendering performance. Skia excels in graphics transformation, text rendering, and bitmap rendering, and provides developer-friendly APIs. The Skia engine processes the abstract view structure data built with Dart into GPU data, which is finally provided to the GPU for rendering via OpenGL, completing the rendering loop. Therefore, it can maximize the consistency of an app's experience across different platforms and devices.
 
 4. Dart
 
-+ Dart 同时支持即时编译 JIT 和事前编译 AOT。在开发期使用 JIT，开发周期异常短，调试方式颠覆常规（支持有状态的热重载）；而发布期使用 AOT，本地代码的执行更高效，代码性能和用户体验也更卓越。
+- Dart supports both Just-In-Time (JIT) compilation and Ahead-Of-Time (AOT) compilation. JIT is used during development, resulting in an extremely short development cycle and a revolutionary debugging method (supporting stateful hot reload); while AOT is used during release, making native code execution more efficient, and code performance and user experience more excellent.
 
-+ 内存分配与垃圾回收。 Dart VM 的内存分配策略比较简单，创建对象时只需要在堆上移动指针，内存增长始终是线性的，省去了查找可用内存的过程。在 Dart 中，并发是通过 Isolate 实现的。Isolate 是类似于线程但不共享内存，独立运行的 worker。这样的机制，就可以让 Dart 实现无锁的快速分配。
+- Memory allocation and garbage collection. The Dart VM's memory allocation strategy is relatively simple: when creating an object, it only needs to move the pointer on the heap, and memory growth is always linear, eliminating the need to find available memory. In Dart, concurrency is implemented through Isolates. An Isolate is a worker similar to a thread but does not share memory and runs independently. This mechanism allows Dart to achieve lock-free fast allocation.
 
-Dart 的垃圾回收，则是采用了多生代算法。新生代在回收内存时采用“半空间”机制，触发垃圾回收时，Dart 会将当前半空间中的“活跃”对象拷贝到备用空间，然后整体释放当前空间的所有内存。回收过程中，Dart 只需要操作少量的“活跃”对象，没有引用的大量“死亡”对象则被忽略，这样的回收机制很适合 Flutter 框架中大量 Widget 销毁重建的场景。
+Dart's garbage collection adopts a generational algorithm. The young generation uses a "semi-space" mechanism for memory recycling. When garbage collection is triggered, Dart copies the "live" objects in the current semi-space to the spare space, then releases all memory in the current space as a whole. During recycling, Dart only needs to operate on a small number of "live" objects, while a large number of "dead" objects with no references are ignored. This recycling mechanism is very suitable for scenarios where a large number of Widgets are destroyed and rebuilt in the Flutter framework.
 
-+ 单线程模型。一旦某个函数开始执行，就将执行到这个函数结束，而不会被其他 Dart 代码打断。所以，Dart 中并没有线程，只有 Isolate（隔离区）。Isolates 之间不会共享内存，就像几个运行在不同进程中的 worker，通过事件循环（Event Looper）在事件队列（Event Queue）上传递消息通信。
+- Single-threaded model. Once a function starts executing, it will run until it ends, and will not be interrupted by other Dart code. Therefore, there are no threads in Dart, only Isolates. Isolates do not share memory, like several workers running in different processes, communicating by passing messages on the Event Queue through the Event Looper.
 
-### 2.1 flutter 架构
+### 2.1 Flutter Architecture
 
-![flutter架构图](./readmeImages/flutter2.png)
+![Flutter Architecture Diagram](./readmeImages/flutter2.png)
 
-Flutter 架构采用分层设计，从下到上分为三层，依次为：Embedder、Engine、Framework。
+Flutter architecture adopts a layered design, divided into three layers from bottom to top: Embedder, Engine, and Framework.
 
-1. 对于底层操作系统而言，Flutter 应用程序的包装方式与其他原生应用相同。在每一个平台上，会包含一个特定的嵌入层，从而提供一个程序入口，程序由此可以与底层操作系统进行协调，访问诸如 surface 渲染、辅助功能和输入等服务，并且管理事件循环队列。该嵌入层采用了适合当前平台的语言编写，例如 Android 使用的是 Java 和 C++， iOS 和 macOS 使用的是 Objective-C 和 Objective-C++，Windows 和 Linux 使用的是 C++。 Flutter 代码可以通过嵌入层，以模块方式集成到现有的应用中，也可以作为应用的主体。 
+1. For the underlying operating system, a Flutter application is packaged in the same way as other native applications. On each platform, there is a specific embedding layer that provides a program entry point, allowing the program to coordinate with the underlying operating system, access services such as surface rendering, accessibility, and input, and manage the event loop queue. The embedding layer is written in a language suitable for the current platform: Java and C++ for Android, Objective-C and Objective-C++ for iOS and macOS, and C++ for Windows and Linux. Flutter code can be integrated into existing applications as a module through the embedding layer, or serve as the main body of the application.
 
-2. Engine 层毫无疑问是 Flutter 的核心，它主要使用 C++ 编写，并提供了 Flutter 应用所需的原语。当需要绘制新一帧的内容时，引擎将负责对需要合成的场景进行栅格化。它提供了 Flutter 核心 API 的底层实现，包括图形（通过 Skia）、文本布局、文件及网络 IO、辅助功能支持、插件架构和 Dart 运行环境及编译环境的工具链。
+2. The Engine layer is undoubtedly the core of Flutter. It is mainly written in C++ and provides the primitives required by Flutter applications. When it is necessary to draw a new frame of content, the engine is responsible for rasterizing the scene to be composited. It provides the underlying implementation of Flutter's core APIs, including graphics (via Skia), text layout, file and network I/O, accessibility support, plugin architecture, and the toolchain for the Dart runtime and compilation environment.
 
-3. 通过 Flutter 框架层 与 Flutter 交互，该框架提供了以 Dart 语言编写的现代响应式框架。它包括由一系列层组成的一组丰富的平台，布局和基础库。从下层到上层，依次有：
-基础的 foundational 类及一些基层之上的构建块服务，如 animation、 painting 和 gestures，它们可以提供上层常用的抽象。
-渲染层 用于提供操作布局的抽象。有了渲染层，你可以构建一棵可渲染对象的树。在你动态更新这些对象时，渲染树也会自动根据你的变更来更新布局。
-widget 层 是一种组合的抽象。每一个渲染层中的渲染对象，都在 widgets 层中有一个对应的类。此外，widgets 层让你可以自由组合你需要复用的各种类。响应式编程模型就在该层级中被引入。
-Material 和 Cupertino 库提供了全面的 widgets 层的原语组合，这套组合分别实现了 Material 和 iOS 设计规范。
+3. Interaction with Flutter is done through the Flutter Framework layer, which provides a modern reactive framework written in the Dart language. It includes a rich set of platform, layout, and basic libraries composed of a series of layers. From bottom to top, they are:
+   Basic foundational classes and some building block services on top of the base layer, such as animation, painting, and gestures, which provide commonly used abstractions for the upper layers.
+   The rendering layer is used to provide abstractions for manipulating layouts. With the rendering layer, you can build a tree of render objects. When you dynamically update these objects, the render tree will automatically update the layout according to your changes.
+   The widget layer is a compositional abstraction. Each render object in the rendering layer has a corresponding class in the widgets layer. In addition, the widgets layer allows you to freely combine various classes that you need to reuse. The reactive programming model is introduced at this level.
+   The Material and Cupertino libraries provide a comprehensive set of primitive combinations for the widgets layer, which implement the Material and iOS design specifications respectively.
 
-### 2.2 flutter 界面渲染过程
+### 2.2 Flutter UI Rendering Process
 
-页面中的各界面元素（Widget）以树的形式组织，即控件树。Flutter 通过控件树中的每个控件创建不同类型的渲染对象，组成渲染对象树。而渲染对象树在 Flutter 的展示过程分为四个阶段：布局、绘制、合成和渲染。
+Various UI elements (Widgets) in a page are organized in a tree structure, i.e., the widget tree. Flutter creates different types of render objects through each widget in the widget tree to form the render object tree. The display process of the render object tree in Flutter is divided into four stages: layout, painting, compositing, and rendering.
 
-1. 布局
+1. Layout
 
-Flutter 采用深度优先机制遍历渲染对象树，决定渲染对象树中各渲染对象在屏幕上的位置和尺寸。在布局过程中，渲染对象树中的每个渲染对象都会接收父对象的布局约束参数，决定自己的大小，然后父对象按照控件逻辑决定各个子对象的位置，完成布局过程。
+Flutter traverses the render object tree using a depth-first mechanism to determine the position and size of each render object in the render object tree on the screen. During the layout process, each render object in the render object tree receives layout constraint parameters from its parent object to determine its own size, and then the parent object determines the position of each child object according to the widget logic to complete the layout process.
 
-![flutter布局过程](./readmeImages/flutter-layout.png)
+![Flutter Layout Process](./readmeImages/flutter-layout.png)
 
-为了防止因子节点发生变化而导致整个控件树重新布局，Flutter 加入了一个机制——布局边界（Relayout Boundary），可以在某些节点自动或手动地设置布局边界，当边界内的任何对象发生重新布局时，不会影响边界外的对象，反之亦然。
+To prevent the entire widget tree from being relaid out due to changes in child nodes, Flutter has added a mechanism - Relayout Boundary. Relayout Boundaries can be set automatically or manually on certain nodes. When any object within the boundary is relaid out, it will not affect objects outside the boundary, and vice versa.
 
-![flutter布局边界](./readmeImages/flutter-brage.png)
+![Flutter Relayout Boundary](./readmeImages/flutter-brage.png)
 
-2. 绘制
+2. Painting
 
-布局完成后，渲染对象树中的每个节点都有了明确的尺寸和位置。Flutter 会把所有的渲染对象绘制到不同的图层上。与布局过程一样，绘制过程也是深度优先遍历，而且总是先绘制自身，再绘制子节点。
+After the layout is completed, each node in the render object tree has a clear size and position. Flutter draws all render objects onto different layers. Like the layout process, the painting process is also a depth-first traversal, and it always paints itself first, then its child nodes.
 
-以下图为例：节点 1 在绘制完自身后，会再绘制节点 2，然后绘制它的子节点 3、4 和 5，最后绘制节点 6。
+Take the following figure as an example: after node 1 paints itself, it will paint node 2, then its child nodes 3, 4, and 5, and finally node 6.
 
-![flutter绘制](./readmeImages/flutter-draw.png)
+![Flutter Painting](./readmeImages/flutter-draw.png)
 
-可以看到，由于一些其他原因（比如，视图手动合并）导致 2 的子节点 5 与它的兄弟节点 6 处于了同一层，这样会导致当节点 2 需要重绘的时候，与其无关的节点 6 也会被重绘，带来性能损耗。为了解决这一问题，Flutter 提出了与布局边界对应的机制——重绘边界（Repaint Boundary）。在重绘边界内，Flutter 会强制切换新的图层，这样就可以避免边界内外的互相影响，避免无关内容置于同一图层引起不必要的重绘。
+It can be seen that due to some other reasons (such as manual view merging), child node 5 of node 2 is on the same layer as its sibling node 6. This will cause node 6, which is irrelevant to node 2, to be repainted when node 2 needs to be repainted, resulting in performance loss. To solve this problem, Flutter proposes a mechanism corresponding to the Relayout Boundary - Repaint Boundary. Within the Repaint Boundary, Flutter will force a switch to a new layer, which can avoid mutual influence between the inside and outside of the boundary and prevent irrelevant content from being placed on the same layer causing unnecessary repaints.
 
-![flutter重绘边界](./readmeImages/flutter-redraw.png)
+![Flutter Repaint Boundary](./readmeImages/flutter-redraw.png)
 
-重绘边界的一个典型场景是 Scrollview。ScrollView 滚动的时候需要刷新视图内容，从而触发内容重绘。而当滚动内容重绘时，一般情况下其他内容是不需要重绘的，这时候重绘边界就派上用场了。
+A typical scenario for Repaint Boundary is ScrollView. When a ScrollView scrolls, it needs to refresh the view content, thereby triggering content repainting. In general, other content does not need to be repainted when the scrolling content is repainted, and this is where the Repaint Boundary comes into play.
 
-3. 合成和渲染
+3. Compositing and Rendering
 
-终端设备的页面越来越复杂，因此 Flutter 的渲染树层级通常很多，直接交付给渲染引擎进行多图层渲染，可能会出现大量渲染内容的重复绘制，所以还需要先进行一次图层合成，即将所有的图层根据大小、层级、透明度等规则计算出最终的显示效果，将相同的图层归类合并，简化渲染树，提高渲染效率。合并完成后，Flutter 会将几何图层数据交由 Skia 引擎加工成二维图像数据，最终交由 GPU 进行渲染，完成界面的展示。
+The pages of terminal devices are becoming more and more complex, so the render tree hierarchy of Flutter is usually many. Directly delivering it to the rendering engine for multi-layer rendering may result in a lot of repeated drawing of rendering content. Therefore, a layer compositing is required first, that is, calculating the final display effect of all layers according to rules such as size, hierarchy, and transparency, classifying and merging the same layers, simplifying the render tree, and improving rendering efficiency. After merging, Flutter will pass the geometric layer data to the Skia engine to process into 2D image data, which is finally rendered by the GPU to complete the display of the interface.
 
-![flutter知识体系](./readmeImages/flutter3.png)
+![Flutter Knowledge System](./readmeImages/flutter3.png)
 
-### 2.3. 垃圾回收机制
+### 2.3 Garbage Collection Mechanism
 
-Dart的垃圾回收分代为："新生代"，"老生代"。专门设计了调度器，当检测到空闲且没有用户交互时进行GC操作.  
+Dart's garbage collection is divided into generations: "young generation" and "old generation". A scheduler is specially designed to perform GC operations when idle and no user interaction is detected.
 
-调度器: 在Flutter引擎中，为了最小化垃圾收集对应用程序和UI性能的影响，为垃圾收集器提供了hooks，当引擎检测到应用程序处于空闲状态（没有与用户交互），会发出警报，为垃圾收集器提供运行其收集阶段而不影响性能的机会。并且垃圾收集器可以在这些空闲时间运行内存压缩，从而较少内存碎片来优化内存。
+Scheduler: In the Flutter engine, to minimize the impact of garbage collection on application and UI performance, hooks are provided for the garbage collector. When the engine detects that the application is idle (no interaction with the user), it will issue an alert, providing the garbage collector with the opportunity to run its collection phase without affecting performance. In addition, the garbage collector can run memory compression during these idle times, thereby reducing memory fragmentation to optimize memory.
 
-> 新生代:
+> Young Generation:
 
-1. Dart对象分配用的是bump指针方式，意思是所有用过的内存在一边，空闲的内存放另外一边，中间放着一个指针作为分界点的指示器，分配内存就仅仅是把指针指向空闲那边挪动一段与对象大小相等的距离罢了。
+1. Dart object allocation uses the bump pointer method, which means that all used memory is on one side, free memory is on the other side, and a pointer is placed in the middle as an indicator of the dividing point. Allocating memory is just moving the pointer to the free side by a distance equal to the size of the object.
 
-2. 新对象被分配到连续、可用的内存空间，这个区域包含两个部分：活跃区和非活跃区，新对象在创建时被分配到活跃区、一旦填充完毕，仍然活跃的对象会被移动到非活跃区，不再活跃的对象会被清理掉，然后非活跃区变成活跃区，活跃区变成非活跃区，以此循环。
+2. New objects are allocated to continuous, available memory space. This area consists of two parts: the active area and the inactive area. New objects are allocated to the active area when created. Once the active area is filled, still live objects are moved to the inactive area, objects that are no longer live are cleaned up, then the inactive area becomes the active area, and the active area becomes the inactive area, and so on.
 
-![gc](./readmeImages/gc1.png)
+![GC](./readmeImages/gc1.png)
 
-确定Object是存活还是死亡，GC从根对象开始检测，将有引用的Object（存活的）移动到非活动状态，直到所有存活的Object都被移动，死亡的Object就被留下，此方式采用了Cheney算法：
+To determine whether an Object is alive or dead, the GC starts detection from the root object, moves the referenced Object (alive) to the inactive state until all live Objects are moved, and the dead Objects are left behind. This method uses the Cheney algorithm:
 
-![gc](./readmeImages/gc2.png)
+![GC](./readmeImages/gc2.png)
 
-> 老生代
+> Old Generation
 
-在新生代阶段未被回收的对象，将会由老生代收集器管理新的内存空间：mark-sweep。在老生代收集器的管理分为两个阶段：
+Objects not recycled in the young generation will be managed by the old generation collector in a new memory space: mark-sweep. Management by the old generation collector is divided into two phases:
 
-1. 遍历对象图，然后标记在使用的对象
-2. 扫描整个内存，并且回收所有未标记的对象
+1. Traverse the object graph and mark the objects in use.
+2. Scan the entire memory and reclaim all unmarked objects.
 
-### 2.4. flutter Event Loop
+### 2.4 Flutter Event Loop
 
-Dart 是单线程的。单线程模型可以在等待的过程中做别的事情，等真正需要响应结果了，再去做对应的处理。因为等待过程并不是阻塞的，等待这个行为是通过 Event Loop 驱动的。
+Dart is single-threaded. The single-threaded model allows doing other things while waiting, and only processing the corresponding response when the result is really needed. Because the waiting process is not blocking, the waiting behavior is driven by the Event Loop.
 
-Dart 有一个巨大的事件循环，在不断的轮询事件队列，取出事件（比如，键盘事件、I\O 事件、网络事件等），在主线程同步执行其回调函数，在 Dart 中，有两个队列，一个事件队列（Event Queue），另一个则是微任务队列（Microtask Queue）。在每一次事件循环中，Dart 总是先去第一个微任务队列中查询是否有可执行的任务，如果没有，才会处理后续的事件队列的流程。
+Dart has a huge event loop that continuously polls the event queue, fetches events (such as keyboard events, I/O events, network events, etc.), and executes their callback functions synchronously on the main thread. In Dart, there are two queues: an Event Queue and a Microtask Queue. In each event loop, Dart always first checks the Microtask Queue for executable tasks. If there are none, it processes the subsequent Event Queue.
 
-![gc](./readmeImages/loop.png)
+![GC](./readmeImages/loop.png)
 
-微任务队列在事件循环中的优先级是最高的，只要队列中还有任务，就可以一直霸占着事件循环。微任务是由 scheduleMicroTask 建立的。如下所示，这段代码会在下一个事件循环中输出一段字符串：
+The Microtask Queue has the highest priority in the event loop. As long as there are tasks in the queue, it can occupy the event loop all the time. Microtasks are created by scheduleMicroTask. As shown below, this code will output a string in the next event loop:
 
 ```dart
 scheduleMicrotask(() => print('This is a microtask'));
 ```
 
-Flutter 内部微任务,只有 7 处用到了而已（比如，手势识别、文本输入、滚动视图、保存页面效果等需要高优执行任务的场景）.  
+There are only 7 places where Flutter uses internal microtasks (such as gesture recognition, text input, scroll views, saving page effects, and other scenarios that require high-priority execution of tasks).
 
-#### 2.4.1. Future
+#### 2.4.1 Future
 
-Dart 为 Event Queue 的任务建立提供了一层封装，叫作 Future。表示一个在未来时间才会完成的任务。  
-把一个函数体放入 Future，就完成了从同步任务到异步任务的包装。Future 还提供了链式调用的能力，可以在异步任务执行完毕后依次执行链路上的其他函数体。  
+Dart provides a layer of encapsulation for creating tasks in the Event Queue called Future, which represents a task that will be completed at a future time.  
+Wrapping a function body into a Future completes the packaging from a synchronous task to an asynchronous task. Future also provides the ability of chained calls, allowing other function bodies on the chain to be executed in sequence after the asynchronous task is completed.
 
 ```dart
-Future(() => print('f1'));//声明一个匿名Future
-Future fx = Future(() =>  null);//声明Future fx，其执行体为null
+Future(() => print('f1'));//Declare an anonymous Future
+Future fx = Future(() =>  null);//Declare Future fx with an empty execution body
 
-//声明一个匿名Future，并注册了两个then。在第一个then回调里启动了一个微任务
+//Declare an anonymous Future and register two then callbacks. A microtask is started in the first then callback
 Future(() => print('f2')).then((_) {
   print('f3');
   scheduleMicrotask(() => print('f4'));
 }).then((_) => print('f5'));
 
-//声明了一个匿名Future，并注册了两个then。第一个then是一个Future
+//Declare an anonymous Future and register two then callbacks. The first then is a Future
 Future(() => print('f6'))
   .then((_) => Future(() => print('f7')))
   .then((_) => print('f8'));
 
-//声明了一个匿名Future
+//Declare an anonymous Future
 Future(() => print('f9'));
 
-//往执行体为null的fx注册了了一个then
+//Register a then callback to fx with an empty execution body
 fx.then((_) => print('f10'));
 
-//启动一个微任务
+//Start a microtask
 scheduleMicrotask(() => print('f11'));
 print('f12');
 ```
 
-上述各个异步任务会依次打印其内部执行结果：
+The above asynchronous tasks will print their internal execution results in sequence:
 
 ```text
 f12
@@ -356,26 +360,26 @@ f7
 f8
 ```
 
-then 会在 Future 函数体执行完毕后立刻执行，无论是共用同一个事件循环还是进入下一个微任务。
+then will be executed immediately after the Future function body is completed, whether it shares the same event loop or enters the next microtask.
 
-#### 2.4.2. 异步函数
+#### 2.4.2 Asynchronous Functions
 
-对于异步函数返回的 Future 对象，如果调用者决定同步等待，则需要在调用处使用 await 关键字，并且在调用处的函数体使用 async 关键字。
+For the Future object returned by an asynchronous function, if the caller decides to wait synchronously, the await keyword needs to be used at the call site, and the async keyword needs to be used in the function body of the call site.
 
 ```dart
-//声明了一个延迟3秒返回Hello的Future，并注册了一个then返回拼接后的Hello 2019
-Future<String> fetchContent() => 
+//Declare a Future that returns Hello after a 3-second delay, and register a then callback to return the concatenated Hello 2019
+Future<String> fetchContent() =>
   Future<String>.delayed(Duration(seconds:3), () => "Hello")
     .then((x) => "$x 2019");
 
   main() async{
-    print(await fetchContent());//等待Hello 2019的返回
+    print(await fetchContent());//Wait for the return of Hello 2019
   }
 ```
 
-#### 2.4.3. Isolate
+#### 2.4.3 Isolate
 
-尽管 Dart 是基于单线程模型的，但为了进一步利用多核 CPU，将 CPU 密集型运算进行隔离，Dart 也提供了多线程机制，即 Isolate。在 Isolate 中，资源隔离做得非常好，每个 Isolate 都有自己的 Event Loop 与 Queue，Isolate 之间不共享任何资源，只能依靠消息机制通信，因此也就没有资源抢占问题。  
+Although Dart is based on a single-threaded model, to further utilize multi-core CPUs and isolate CPU-intensive operations, Dart also provides a multi-threading mechanism, namely Isolate. In Isolate, resource isolation is done very well: each Isolate has its own Event Loop and Queue, and Isolates do not share any resources and can only communicate through message mechanisms, so there is no resource preemption problem.
 
 ```dart
 doSth(msg) => print(msg);
@@ -386,159 +390,160 @@ main() {
 }
 ```
 
-在 Isolate 中，发送管道是单向的：启动了一个 Isolate 执行某项任务，Isolate 执行完毕后，发送消息告知我们。如果 Isolate 执行任务时，需要依赖主 Isolate 给它发送参数，执行完毕后再发送执行结果给主 Isolate，这样双向通信的场景我们如何实现呢？答案也很简单，让并发 Isolate 也回传一个发送管道即可。
+In Isolate, the sending pipe is unidirectional: an Isolate is started to perform a certain task, and after the Isolate completes the task, it sends a message to inform us. If the Isolate needs to rely on the main Isolate to send parameters when performing the task, and then send the execution result to the main Isolate after completion, how to achieve such a two-way communication scenario? The answer is simple: let the concurrent Isolate also return a sending pipe.
 
-以一个并发计算阶乘的例子来说明如何实现双向通信。
+Take an example of concurrent calculation of factorial to illustrate how to achieve two-way communication.
 
 ```dart
-//并发计算阶乘
+//Concurrently calculate factorial
 Future<dynamic> asyncFactoriali(n) async{
-  final response = ReceivePort();//创建管道
-  //创建并发Isolate，并传入管道
+  final response = ReceivePort();//Create a port
+  //Create a concurrent Isolate and pass in the port
   await Isolate.spawn(_isolate,response.sendPort);
-  //等待Isolate回传管道
+  //Wait for the Isolate to return the port
   final sendPort = await response.first as SendPort;
-  //创建了另一个管道answer
+  //Create another port named answer
   final answer = ReceivePort();
-  //往Isolate回传的管道中发送参数，同时传入answer管道
+  //Send parameters to the port returned by the Isolate, and pass in the answer port at the same time
   sendPort.send([n,answer.sendPort]);
-  return answer.first;//等待Isolate通过answer管道回传执行结果
+  return answer.first;//Wait for the Isolate to return the execution result through the answer port
 }
 
-//Isolate函数体，参数是主Isolate传入的管道
+//Isolate function body, the parameter is the port passed in by the main Isolate
 _isolate(initialReplyTo) async {
-  final port = ReceivePort();//创建管道
-  initialReplyTo.send(port.sendPort);//往主Isolate回传管道
-  final message = await port.first as List;//等待主Isolate发送消息(参数和回传结果的管道)
-  final data = message[0] as int;//参数
-  final send = message[1] as SendPort;//回传结果的管道 
-  send.send(syncFactorial(data));//调用同步计算阶乘的函数回传结果
+  final port = ReceivePort();//Create a port
+  initialReplyTo.send(port.sendPort);//Return the port to the main Isolate
+  final message = await port.first as List;//Wait for the main Isolate to send a message (parameters and the port for returning results)
+  final data = message[0] as int;//Parameters
+  final send = message[1] as SendPort;//Port for returning results
+  send.send(syncFactorial(data));//Call the synchronous factorial calculation function to return the result
 }
 
-//同步计算阶乘
+//Synchronously calculate factorial
 int syncFactorial(n) => n < 2 ? n : n * syncFactorial(n-1);
-main() async => print(await asyncFactoriali(4));//等待并发计算阶乘结果
+main() async => print(await asyncFactoriali(4));//Wait for the result of concurrent factorial calculation
 ```
 
-Flutter 提供了支持并发计算的 compute 函数，其内部对 Isolate 的创建和双向通信进行了封装抽象，屏蔽了很多底层细节，我们在调用时只需要传入函数入口和函数参数，就能够实现并发计算和消息通知。
+Flutter provides a compute function that supports concurrent calculation, which encapsulates the creation of Isolate and two-way communication internally, shielding many underlying details. When calling, we only need to pass in the function entry and function parameters to achieve concurrent calculation and message notification.
 
 ```dart
-//同步计算阶乘
+//Synchronously calculate factorial
 int syncFactorial(n) => n < 2 ? n : n * syncFactorial(n-1);
-//使用compute函数封装Isolate的创建和结果的返回
+//Use the compute function to encapsulate the creation of Isolate and the return of results
 main() async => print(await compute(syncFactorial, 4));
 ```
 
-> 使用场景
+> Usage Scenarios
 
-方法执行在几毫秒或十几毫秒左右的，应使用Future
-如果一个任务需要几百毫秒或之上的，则建议compute（只有一次返回）或Isolate（用于订阅或有多次返回的）
-### 2.5. Hot Reload原理
+- Methods that execute in about a few milliseconds or ten milliseconds should use Future.
+- If a task takes hundreds of milliseconds or more, it is recommended to use compute (for one-time return) or Isolate (for subscription or multiple returns).
 
-Flutter 的热重载是基于 JIT 编译模式的代码增量同步。JIT 属于动态编译，将 Dart 代码编译成生成中间代码，让 Dart VM 在运行时解释执行，因此可以动态更新中间代码实现增量同步。
-在收到代码变更后，并不会让 App 重新启动执行，而只会触发 Widget 树的重新绘制，因此可以保持改动前的状态，这就大大节省了调试复杂交互界面的时间。
+### 2.5 Hot Reload Principle
 
-![gc](./readmeImages/hotreload.jpeg)
+Flutter's hot reload is based on code incremental synchronization in JIT compilation mode. JIT is a dynamic compilation method that compiles Dart code into intermediate code for the Dart VM to interpret and execute at runtime, so intermediate code can be dynamically updated to achieve incremental synchronization.
+After receiving code changes, the app will not be restarted for execution, but only trigger the redrawing of the Widget tree, thus maintaining the state before the changes, which greatly saves the time for debugging complex interactive interfaces.
 
-总体来说，热重载的流程可以分为扫描工程改动、增量编译、推送更新、代码合并、Widget 重建 5 个步骤：
+![GC](./readmeImages/hotreload.jpeg)
 
-1. 工程改动。热重载模块会逐一扫描工程中的文件，检查是否有新增、删除或者改动，直到找到在上次编译之后，发生变化的 Dart 代码。
-2. 增量编译。热重载模块会将发生变化的 Dart 代码，通过编译转化为增量的 Dart Kernel 文件。
-3. 推送更新。热重载模块将增量的 Dart Kernel 文件通过 HTTP 端口，发送给正在移动设备上运行的 Dart VM。
-4. 代码合并。Dart VM 会将收到的增量 Dart Kernel 文件，与原有的 Dart Kernel 文件进行合并，然后重新加载新的 Dart Kernel 文件。
-5. Widget 重建。在确认 Dart VM 资源加载成功后，Flutter 会将其 UI 线程重置，通知 Flutter Framework 重建 Widget。
+Overall, the hot reload process can be divided into 5 steps: scanning project changes, incremental compilation, pushing updates, code merging, and Widget reconstruction:
 
-> 不支持热重载的场景
+1. Project changes. The hot reload module scans the files in the project one by one to check for additions, deletions, or modifications until it finds the Dart code that has changed since the last compilation.
+2. Incremental compilation. The hot reload module compiles the changed Dart code into incremental Dart Kernel files.
+3. Push updates. The hot reload module sends the incremental Dart Kernel files to the Dart VM running on the mobile device through an HTTP port.
+4. Code merging. The Dart VM merges the received incremental Dart Kernel files with the original Dart Kernel files, then reloads the new Dart Kernel files.
+5. Widget reconstruction. After confirming that the Dart VM resource loading is successful, Flutter resets its UI thread and notifies the Flutter Framework to rebuild the Widget.
 
-1. 代码出现编译错误；
+> Scenarios Not Supported by Hot Reload
 
-2. Widget 状态无法兼容: 比如将某个类的定义从 StatelessWidget 改为 StatefulWidget 时，热重载就会直接报错；
+1. Compilation errors in the code;
 
-3. 全局变量和静态属性的更改: 全局变量和静态属性都被视为状态，在第一次运行应用程序时，会将它们的值设为初始化语句的执行结果，因此在热重载期间不会重新初始化；
+2. Incompatible Widget states: for example, when changing the definition of a class from StatelessWidget to StatefulWidget, hot reload will directly report an error;
 
-4. main 方法里的更改: 由于热重载之后只会根据原来的根节点重新创建控件树，因此 main 函数的任何改动并不会在热重载后重新执行；
+3. Changes to global variables and static properties: global variables and static properties are regarded as states, and their values are set to the execution results of initialization statements when the application is run for the first time, so they will not be reinitialized during hot reload;
 
-5. initState 方法里的更改: initState 方法是 Widget 状态的初始化方法，这个方法里的更改会与状态保存发生冲突，因此热重载后不会产生效果。；
+4. Changes in the main method: since only the widget tree is recreated based on the original root node after hot reload, any changes to the main function will not be re-executed after hot reload;
 
-6. 枚举和泛类型更改: 枚举和泛型也被视为状态，因此对它们的修改也不支持热重载。
+5. Changes in the initState method: the initState method is the initialization method of the Widget state, and changes in this method will conflict with state preservation, so no effect will be produced after hot reload;
 
-## 3. 生成应用
+6. Changes to enums and generic types: enums and generics are also regarded as states, so modifications to them are not supported by hot reload.
 
-### 3.1. 生成应用方法
+## 3. Creating an Application
 
-1. 命令行生成应用
+### 3.1 Application Creation Methods
+
+1. Create an application via the command line
 
 ```text
 flutter create myapp
 ```
 
-2. vscode 生成
+2. Create via VS Code
 
-+ 启动 VS Code
-+ 调用 View>Command Palette…
-+ 输入 ‘flutter’, 然后选择 ‘Flutter: New Project’ action
-+ 输入 Project 名称 (如myapp), 然后按回车键
-+ 指定放置项目的位置，然后按蓝色的确定按钮
-+ 等待项目创建继续，并显示main.dart文件
+- Launch VS Code
+- Call View>Command Palette…
+- Type 'flutter', then select the 'Flutter: New Project' action
+- Enter the project name (e.g., myapp), then press Enter
+- Specify the location to place the project, then press the blue OK button
+- Wait for the project creation to proceed and the main.dart file to be displayed
 
-#### 3.1.1. 工程结构
+#### 3.1.1 Project Structure
 
-![flutter知识体系](./readmeImages/flutter-structure.png)
+![Flutter Knowledge System](./readmeImages/flutter-structure.png)
 
-除了 Flutter 本身的代码、资源、依赖和配置之外，Flutter 工程还包含了 Android 和 iOS 的工程目录。这也不难理解，因为 Flutter 虽然是跨平台开发方案，但却需要一个容器最终运行到 Android 和 iOS 平台上，所以 Flutter 工程实际上就是一个同时内嵌了 Android 和 iOS 原生子工程的父工程：我们在 lib 目录下进行 Flutter 代码的开发，而某些特殊场景下的原生功能，则在对应的 Android 和 iOS 工程中提供相应的代码实现，供对应的 Flutter 代码引用。Flutter 会将相关的依赖和构建产物注入这两个子工程，最终集成到各自的项目中。而我们开发的 Flutter 代码，最终则会以原生工程的形式运行。
+In addition to Flutter's own code, resources, dependencies, and configurations, a Flutter project also includes Android and iOS project directories. This is understandable because although Flutter is a cross-platform development solution, it needs a container to finally run on Android and iOS platforms. Therefore, a Flutter project is actually a parent project that embeds Android and iOS native sub-projects at the same time: we develop Flutter code in the lib directory, while native functions in certain special scenarios are implemented with corresponding code in the corresponding Android and iOS projects for reference by the corresponding Flutter code. Flutter will inject related dependencies and build products into these two sub-projects, which are finally integrated into their respective projects. The Flutter code we develop will eventually run in the form of native projects.
 
-#### 3.1.2. 工程代码
+#### 3.1.2 Project Code
 
-> 应用入口、应用结构以及页面结构
+> Application Entry, Application Structure, and Page Structure
 
-1. 导入包。
+1. Import packages.
 
 ```dart
 import 'package:flutter/material.dart';
 ```
 
-此行代码作用是导入了Material UI组件库。Material是一种标准的移动端和web端的视觉设计语言， Flutter默认提供了一套丰富的Material风格的UI组件。
+This line of code imports the Material UI component library. Material is a standard visual design language for mobile and web, and Flutter provides a rich set of Material-style UI components by default.
 
-2. 应用入口。
+2. Application entry.
 
 ```dart
 void main() => runApp(MyApp());
 ```
 
-与C/C++、Java类似，Flutter 应用中main函数为应用程序的入口。main函数中调用了runApp 方法，它的功能是启动Flutter应用。runApp它接受一个Widget参数，在本示例中它是一个MyApp对象，MyApp()是Flutter应用的根组件。
-main函数使用了(=>)符号，这是Dart中单行函数或方法的简写。
+Similar to C/C++ and Java, the main function is the entry point of a Flutter application. The runApp method is called in the main function, and its function is to start the Flutter application. runApp accepts a Widget parameter, which is a MyApp object in this example. MyApp() is the root component of the Flutter application.
+The main function uses the (=>) symbol, which is a shorthand for single-line functions or methods in Dart.
 
-3. 应用结构。
+3. Application structure.
 
 ```dart
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      //应用名称  
-      title: 'Flutter Demo', 
+      //App name
+      title: 'Flutter Demo',
       theme: new ThemeData(
-        //蓝色主题  
+        //Blue theme
         primarySwatch: Colors.blue,
       ),
-      //应用首页路由  
+      //App home page route
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 ```
 
-+ Flutter 应用为 MyApp 类的一个实例，而 MyApp 类继承自 StatelessWidget 类，这也就意味着应用本身也是一个 Widget。事实上，在 Flutter 中，Widget 是整个视图描述的基础，在 Flutter 的世界里，包括应用、视图、视图控制器、布局等在内的概念，都建立在 Widget 之上，Flutter 的核心设计思想便是一切皆 Widget。
+- A Flutter application is an instance of the MyApp class, which inherits from the StatelessWidget class, meaning the application itself is also a Widget. In fact, in Flutter, Widget is the foundation of the entire view description. In the Flutter world, concepts including applications, views, view controllers, layouts, etc., are all built on Widgets. Flutter's core design idea is that everything is a Widget.
 
-+ Widget 是组件视觉效果的封装，是 UI 界面的载体，因此我们还需要为它提供一个方法，来告诉 Flutter 框架如何构建 UI 界面，这个方法就是 build。
+- A Widget is an encapsulation of the visual effect of a component and a carrier of the UI interface. Therefore, we also need to provide a method for it to tell the Flutter framework how to build the UI interface, and this method is build.
 
-+ 在 build 方法中，我们通常通过对基础 Widget 进行相应的 UI 配置，或是组合各类基础 Widget 的方式进行 UI 的定制化。比如在 MyApp 中，我通过 MaterialApp 这个 Flutter App 框架设置了应用首页，即 MyHomePage。当然，MaterialApp 也是一个 Widget。
+- In the build method, we usually customize the UI by configuring the basic Widgets accordingly or combining various basic Widgets. For example, in MyApp, I set the home page of the application, i.e., MyHomePage, through the MaterialApp, a Flutter App framework. Of course, MaterialApp is also a Widget.
 
-+ MaterialApp 类是对构建 material 设计风格应用的组件封装框架，里面还有很多可配置的属性，比如应用主题、应用名称、语言标识符、组件路由等。但是，这些配置属性并不是本次分享的重点，如果你感兴趣的话，可以参考 Flutter 官方的API 文档，来了解 MaterialApp 框架的其他配置能力。
+- The MaterialApp class is a component encapsulation framework for building material design-style applications. It also has many configurable properties, such as app theme, app name, language identifier, component routing, etc. However, these configuration properties are not the focus of this sharing. If you are interested, you can refer to Flutter's official API documentation to learn about other configuration capabilities of the MaterialApp framework.
 
-#### 3.1.3. 应用结构
+#### 3.1.3 Application Structure
 
-![flutter代码流出示意图](./readmeImages/flutter-flow.png)
+![Flutter Code Flow Diagram](./readmeImages/flutter-flow.png)
 
 ```js
 class MyHomePage extends StatefulWidget {
@@ -553,28 +558,28 @@ class MyHomePage extends StatefulWidget {
    }
 ```
 
-1. MyHomePage 是Flutter应用的首页，它继承自StatefulWidget类，表示它是一个有状态的组件（Stateful widget）。关于Stateful widget我们将在第三章“Widget简介”一节仔细介绍，现在我们只需简单认为有状态的组件（Stateful widget） 和无状态的组件（Stateless widget）有两点不同：
+1. MyHomePage is the home page of the Flutter application, which inherits from the StatefulWidget class, indicating that it is a stateful component (Stateful widget). We will introduce Stateful widget in detail in the section "Widget Overview" in Chapter 3. For now, we can simply think that there are two differences between stateful components (Stateful widget) and stateless components (Stateless widget):
 
-2. Stateful widget可以拥有状态，这些状态在widget生命周期中是可以变的，而Stateless widget是不可变的。
+2. A Stateful widget can have states that can change during the widget's lifecycle, while a Stateless widget is immutable.
 
-Stateful widget至少由两个类组成：
+A Stateful widget consists of at least two classes:
 
-+ 一个StatefulWidget类。
-+ 一个 State类； StatefulWidget类本身是不变的，但是State类中持有的状态在widget生命周期中可能会发生变化。
+- A StatefulWidget class.
+- A State class; the StatefulWidget class itself is immutable, but the state held in the State class may change during the widget's lifecycle.
 
-_MyHomePageState类是MyHomePage类对应的状态类。看到这里，读者可能已经发现：和MyApp 类不同， MyHomePage类中并没有build方法，取而代之的是，build方法被挪到了_MyHomePageState方法中，至于为什么这么做，先留个疑问，在分析完完整代码后再来解答。
+The \_MyHomePageState class is the state class corresponding to the MyHomePage class. At this point, readers may have found: unlike the MyApp class, the MyHomePage class does not have a build method. Instead, the build method is moved to the \_MyHomePageState method. As for why this is done, let's leave it as a question and answer it after analyzing the complete code.
 
-3. State类
+3. State class
 
-该组件的状态。由于我们只需要维护一个点击次数计数器，所以定义一个_counter状态：
+The state of the component. Since we only need to maintain a click count counter, we define a \_counter state:
 
 ```dart
-int _counter = 0; //用于记录按钮点击的总次数
+int _counter = 0; //Used to record the total number of button clicks
 ```
 
-_counter 为保存屏幕右下角带“+”号按钮点击次数的状态。
+\_counter is the state for recording the number of clicks of the "+" button in the bottom right corner of the screen.
 
-设置状态的自增函数。
+Set the self-increment function of the state.
 
 ```dart
 void _incrementCounter() {
@@ -584,11 +589,11 @@ void _incrementCounter() {
 }
 ```
 
-当按钮点击时，会调用此函数，该函数的作用是先自增_counter，然后调用setState 方法。setState方法的作用是通知Flutter框架，有状态发生了改变，Flutter框架收到通知后，会执行build方法来根据新的状态重新构建界面， Flutter 对此方法做了优化，使重新执行变的很快，所以你可以重新构建任何需要更新的东西，而无需分别去修改各个widget。
+When the button is clicked, this function will be called. The function first increments \_counter, then calls the setState method. The setState method notifies the Flutter framework that the state has changed. After receiving the notification, the Flutter framework will execute the build method to rebuild the interface according to the new state. Flutter has optimized this method to make re-execution very fast, so you can rebuild anything that needs to be updated without modifying each widget separately.
 
-3. 构建UI界面
+3. Building the UI interface
 
-构建UI界面的逻辑在build方法中，当MyHomePage第一次创建时，_MyHomePageState类会被创建，当初始化完成后，Flutter框架会调用Widget的build方法来构建widget树，最终将widget树渲染到设备屏幕上。所以，我们看看_MyHomePageState的build方法中都干了什么事：
+The logic for building the UI interface is in the build method. When MyHomePage is first created, the \_MyHomePageState class will be created. After initialization is completed, the Flutter framework will call the Widget's build method to build the widget tree, and finally render the widget tree to the device screen. So, let's see what the \_MyHomePageState's build method does:
 
 ```dart
 Widget build(BuildContext context) {
@@ -619,20 +624,20 @@ Widget build(BuildContext context) {
   }
 ```
 
-- Scaffold 是 Material组件库中提供的一个组件，它提供了默认的导航栏、标题和包含主屏幕widget树（后同“组件树”或“部件树”）的body属性。组件树可以很复杂。
+- Scaffold is a component provided in the Material component library, which provides a default navigation bar, title, and a body property containing the main screen widget tree (hereinafter referred to as "component tree" or "widget tree"). The component tree can be very complex.
 
-- body的组件树中包含了一个Center 组件，Center 可以将其子组件树对齐到屏幕中心。此例中， Center 子组件是一个Column 组件，Column的作用是将其所有子组件沿屏幕垂直方向依次排列； 此例中Column子组件是两个 Text，第一个Text 显示固定文本 “You have pushed the button this many times:”，第二个Text 显示_counter状态的数值。
+- The component tree of the body contains a Center component, which can align its child component tree to the center of the screen. In this example, the child component of Center is a Column component, whose role is to arrange all its child components vertically on the screen in sequence; in this example, the child components of Column are two Texts: the first Text displays the fixed text "You have pushed the button this many times:", and the second Text displays the value of the \_counter state.
 
-- floatingActionButton是页面右下角的带“+”的悬浮按钮，它的onPressed属性接受一个回调函数，代表它被点击后的处理器，本例中直接将_incrementCounter方法作为其处理函数。
+- floatingActionButton is a floating button with a "+" sign in the bottom right corner of the page. Its onPressed property accepts a callback function, which represents its processor after being clicked. In this example, the \_incrementCounter method is directly used as its processing function.
 
-- 现在，我们将整个计数器执行流程串起来：当右下角的floatingActionButton按钮被点击之后，会调用_incrementCounter方法。在_incrementCounter方法中，首先会自增_counter计数器（状态），然后setState会通知Flutter框架状态发生变化，接着，Flutter框架会调用build方法以新的状态重新构建UI，最终显示在设备屏幕上。
+- Now, let's string together the entire counter execution process: when the floatingActionButton in the bottom right corner is clicked, the \_incrementCounter method will be called. In the \_incrementCounter method, the \_counter counter (state) is first incremented, then setState notifies the Flutter framework that the state has changed. Then, the Flutter framework calls the build method to rebuild the UI with the new state, which is finally displayed on the device screen.
 
-- 为什么要将build方法放在State中，而不是放在StatefulWidget中？
-现在，我们回答之前提出的问题，为什么build()方法放在State（而不是StatefulWidget）中 ？这主要是为了提高开发的灵活性。如果将build()方法放在StatefulWidget中则会有两个问题：
+- Why is the build method placed in State instead of StatefulWidget?
+  Now, let's answer the question raised earlier: why is the build() method placed in State (instead of StatefulWidget)? This is mainly to improve development flexibility. If the build() method is placed in StatefulWidget, there will be two problems:
 
-1. 状态访问不便
+1. Inconvenient state access
 
-试想一下，如果我们的StatefulWidget有很多状态，而每次状态改变都要调用build方法，由于状态是保存在State中的，如果build方法在StatefulWidget中，那么build方法和状态分别在两个类中，那么构建时读取状态将会很不方便！试想一下，如果真的将build方法放在StatefulWidget中的话，由于构建用户界面过程需要依赖State，所以build方法将必须加一个State参数，大概是下面这样：
+Imagine if our StatefulWidget has many states, and the build method needs to be called every time the state changes. Since the state is stored in State, if the build method is in StatefulWidget, the build method and the state are in two different classes, making it inconvenient to read the state during construction! Imagine if the build method is really placed in StatefulWidget, since the process of building the user interface needs to rely on State, the build method must add a State parameter, probably like the following:
 
 ```dart
   Widget build(BuildContext context, State state){
@@ -641,47 +646,45 @@ Widget build(BuildContext context) {
   }
 ```
 
-这样的话就只能将State的所有状态声明为公开的状态，这样才能在State类外部访问状态！但是，将状态设置为公开后，状态将不再具有私密性，这就会导致对状态的修改将会变的不可控。但如果将build()方法放在State中的话，构建过程不仅可以直接访问状态，而且也无需公开私有状态，这会非常方便。
+In this case, all states of State must be declared as public so that they can be accessed outside the State class! However, setting the state as public will make the state no longer private, which will lead to uncontrollable modifications to the state. But if the build() method is placed in State, the construction process can not only directly access the state but also does not need to expose private states, which will be very convenient.
 
-2. 继承StatefulWidget不便
+2. Inconvenient inheritance of StatefulWidget
 
-例如，Flutter中有一个动画widget的基类AnimatedWidget，它继承自StatefulWidget类。AnimatedWidget中引入了一个抽象方法build(BuildContext context)，继承自AnimatedWidget的动画widget都要实现这个build方法。现在设想一下，如果StatefulWidget 类中已经有了一个build方法，正如上面所述，此时build方法需要接收一个state对象，这就意味着AnimatedWidget必须将自己的State对象(记为_animatedWidgetState)提供给其子类，因为子类需要在其build方法中调用父类的build方法，代码可能如下：
+For example, there is a base class AnimatedWidget for animation widgets in Flutter, which inherits from the StatefulWidget class. AnimatedWidget introduces an abstract method build(BuildContext context), and all animation widgets inheriting from AnimatedWidget must implement this build method. Now imagine if the StatefulWidget class already has a build method, as mentioned above, the build method at this time needs to receive a state object, which means AnimatedWidget must provide its own State object (denoted as \_animatedWidgetState) to its subclasses, because subclasses need to call the parent class's build method in their build method. The code may be as follows:
 
 ```dart
 class MyAnimationWidget extends AnimatedWidget{
     @override
     Widget build(BuildContext context, State state){
-      //由于子类要用到AnimatedWidget的状态对象_animatedWidgetState，
-      //所以AnimatedWidget必须通过某种方式将其状态对象_animatedWidgetState
-      //暴露给其子类   
-      super.build(context, _animatedWidgetState)
-    }
-}
 ```
 
-这样很显然是不合理的，因为AnimatedWidget的状态对象是AnimatedWidget内部实现细节，不应该暴露给外部。
-如果要将父类状态暴露给子类，那么必须得有一种传递机制，而做这一套传递机制是无意义的，因为父子类之间状态的传递和子类本身逻辑是无关的。
-综上所述，可以发现，对于StatefulWidget，将build方法放在State中，可以给开发带来很大的灵活性。
+### English Translation of the Provided Flutter Documentation
 
-### 3.2. 路由管理
+#### Why this is clearly unreasonable
 
-在 Flutter 中，页面之间的跳转是通过 Route 和 Navigator 来管理的：
+Because the state object of AnimatedWidget is an internal implementation detail of AnimatedWidget and should not be exposed to the outside.
+If we want to expose the parent class state to subclasses, there must be a transfer mechanism, but implementing such a transfer mechanism is meaningless because the transfer of state between parent and child classes is irrelevant to the logic of the child classes themselves.
+In summary, it can be found that for StatefulWidget, placing the build method in State can bring great flexibility to development.
 
-- Route 是页面的抽象，主要负责创建对应的界面，接收参数，响应 Navigator 打开和关闭；
-- 而 Navigator 则会维护一个路由栈管理 Route，Route 打开即入栈，Route 关闭即出栈，还可以直接替换栈内的某一个 Route。
+### 3.2. Route Management
 
-调用 Navigator.push 方法将新页面压到堆栈的顶部。  
-返回上一个页面，则需要调用 Navigator.pop 方法从堆栈中删除这个页面。  
+In Flutter, navigation between pages is managed through Route and Navigator:
 
-下面的代码演示了基本路由的使用方法：在第一个页面的按钮事件中打开第二个页面，并在第二个页面的按钮事件中回退到第一个页面：
+- **Route**: An abstraction of a page, primarily responsible for creating the corresponding interface, receiving parameters, and responding to Navigator's open and close operations;
+- **Navigator**: Maintains a route stack to manage Routes. Opening a Route pushes it onto the stack, closing a Route pops it off the stack, and it can also directly replace a Route in the stack.
+
+Call the `Navigator.push` method to push a new page onto the top of the stack.  
+To return to the previous page, call the `Navigator.pop` method to remove the page from the stack.
+
+The following code demonstrates the use of basic routing: opening a second page in the button event of the first page, and returning to the first page in the button event of the second page:
 
 ```dart
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      //打开页面
-      onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
+      // Open page
+      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
     );
   }
 }
@@ -690,18 +693,18 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      // 回退页面
-      onPressed: ()=> Navigator.pop(context)
+      // Return to previous page
+      onPressed: () => Navigator.pop(context)
     );
   }
 }
 ```
 
-### 3.3. 包管理
+### 3.3. Package Management
 
-flutter使用配置文件pubspec.yaml（位于项目根目录）来管理第三方依赖包。  
+Flutter uses the configuration file `pubspec.yaml` (located in the project root directory) to manage third-party dependency packages.
 
-YAML是一种直观、可读性高并且容易被人类阅读的文件格式，它和xml或Json相比，它语法简单并非常容易解析，所以YAML常用于配置文件，Flutter也是用yaml文件作为其配置文件。Flutter项目默认的配置文件是pubspec.yaml  
+YAML is an intuitive, highly readable file format that is easy for humans to read. Compared with XML or JSON, it has a simple syntax and is very easy to parse, so YAML is often used for configuration files, and Flutter also uses YAML files as its configuration files. The default configuration file for a Flutter project is `pubspec.yaml`.
 
 ```yaml
 name: flutter_in_action
@@ -710,60 +713,60 @@ description: First Flutter application.
 version: 1.0.0+1
 
 dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^0.1.2
+    flutter:
+        sdk: flutter
+    cupertino_icons: ^0.1.2
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+    flutter_test:
+        sdk: flutter
 
 flutter:
-  uses-material-design: true
+    uses-material-design: true
 ```
 
-各个字段的意义：  
+Meaning of each field:
 
-- name：应用或包名称。  
-- description: 应用或包的描述、简介。  
-- version：应用或包的版本号。  
-- dependencies：应用或包依赖的其它包或插件。  
-- dev_dependencies：开发环境依赖的工具包（而不是flutter应用本身依赖的包）。  
-- flutter：flutter相关的配置选项。  
+- **name**: Name of the application or package.
+- **description**: Description or introduction of the application or package.
+- **version**: Version number of the application or package.
+- **dependencies**: Other packages or plugins that the application or package depends on.
+- **dev_dependencies**: Tool packages dependent on the development environment (not packages that the Flutter application itself depends on).
+- **flutter**: Flutter-related configuration options.
 
-如果我们的Flutter应用本身依赖某个包，我们需要将所依赖的包添加到dependencies 下  
+If our Flutter application itself depends on a package, we need to add the dependent package to `dependencies`.
 
-#### 3.3.1. Pub仓库
+#### 3.3.1. Pub Repository
 
-Pub（https://pub.dev/ ）是Google官方的Dart Packages仓库，类似于node中的npm仓库，android中的jcenter。我们可以在Pub上面查找我们需要的包和插件，也可以向Pub发布我们的包和插件。我们将在后面的章节中介绍如何向Pub发布我们的包和插件。  
+Pub (https://pub.dev/) is Google's official Dart Packages repository, similar to npm repository in Node.js and jcenter in Android. We can find the packages and plugins we need on Pub, and also publish our own packages and plugins to Pub. We will introduce how to publish our packages and plugins to Pub in later chapters.
 
-我们实现一个显示随机字符串的widget。有一个名为“english_words”的开源软件包，其中包含数千个常用的英文单词以及一些实用功能。我们首先在pub上找到english_words这个包.  
+Let's implement a widget that displays random strings. There is an open-source package called "english_words" that contains thousands of commonly used English words and some practical functions. First, we find the `english_words` package on Pub.
 
-1. 将“english_words”（3.1.3版本）添加到依赖项列表，如下：  
+1. Add "english_words" (version 3.1.3) to the dependencies list as follows:
 
 ```yaml
 dependencies:
-  flutter:
-    sdk: flutter
+    flutter:
+        sdk: flutter
 
-  cupertino_icons: ^0.1.0
-  # 新添加的依赖
-  english_words: ^3.1.3
+    cupertino_icons: ^0.1.0
+    # Newly added dependency
+    english_words: ^3.1.3
 ```
 
-2. 下载包，运行flutter pub get
+2. Download the package by running `flutter pub get`.
 
-3. 引入english_words包。
+3. Import the `english_words` package:
 
 ```dart
 import 'package:english_words/english_words.dart';
 ```
 
-#### 3.3.2. 其它依赖方式
+#### 3.3.2. Other Dependency Methods
 
-- 依赖本地包  
+- **Dependency on local packages**
 
-如果我们正在本地开发一个包，包名为pkg1，我们可以通过下面方式依赖：  
+If we are developing a local package named `pkg1`, we can depend on it in the following way:
 
 ```yaml
 dependencies:
@@ -771,80 +774,81 @@ dependencies:
         path: ../../code/pkg1
 ```
 
-路径可以是相对的，也可以是绝对的。  
+The path can be relative or absolute.
 
-- 依赖Git：你也可以依赖存储在Git仓库中的包。如果软件包位于仓库的根目录中，请使用以下语法  
-
-```yaml
-dependencies:
-  pkg1:
-    git:
-      url: git://github.com/xxx/pkg1.git
-```
-
-上面假定包位于Git存储库的根目录中。如果不是这种情况，可以使用path参数指定相对位置，例如：  
+- **Dependency on Git**: You can also depend on packages stored in a Git repository. If the package is located in the root directory of the repository, use the following syntax:
 
 ```yaml
 dependencies:
-  package1:
-    git:
-      url: git://github.com/flutter/packages.git
-      path: packages/package1
+    pkg1:
+        git:
+            url: git://github.com/xxx/pkg1.git
 ```
 
-### 3.4. 资源管理
+The above assumes that the package is located in the root directory of the Git repository. If this is not the case, you can use the `path` parameter to specify the relative position, for example:
 
-Flutter APP安装包中会包含代码和 assets（资源）两部分。Assets是会打包到程序安装包中的，可在运行时访问。常见类型的assets包括静态数据（例如JSON文件）、配置文件、图标和图片（JPEG，WebP，GIF，动画WebP / GIF，PNG，BMP和WBMP）等。  
+```yaml
+dependencies:
+    package1:
+        git:
+            url: git://github.com/flutter/packages.git
+            path: packages/package1
+```
 
-#### 3.4.1. 指定 assets
+### 3.4. Asset Management
 
-和包管理一样，Flutter也使用pubspec.yaml文件来管理应用程序所需的资源，举个例子:
+A Flutter app package contains two parts: code and assets. Assets are packaged into the application installation package and can be accessed at runtime. Common types of assets include static data (such as JSON files), configuration files, icons, and images (JPEG, WebP, GIF, animated WebP/GIF, PNG, BMP, and WBMP), etc.
+
+#### 3.4.1. Specifying Assets
+
+Like package management, Flutter also uses the `pubspec.yaml` file to manage the assets required by the application. Here is an example:
 
 ```yaml
 flutter:
-  assets:
-    - assets/my_icon.png
-    - assets/background.png
+    assets:
+        - assets/my_icon.png
+        - assets/background.png
 ```
 
-assets指定应包含在应用程序中的文件， 每个asset都通过相对于pubspec.yaml文件所在的文件系统路径来标识自身的路径。asset的声明顺序是无关紧要的，asset的实际目录可以是任意文件夹（在本示例中是assets文件夹）。  
+`assets` specifies the files to be included in the application. Each asset is identified by its file system path relative to the directory where the `pubspec.yaml` file is located. The order of asset declarations is irrelevant, and the actual directory of assets can be any folder (in this example, it is the `assets` folder).
 
-在构建期间，Flutter将asset放置到称为 asset bundle 的特殊存档中，应用程序可以在运行时读取它们（但不能修改）。   
+During the build process, Flutter places assets into a special archive called an **asset bundle**, which the application can read at runtime (but cannot modify).
 
-#### 3.4.2. Asset 变体（variant）
+#### 3.4.2. Asset Variants
 
-构建过程支持“asset变体”的概念：不同版本的asset可能会显示在不同的上下文中。 在pubspec.yaml的assets部分中指定asset路径时，构建过程中，会在相邻子目录中查找具有相同名称的任何文件。这些文件随后会与指定的asset一起被包含在asset bundle中。  
+The build process supports the concept of "asset variants": different versions of an asset may be displayed in different contexts. When specifying an asset path in the `assets` section of `pubspec.yaml`, the build process looks for any files with the same name in adjacent subdirectories. These files are then included in the asset bundle along with the specified asset.
 
-例如，如果应用程序目录中有以下文件:  
+For example, if the application directory has the following files:
 
 …/pubspec.yaml  
 …/graphics/my_icon.png  
 …/graphics/background.png  
 …/graphics/dark/background.png  
-…etc.  
-然后pubspec.yaml文件中只需包含:  
+…etc.
+
+Then the `pubspec.yaml` file only needs to include:
 
 ```yaml
 flutter:
-  assets:
-    - graphics/background.png
+    assets:
+        - graphics/background.png
 ```
 
-那么这两个graphics/background.png和graphics/dark/background.png 都将包含在您的asset bundle中。前者被认为是main asset （主资源），后者被认为是一种变体（variant）。
+Both `graphics/background.png` and `graphics/dark/background.png` will be included in your asset bundle. The former is considered the **main asset**, and the latter is considered a **variant**.
 
-在选择匹配当前设备分辨率的图片时，Flutter会使用到asset变体（见下文），将来，Flutter可能会将这种机制扩展到本地化、阅读提示等方面。
+Flutter uses asset variants when selecting images that match the current device's resolution (see below), and in the future, Flutter may extend this mechanism to localization, reading prompts, and other aspects.
 
-#### 3.4.3. 加载 assets
+#### 3.4.3. Loading Assets
 
-可以通过AssetBundle对象访问其asset 。有两种主要方法允许从Asset bundle中加载字符串或图片（二进制）文件。
+You can access assets through the `AssetBundle` object. There are two main methods to load string or image (binary) files from an asset bundle.
 
-> 加载文本assets
+> Loading Text Assets
 
-- 通过rootBundle 对象加载：每个Flutter应用程序都有一个rootBundle对象， 通过它可以轻松访问主资源包，直接使用package:flutter/services.dart中全局静态的rootBundle对象来加载asset即可。  
+- **Loading via `rootBundle` object**: Every Flutter application has a `rootBundle` object, through which you can easily access the main asset bundle. You can directly use the global static `rootBundle` object in `package:flutter/services.dart` to load assets.
 
-- 通过 DefaultAssetBundle 加载：建议使用 DefaultAssetBundle 来获取当前BuildContext的AssetBundle。 这种方法不是使用应用程序构建的默认asset bundle，而是使父级widget在运行时动态替换的不同的AssetBundle，这对于本地化或测试场景很有用。  
+- **Loading via `DefaultAssetBundle`**: It is recommended to use `DefaultAssetBundle` to obtain the `AssetBundle` of the current `BuildContext`. This method does not use the default asset bundle built by the application, but allows parent widgets to dynamically replace different `AssetBundle`s at runtime, which is useful for localization or testing scenarios.
 
-通常，可以使用DefaultAssetBundle.of()在应用运行时来间接加载asset（例如JSON文件），而在widget上下文之外，或其它AssetBundle句柄不可用时，可以使用rootBundle直接加载这些asset，例如：  
+Typically, you can use `DefaultAssetBundle.of()` to indirectly load assets (such as JSON files) when the application is running, while you can use `rootBundle` to directly load these assets when outside the widget context or when no other `AssetBundle` handle is available, for example:
 
 ```dart
 import 'dart:async' show Future;
@@ -855,35 +859,36 @@ Future<String> loadAsset() async {
 }
 ```
 
-#### 3.4.4. 加载图片  
+#### 3.4.4. Loading Images
 
-类似于原生开发，Flutter也可以为当前设备加载适合其分辨率的图像。  
+Similar to native development, Flutter can also load images suitable for the resolution of the current device.
 
-> 声明分辨率相关的图片 assets
+> Declaring Resolution-Aware Image Assets
 
-AssetImage 可以将asset的请求逻辑映射到最接近当前设备像素比例（dpi）的asset。为了使这种映射起作用，必须根据特定的目录结构来保存asset：  
+`AssetImage` can map the asset request logic to the asset closest to the current device's pixel ratio (dpi). For this mapping to work, assets must be saved according to a specific directory structure:
 
 …/image.png  
 …/Mx/image.png  
 …/Nx/image.png  
-…etc.  
-其中M和N是数字标识符，对应于其中包含的图像的分辨率，也就是说，它们指定不同设备像素比例的图片。  
+…etc.
 
-主资源默认对应于1.0倍的分辨率图片。看一个例子：  
+Where M and N are numeric identifiers corresponding to the resolution of the images contained therein, that is, they specify images for different device pixel ratios.
+
+The main asset corresponds to a 1.0x resolution image by default. Here is an example:
 
 …/my_icon.png  
 …/2.0x/my_icon.png  
-…/3.0x/my_icon.png  
+…/3.0x/my_icon.png
 
-在设备像素比率为1.8的设备上，.../2.0x/my_icon.png 将被选择。对于2.7的设备像素比率，.../3.0x/my_icon.png将被选择。  
+On a device with a pixel ratio of 1.8, `.../2.0x/my_icon.png` will be selected. For a device pixel ratio of 2.7, `.../3.0x/my_icon.png` will be selected.
 
-如果未在Image widget上指定渲染图像的宽度和高度，那么Image widget将占用与主资源相同的屏幕空间大小。 也就是说，如果.../my_icon.png是72px乘72px，那么.../3.0x/my_icon.png应该是216px乘216px; 但如果未指定宽度和高度，它们都将渲染为72像素×72像素（以逻辑像素为单位）。  
+If the width and height of the rendered image are not specified on the `Image` widget, the `Image` widget will occupy the same screen space as the main asset. That is, if `.../my_icon.png` is 72px by 72px, then `.../3.0x/my_icon.png` should be 216px by 216px; but if no width and height are specified, they will both be rendered as 72 pixels by 72 pixels (in logical pixels).
 
-pubspec.yaml中asset部分中的每一项都应与实际文件相对应，但主资源项除外。当主资源缺少某个资源时，会按分辨率从低到高的顺序去选择 ，也就是说1x中没有的话会在2x中找，2x中还没有的话就在3x中找。  
+Each entry in the `assets` section of `pubspec.yaml` should correspond to an actual file, except for the main asset entry. When the main asset lacks a resource, it will be selected in order from low to high resolution, that is, if it is not found in 1x, it will be searched in 2x, and if it is not found in 2x, it will be searched in 3x.
 
-> 加载图片
+> Loading Images
 
-要加载图片，可以使用 AssetImage类。例如，我们可以从上面的asset声明中加载背景图片：
+To load an image, you can use the `AssetImage` class. For example, we can load the background image from the asset declaration above:
 
 ```dart
 Widget build(BuildContext context) {
@@ -897,7 +902,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-注意，AssetImage 并非是一个widget， 它实际上是一个ImageProvider，有些时候你可能期望直接得到一个显示图片的widget，那么你可以使用Image.asset()方法，如：
+Note that `AssetImage` is not a widget; it is actually an `ImageProvider`. Sometimes you may expect to directly get a widget that displays an image, in which case you can use the `Image.asset()` method, such as:
 
 ```dart
 Widget build(BuildContext context) {
@@ -905,253 +910,251 @@ Widget build(BuildContext context) {
 }
 ```
 
-使用默认的 asset bundle 加载资源时，内部会自动处理分辨率等，这些处理对开发者来说是无感知的。 (如果使用一些更低级别的类，如 ImageStream或 ImageCache 时你会注意到有与缩放相关的参数)
+When loading resources using the default asset bundle, resolution and other aspects are automatically handled internally, and these processes are transparent to developers. (If you use some lower-level classes such as `ImageStream` or `ImageCache`, you will notice parameters related to scaling.)
 
-> 依赖包中的资源图片
+> Loading Images from Dependent Packages
 
-要加载依赖包中的图像，必须给AssetImage提供package参数。  
+To load images from a dependent package, you must provide the `package` parameter to `AssetImage`.
 
-例如，假设您的应用程序依赖于一个名为“my_icons”的包，它具有如下目录结构：  
+For example, suppose your application depends on a package named "my_icons" with the following directory structure:
 
 …/pubspec.yaml  
 …/icons/heart.png  
 …/icons/1.5x/heart.png  
 …/icons/2.0x/heart.png  
-…etc.  
-然后加载图像，使用:    
+…etc.
+
+Then load the image using:
 
 ```dart
 new AssetImage('icons/heart.png', package: 'my_icons')
 ```
 
-或
+or
 
 ```dart
 new Image.asset('icons/heart.png', package: 'my_icons')
 ```
 
-> 注意：包在使用本身的资源时也应该加上package参数来获取。
+> Note: Packages should also add the `package` parameter when using their own resources.
 
-> 打包包中的 assets
+> Packaging Assets in Packages
 
-如果在pubspec.yaml文件中声明了期望的资源，它将会打包到相应的package中。特别是，包本身使用的资源必须在pubspec.yaml中指定。  
+If the desired resources are declared in the `pubspec.yaml` file, they will be packaged into the corresponding package. In particular, the resources used by the package itself must be specified in `pubspec.yaml`.
 
-包也可以选择在其lib/文件夹中包含未在其pubspec.yaml文件中声明的资源。在这种情况下，对于要打包的图片，应用程序必须在pubspec.yaml中指定包含哪些图像。 例如，一个名为“fancy_backgrounds”的包，可能包含以下文件：  
+A package can also choose to include resources in its `lib/` folder that are not declared in its `pubspec.yaml` file. In this case, for images to be packaged, the application must specify which images to include in its `pubspec.yaml`. For example, a package named "fancy_backgrounds" may contain the following files:
 
 …/lib/backgrounds/background1.png  
 …/lib/backgrounds/background2.png  
-…/lib/backgrounds/background3.png  
+…/lib/backgrounds/background3.png
 
-要包含第一张图像，必须在pubspec.yaml的assets部分中声明它：  
+To include the first image, you must declare it in the `assets` section of `pubspec.yaml`:
 
 ```yaml
 flutter:
-  assets:
-    - packages/fancy_backgrounds/backgrounds/background1.png
+    assets:
+        - packages/fancy_backgrounds/backgrounds/background1.png
 ```
 
-lib/是隐含的，所以它不应该包含在资产路径中。
+`lib/` is implied, so it should not be included in the asset path.
 
-#### 3.4.5. 特定平台 assets
+#### 3.4.5. Platform-Specific Assets
 
-上面的资源都是flutter应用中的，这些资源只有在Flutter框架运行之后才能使用，如果要给我们的应用设置APP图标或者添加启动图，那我们必须使用特定平台的assets。
+The above resources are all in the Flutter application, and these resources can only be used after the Flutter framework is running. If you want to set the app icon or add a splash screen for your application, you must use platform-specific assets.
 
-> 设置APP图标  
+> Setting the App Icon
 
-更新Flutter应用程序启动图标的方式与在本机Android或iOS应用程序中更新启动图标的方式相同。  
+Updating the launcher icon of a Flutter application is the same as updating the launcher icon in a native Android or iOS application.
 
-- Android  
+- **Android**
 
-在Flutter项目的根目录中，导航到.../android/app/src/main/res目录，里面包含了各种资源文件夹（如mipmap-hdpi已包含占位符图像“ic_launcher.png”）。 只需按照Android开发人员指南中的说明， 将其替换为所需的资源，并遵守每种屏幕密度（dpi）的建议图标大小标准。  
+In the root directory of the Flutter project, navigate to the `.../android/app/src/main/res` directory, which contains various resource folders (such as `mipmap-hdpi` which already contains a placeholder image "ic_launcher.png"). Simply replace it with the desired resource according to the instructions in the Android Developer Guide, and follow the recommended icon size standards for each screen density (dpi).
 
-> 注意: 如果您重命名.png文件，则还必须在您AndroidManifest.xml的<application>标签的android:icon属性中更新名称。
+> Note: If you rename the .png file, you must also update the name in the `android:icon` attribute of the `<application>` tag in your `AndroidManifest.xml`.
 
-- iOS  
+- **iOS**
 
-在Flutter项目的根目录中，导航到.../ios/Runner。该目录中Assets.xcassets/AppIcon.appiconset已经包含占位符图片）， 只需将它们替换为适当大小的图片，保留原始文件名称。   
+In the root directory of the Flutter project, navigate to `.../ios/Runner`. The `Assets.xcassets/AppIcon.appiconset` directory already contains placeholder images; simply replace them with images of the appropriate size while keeping the original file names.
 
-在Flutter框架加载时，Flutter会使用本地平台机制绘制启动页。此启动页将持续到Flutter渲染应用程序的第一帧时。  
+When the Flutter framework loads, Flutter uses the native platform mechanism to draw the splash screen. This splash screen will persist until Flutter renders the first frame of the application.
 
-> 注意: 这意味着如果您不在应用程序的main()方法中调用runApp 函数 （或者更具体地说，如果您不调用window.render去响应window.onDrawFrame）的话， 启动屏幕将永远持续显示.  
+> Note: This means that if you do not call the `runApp` function in the application's `main()` method (or more specifically, if you do not call `window.render` to respond to `window.onDrawFrame`), the splash screen will be displayed forever.
 
-## 4. 生命周期
+## 4. Lifecycle
 
-通过父 Widget 初始化时传入的静态配置，StatelessWidget 就能完全控制其静态展示。而 StatefulWidget，还需要借助于 State 对象，在特定的阶段来处理用户的交互或其内部数据的变化，并体现在 UI 上。这些特定的阶段，就涵盖了一个组件从加载到卸载的全过程，即生命周期。与 iOS 的 ViewController、Android 的 Activity 一样，Flutter 中的 Widget 也存在生命周期，并且通过 State 来体现.  
+With the static configuration passed in when the parent Widget is initialized, a `StatelessWidget` can fully control its static display. A `StatefulWidget`, however, needs to rely on a `State` object to handle user interactions or changes in its internal data at specific stages, and reflect these changes in the UI. These specific stages cover the entire process of a component from loading to unloading, i.e., the lifecycle. Similar to `ViewController` in iOS and `Activity` in Android, Widgets in Flutter also have a lifecycle, which is reflected through `State`.
 
-App 则是一个特殊的 Widget。除了需要处理视图显示的各个阶段（即视图的生命周期）之外，还需要应对应用从启动到退出所经历的各个状态（App 的生命周期）。  
+An App is a special Widget. In addition to handling the various stages of view display (i.e., the view lifecycle), it also needs to respond to the various states experienced by the app from startup to exit (the App lifecycle).
 
-从 Widget（的 State）和 App 这两个维度看生命周期。  
+Let's look at the lifecycle from two dimensions: Widget (its State) and App.
 
-### 4.1. State 生命周期
+### 4.1. State Lifecycle
 
-State 的生命周期，指的是在用户参与的情况下，其关联的 Widget 所经历的，从创建到显示再到更新最后到停止，直至销毁等各个过程阶段。  
+The lifecycle of a `State` refers to the process stages experienced by its associated Widget from creation to display, then to update, and finally to stop and even destruction, with user participation.
 
 ![lifecycle](./readmeImages/lifecycle.jpg)
 
-State 的生命周期可以分为 3 个阶段：创建（插入视图树）、更新（在视图树中存在）、销毁（从视图树中移除）。  
+The lifecycle of a `State` can be divided into three stages: **Creation (insertion into the view tree)**, **Update (existence in the view tree)**, and **Destruction (removal from the view tree)**.
 
-#### 4.1.1. 创建
+#### 4.1.1. Creation
 
-State初始化时会依次执行 ：构造方法 -> initState -> didChangeDependencies -> build，随后完成页面渲染。  
+When a `State` is initialized, the following methods are executed in sequence: **Constructor -> initState -> didChangeDependencies -> build**, after which the page rendering is completed.
 
-1. 构造方法是 State 生命周期的起点，Flutter 会通过调用 StatefulWidget.createState() 来创建一个 State。我们可以通过构造方法，来接收父 Widget 传递的初始化 UI 配置数据。这些配置数据，决定了 Widget 最初的呈现效果。i
-2. nitState，会在 State 对象被插入视图树的时候调用。这个函数在 State 的生命周期中只会被调用一次，所以我们可以在这里做一些初始化工作，比如为状态变量设定默认值。
-3. didChangeDependencies 则用来专门处理 State 对象依赖关系变化，会在 initState() 调用结束后，被 Flutter 调用。
-4. build，作用是构建视图。经过以上步骤，Framework 认为 State 已经准备好了，于是调用 build。我们需要在这个函数中，根据父 Widget 传递过来的初始化配置数据，以及 State 的当前状态，创建一个 Widget 然后返回。
+1. **Constructor**: The starting point of the `State` lifecycle. Flutter creates a `State` by calling `StatefulWidget.createState()`. We can receive the initial UI configuration data passed by the parent Widget through the constructor. These configuration data determine the initial display effect of the Widget.
+2. **initState**: Called when the `State` object is inserted into the view tree. This function is only called once in the lifecycle of the `State`, so we can perform some initialization work here, such as setting default values for state variables.
+3. **didChangeDependencies**: Specifically used to handle changes in the dependency relationships of the `State` object, and is called by Flutter after `initState()` is called.
+4. **build**: Its role is to build the view. After the above steps, the Framework considers the `State` to be ready and then calls `build`. We need to create and return a Widget in this function based on the initial configuration data passed by the parent Widget and the current state of the `State`.
 
-#### 4.1.2. 更新
+#### 4.1.2. Update
 
-Widget 的状态更新，主要由 3 个方法触发：setState、didchangeDependencies 与 didUpdateWidget。
+The state update of a Widget is mainly triggered by three methods: `setState`, `didChangeDependencies`, and `didUpdateWidget`.
 
-1. setState：当状态数据发生变化时，通过调用这个方法告诉 Flutter数据变啦，请使用更新后的数据重建 UI。
-2. didChangeDependencies：State 对象的依赖关系发生变化后，Flutter 会回调这个方法，随后触发组件构建。哪些情况下 State 对象的依赖关系会发生变化呢？典型的场景是，系统语言 Locale 或应用主题改变时，系统会通知 State 执行 didChangeDependencies 回调方法。
-3. didUpdateWidget：当 Widget 的配置发生变化时，比如，父 Widget 触发重建（即父 Widget 的状态发生变化时），热重载时，系统会调用这个函数。
+1. **setState**: When the state data changes, call this method to tell Flutter that the data has changed and to rebuild the UI with the updated data.
+2. **didChangeDependencies**: After the dependency relationships of the `State` object change, Flutter will call back this method and then trigger component building. In what cases do the dependency relationships of the `State` object change? A typical scenario is when the system language Locale or application theme changes, the system will notify the `State` to execute the `didChangeDependencies` callback method.
+3. **didUpdateWidget**: Called when the configuration of the Widget changes, such as when the parent Widget triggers a rebuild (i.e., when the state of the parent Widget changes) or during hot reload.
 
-一旦这三个方法被调用，Flutter 随后就会销毁老 Widget，并调用 build 方法重建 Widget。
+Once these three methods are called, Flutter will then destroy the old Widget and call the `build` method to rebuild the Widget.
 
-#### 4.1.3. 销毁
+#### 4.1.3. Destruction
 
-比如组件被移除，或是页面销毁的时候，系统会调用 deactivate 和 dispose 这两个方法，来移除或销毁组件。
+For example, when a component is removed or the page is destroyed, the system will call the `deactivate` and `dispose` methods to remove or destroy the component.
 
-调用机制：
+Calling mechanism:
 
-- 当组件的可见状态发生变化时，deactivate 函数会被调用，这时 State 会被暂时从视图树中移除。页面切换时，由于 State 对象在视图树中的位置发生了变化，需要先暂时移除后再重新添加，重新触发组件构建，因此这个函数也会被调用。
-- 当 State 被永久地从视图树中移除时，Flutter 会调用 dispose 函数。而一旦到这个阶段，组件就要被销毁了，所以我们可以在这里进行最终的资源释放、移除监听、清理环境，等等。
+- **deactivate**: Called when the visibility state of the component changes, at which time the `State` is temporarily removed from the view tree. When the page is switched, since the position of the `State` object in the view tree changes, it needs to be temporarily removed and then readded, triggering component rebuilding again, so this function will also be called.
+- **dispose**: Called when the `State` is permanently removed from the view tree. Once this stage is reached, the component is to be destroyed, so we can perform final resource release, remove listeners, clean up the environment, etc., here.
 
 ![lifestate](./readmeImages/lifestate.jpg)
 
-左边部分展示了当父 Widget 状态发生变化时，父子双方共同的生命周期；而中间和右边部分则描述了页面切换时，两个关联的 Widget 的生命周期函数是如何响应的。  
+The left part shows the common lifecycle of parent and child Widgets when the state of the parent Widget changes; the middle and right parts describe how the lifecycle functions of two associated Widgets respond when the page is switched.
 
+| Method Name           | Function                                                 | Calling Timing                                              | Call Count |
+| --------------------- | -------------------------------------------------------- | ----------------------------------------------------------- | ---------- |
+| Constructor           | Receive initial UI configuration data from parent Widget | When creating the State                                     | 1          |
+| initState             | Initialization work related to rendering                 | When the State is inserted into the view tree               | 1          |
+| didChangeDependencies | Handle changes in State object dependencies              | After initState() and when State object dependencies change | >=1        |
+| build                 | Build the view                                           | When the State is ready with data to render                 | >=1        |
+| setState              | Trigger view rebuild                                     | When the UI needs to be refreshed                           | >=1        |
+| didUpdateWidget       | Handle changes in Widget configuration                   | When parent Widget's setState triggers child Widget rebuild | >=1        |
+| deactivate            | Component is removed                                     | When the component is invisible                             | 1          |
+| dispose               | Component is destroyed                                   | When the component is permanently removed                   | 1          |
 
-| 方法名 | 功能 | 调用时机 | 调用次数 |
-| ----- | ----- | ----- | ----- | 
-| 构造方法 | 接受父Widget传递的初始化UI配置数据 | 创建State时 | 1 |
-| initState | 与渲染相关的初始化工作 | 在State被插入视图树时 | 1 |
-| didChangeDependencies | 处理State对象依赖关系变化 | initState后及State对象依赖关系变化时 | >=1 |
-| build | 构建视图 | State准备好数据需要渲染时 | >=1 |
-| setState | 触发视图重建 | 需要刷新UI时 | >=1 |
-| didUpdateWidget | 处理Widget的配置变化 | 父Widget setState 触发子Widget重建时  | >=1 |
-| deactivate | 组件被移除 | 组件不可视 | 1 |
-| dispose | 组件被销毁 | 组件被永久移除 | 1 |
+### 4.2. App Lifecycle
 
-### 4.2. App 生命周期
+The App lifecycle defines the entire process of an App from startup to exit.
 
-App 的生命周期，定义了 App 从启动到退出的全过程。
+In native Android and iOS development, it is sometimes necessary to perform corresponding processing in the App lifecycle events, such as when the App enters the foreground from the background, exits to the background from the foreground, or performs some processing after the UI is drawn. You can listen to the App lifecycle and perform corresponding processing by overriding the lifecycle callback methods of `Activity` and `ViewController`, or registering relevant notifications of the application.
 
-在原生 Android、iOS 开发中，有时需要在对应的 App 生命周期事件中做相应处理，比如 App 从后台进入前台、从前台退到后台，或是在 UI 绘制完成后做一些处理。可以通过重写 Activity、ViewController 生命周期回调方法，或是注册应用程序的相关通知，来监听 App 的生命周期并做相应的处理。  
+In Flutter, we can use the `WidgetsBindingObserver` class to achieve the same requirement.
 
-而在 Flutter 中，可以利用 WidgetsBindingObserver 类，来实现同样的需求。  
-
-WidgetsBindingObserver 中具体有哪些回调函数：
+What callback functions are specifically available in `WidgetsBindingObserver`:
 
 ```dart
 abstract class WidgetsBindingObserver {
-  //页面pop
+  // Page pop
   Future<bool> didPopRoute() => Future<bool>.value(false);
-  //页面push
+  // Page push
   Future<bool> didPushRoute(String route) => Future<bool>.value(false);
-  //系统窗口相关改变回调，如旋转
+  // Callback for system window-related changes, such as rotation
   void didChangeMetrics() { }
-  //文本缩放系数变化
+  // Text scale factor change
   void didChangeTextScaleFactor() { }
-  //系统亮度变化
+  // System brightness change
   void didChangePlatformBrightness() { }
-  //本地化语言变化
+  // Localization language change
   void didChangeLocales(List<Locale> locale) { }
-  //App生命周期变化
+  // App lifecycle change
   void didChangeAppLifecycleState(AppLifecycleState state) { }
-  //内存警告回调
+  // Memory warning callback
   void didHaveMemoryPressure() { }
-  //Accessibility相关特性回调
+  // Accessibility-related feature callback
   void didChangeAccessibilityFeatures() {}
 }
 ```
 
-官方文档：https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html  
+Official documentation: https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html
 
+#### 4.2.1. Lifecycle Callback
 
-#### 4.2.1. 生命周期回调
+In the `didChangeAppLifecycleState` callback function, there is a parameter of the enumeration type `AppLifecycleState`, which is Flutter's encapsulation of the App lifecycle state. Its commonly used states include `resumed`, `inactive`, and `paused`.
 
-didChangeAppLifecycleState 回调函数中，有一个参数类型为 AppLifecycleState 的枚举类，这个枚举类是 Flutter 对 App 生命周期状态的封装。它的常用状态包括 resumed、inactive、paused 这三个。  
+- **resumed**: Visible and can respond to user input.
+- **inactive**: In an inactive state and cannot process user responses.
+- **paused**: Invisible and cannot respond to user input, but continues to run in the background.
 
-- resumed：可见的，并能响应用户的输入。
-- inactive：处在不活动状态，无法处理用户响应。
-- paused：不可见并不能响应用户的输入，但是在后台继续活动中。  
-
-在 initState 时注册了监听器，在 didChangeAppLifecycleState 回调方法中打印了当前的 App 状态，最后在 dispose 时把监听器移除：  
+Register the listener in `initState`, print the current App state in the `didChangeAppLifecycleState` callback method, and finally remove the listener in `dispose`:
 
 ```dart
-
 class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver{
   @override
   @mustCallSuper
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);//注册监听器
+    WidgetsBinding.instance.addObserver(this);// Register listener
   }
   @override
   @mustCallSuper
   void dispose(){
     super.dispose();
-    WidgetsBinding.instance.removeObserver(this);//移除监听器
+    WidgetsBinding.instance.removeObserver(this);// Remove listener
   }
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     print("$state");
     if (state == AppLifecycleState.resumed) {
-      //do sth
+      // Do something
     }
   }
 }
 ```
 
-- 从后台切入前台，控制台打印的 App 生命周期变化如下: AppLifecycleState.paused->AppLifecycleState.inactive->AppLifecycleState.resumed；
-- 从前台退回后台，控制台打印的 App 生命周期变化则变成了：AppLifecycleState.resumed->AppLifecycleState.inactive->AppLifecycleState.paused。
+- When switching from the background to the foreground, the App lifecycle changes printed on the console are as follows: `AppLifecycleState.paused -> AppLifecycleState.inactive -> AppLifecycleState.resumed`;
+- When switching from the foreground to the background, the App lifecycle changes printed on the console become: `AppLifecycleState.resumed -> AppLifecycleState.inactive -> AppLifecycleState.paused`.
 
 ![applifecycle](./readmeImages/applifecycle.jpg)
 
-#### 4.4.2. 帧绘制回调
+#### 4.4.2. Frame Drawing Callback
 
-WidgetsBinding 提供了单次 Frame 绘制回调，以及实时 Frame 绘制回调两种机制，来分别满足不同的需求：  
+`WidgetsBinding` provides two mechanisms for frame drawing callbacks: single frame drawing callback and real-time frame drawing callback, to meet different needs respectively:
 
-单次 Frame 绘制回调，通过 addPostFrameCallback 实现。它会在当前 Frame 绘制完成后进行进行回调，并且只会回调一次，如果要再次监听则需要再设置一次。
+- **Single frame drawing callback**: Implemented through `addPostFrameCallback`. It will be called back after the current frame is drawn, and will only be called back once. If you want to listen again, you need to set it again.
 
 ```dart
 WidgetsBinding.instance.addPostFrameCallback((_){
-  print("单次Frame绘制回调");//只回调一次
+  print("Single frame drawing callback");// Only called back once
 });
 ```
 
-实时 Frame 绘制回调，则通过 addPersistentFrameCallback 实现。这个函数会在每次绘制 Frame 结束后进行回调，可以用做 FPS 监测。
+- **Real-time frame drawing callback**: Implemented through `addPersistentFrameCallback`. This function will be called back after each frame is drawn, and can be used for FPS monitoring.
 
 ```dart
 WidgetsBinding.instance.addPersistentFrameCallback((_){
-  print("实时Frame绘制回调");//每帧都回调
+  print("Real-time frame drawing callback");// Called back every frame
 });
 ```
 
-## 5. 基础组件
+## 5. Basic Components
 
-### 5.1. Widget简介
+### 5.1. Widget Introduction
 
-#### 5.1.1. 概念
+#### 5.1.1. Concept
 
-在Flutter中几乎所有的对象都是一个Widget。与原生开发中“控件”不同的是，Flutter中的Widget的概念更广泛，它不仅可以表示UI元素，也可以表示一些功能性的组件如：用于手势检测的 GestureDetector widget、用于APP主题数据传递的Theme等等，而原生开发中的控件通常只是指UI元素。在后面的内容中，我们在描述UI元素时可能会用到“控件”、“组件”这样的概念，读者心里需要知道他们就是widget，只是在不同场景的不同表述而已。由于Flutter主要就是用于构建用户界面的，所以，在大多数时候，读者可以认为widget就是一个控件，不必纠结于概念。  
+Almost all objects in Flutter are a Widget. Unlike "controls" in native development, the concept of Widget in Flutter is broader. It can not only represent UI elements but also some functional components such as: `GestureDetector` widget for gesture detection, `Theme` for passing APP theme data, etc., while controls in native development usually only refer to UI elements. In the following content, when describing UI elements, we may use terms such as "control" and "component". Readers should know that they are all widgets, just different expressions in different scenarios. Since Flutter is mainly used to build user interfaces, in most cases, readers can consider a widget as a control and do not need to get bogged down in the concept.
 
-#### 5.1.2. Widget与Element
+#### 5.1.2. Widget and Element
 
-在Flutter中，Widget的功能是“描述一个UI元素的配置数据”，它就是说，Widget其实并不是表示最终绘制在设备屏幕上的显示元素，而它只是描述显示元素的一个配置数据。  
+In Flutter, the function of a Widget is to "describe the configuration data of a UI element". That is to say, a Widget does not actually represent the display element finally drawn on the device screen, but only describes the configuration data of the display element.
 
-实际上，Flutter中真正代表屏幕上显示元素的类是Element，也就是说Widget只是描述Element的配置数据，Widget只是UI元素的一个配置数据，并且一个Widget可以对应多个Element。  
+In fact, the class that truly represents the display element on the screen in Flutter is `Element`, that is, a Widget only describes the configuration data of an `Element`, and a Widget is only the configuration data of a UI element, and one Widget can correspond to multiple `Element`s.
 
-这是因为同一个Widget对象可以被添加到UI树的不同部分，而真正渲染时，UI树的每一个Element节点都会对应一个Widget对象。总结一下：  
+This is because the same Widget object can be added to different parts of the UI tree, and when actually rendering, each `Element` node of the UI tree corresponds to a Widget object. To summarize:
 
-- Widget实际上就是Element的配置数据，Widget树实际上是一个配置树，而真正的UI渲染树是由Element构成；不过，由于Element是通过Widget生成的，所以它们之间有对应关系，在大多数场景，我们可以宽泛地认为Widget树就是指UI控件树或UI渲染树。  
-- 一个Widget对象可以对应多个Element对象。这很好理解，根据同一份配置（Widget），可以创建多个实例（Element）。
+- A Widget is actually the configuration data of an `Element`. The Widget tree is actually a configuration tree, and the real UI rendering tree is composed of `Element`s; however, since `Element`s are generated through Widgets, there is a corresponding relationship between them. In most scenarios, we can broadly consider the Widget tree as the UI control tree or UI rendering tree.
+- One Widget object can correspond to multiple `Element` objects. This is easy to understand: multiple instances (`Element`s) can be created according to the same configuration (Widget).
 
-#### 5.1.3. Widget主要接口
+#### 5.1.3. Main Widget Interfaces
 
-Widget类的声明：
+Declaration of the Widget class:
 
 ```dart
 @immutable
@@ -1180,34 +1183,34 @@ abstract class Widget extends DiagnosticableTree {
 }
 ```
 
-- Widget类继承自DiagnosticableTree，DiagnosticableTree即“诊断树”，主要作用是提供调试信息。
-Key: 这个key属性类似于React/Vue中的key，主要的作用是决定是否在下一次build时复用旧的widget，决定的条件在canUpdate()方法中。  
+- The Widget class inherits from `DiagnosticableTree`, which is a "diagnostic tree" whose main role is to provide debugging information.
+    - **Key**: This `key` attribute is similar to the key in React/Vue, and its main role is to determine whether to reuse the old widget in the next build. The decision condition is in the `canUpdate()` method.
 
-- createElement()：正如前文所述“一个Widget可以对应多个Element”；Flutter Framework在构建UI树时，会先调用此方法生成对应节点的Element对象。此方法是Flutter Framework隐式调用的，在我们开发过程中基本不会调用到。  
+- **createElement()**: As mentioned earlier, "one Widget can correspond to multiple `Element`s"; when the Flutter Framework builds the UI tree, it will first call this method to generate the `Element` object corresponding to the node. This method is implicitly called by the Flutter Framework and is basically not called during our development process.
 
-- debugFillProperties(...) 复写父类的方法，主要是设置诊断树的一些特性。
+- **debugFillProperties(...)**: Overrides the method of the parent class, mainly to set some characteristics of the diagnostic tree.
 
-- canUpdate(...)是一个静态方法，它主要用于在Widget树重新build时复用旧的widget，其实具体来说，应该是：是否用新的Widget对象去更新旧UI树上所对应的Element对象的配置；通过其源码我们可以看到，只要newWidget与oldWidget的runtimeType和key同时相等时就会用newWidget去更新Element对象的配置，否则就会创建新的Element。  
+- **canUpdate(...)**: A static method mainly used to reuse old widgets when the Widget tree is rebuilt. Specifically, it should be: whether to use the new Widget object to update the configuration of the `Element` object corresponding to the old UI tree; through its source code, we can see that as long as the `runtimeType` and `key` of the `newWidget` and `oldWidget` are equal at the same time, the `newWidget` will be used to update the configuration of the `Element` object, otherwise a new `Element` will be created.
 
-Widget类本身是一个抽象类，其中最核心的就是定义了createElement()接口，在Flutter开发中，我们一般都不用直接继承Widget类来实现一个新组件，相反，我们通常会通过继承StatelessWidget或StatefulWidget来间接继承Widget类来实现。StatelessWidget和StatefulWidget都是直接继承自Widget类，而这两个类也正是Flutter中非常重要的两个抽象类，它们引入了两种Widget模型.
+The Widget class itself is an abstract class, and the core of it is to define the `createElement()` interface. In Flutter development, we generally do not directly inherit the Widget class to implement a new component. Instead, we usually indirectly inherit the Widget class by inheriting `StatelessWidget` or `StatefulWidget` to implement it. Both `StatelessWidget` and `StatefulWidget` directly inherit from the Widget class, and these two classes are also very important abstract classes in Flutter, which introduce two Widget models.
 
 #### 5.1.4. StatelessWidget
 
-StatelessWidget相对比较简单，它继承自Widget类，重写了createElement()方法：
+`StatelessWidget` is relatively simple. It inherits from the Widget class and overrides the `createElement()` method:
 
 ```dart
 @override
 StatelessElement createElement() => new StatelessElement(this);
 ```
 
-StatelessElement 间接继承自Element类，与StatelessWidget相对应（作为其配置数据）。    
+`StatelessElement` indirectly inherits from the `Element` class and corresponds to `StatelessWidget` (as its configuration data).
 
-StatelessWidget用于不需要维护状态的场景，它通常在build方法中通过嵌套其它Widget来构建UI，在构建过程中会递归的构建其嵌套的Widget。我们看一个简单的例子：  
+`StatelessWidget` is used in scenarios where there is no need to maintain state. It usually builds the UI by nesting other Widgets in the `build` method, and recursively builds its nested Widgets during the building process. Let's look at a simple example:
 
 ```dart
 class Echo extends StatelessWidget {
   const Echo({
-    Key key,  
+    Key key,
     @required this.text,
     this.backgroundColor:Colors.grey,
   }):super(key:key);
@@ -1227,9 +1230,9 @@ class Echo extends StatelessWidget {
 }
 ```
 
-> 按照惯例，widget的构造函数参数应使用命名参数，命名参数中的必要参数要添加@required标注，这样有利于静态代码分析器进行检查。另外，在继承widget时，第一个参数通常应该是Key，另外，如果Widget需要接收子Widget，那么child或children参数通常应被放在参数列表的最后。同样是按照惯例，Widget的属性应尽可能的被声明为final，防止被意外改变。  
+> By convention, the constructor parameters of a widget should use named parameters, and required parameters among the named parameters should be marked with `@required`, which is conducive to static code analyzer checking. In addition, when inheriting a widget, the first parameter should usually be `Key`, and if the Widget needs to receive child Widgets, the `child` or `children` parameters should usually be placed at the end of the parameter list. Also by convention, the properties of a Widget should be declared as `final` as much as possible to prevent accidental changes.
 
-然后我们可以通过如下方式使用它：  
+Then we can use it in the following way:
 
 ```dart
 Widget build(BuildContext context) {
@@ -1239,7 +1242,7 @@ Widget build(BuildContext context) {
 
 > Context
 
-build方法有一个context参数，它是BuildContext类的一个实例，表示当前widget在widget树中的上下文，每一个widget都会对应一个context对象（因为每一个widget都是widget树上的一个节点）。实际上，context是当前widget在widget树中位置中执行”相关操作“的一个句柄，比如它提供了从当前widget开始向上遍历widget树以及按照widget类型查找父级widget的方法。下面是在子树中获取父级widget的一个示例：
+The `build` method has a `context` parameter, which is an instance of the `BuildContext` class, representing the context of the current widget in the widget tree. Each widget corresponds to a `context` object (because each widget is a node on the widget tree). In fact, `context` is a handle for performing "related operations" at the position of the current widget in the widget tree. For example, it provides methods to traverse the widget tree upward from the current widget and find the parent widget by widget type. Here is an example of obtaining the parent widget in the subtree:
 
 ```dart
 class ContextRoute extends StatelessWidget {
@@ -1247,13 +1250,13 @@ class ContextRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Context测试"),
+        title: Text("Context Test"),
       ),
       body: Container(
         child: Builder(builder: (context) {
-          // 在Widget树中向上查找最近的父级`Scaffold` widget
+          // Look up the nearest parent `Scaffold` widget in the Widget tree
           Scaffold scaffold = context.ancestorWidgetOfExactType(Scaffold);
-          // 直接返回 AppBar的title， 此处实际上是Text("Context测试")
+          // Directly return the title of the AppBar, which is actually Text("Context Test") here
           return (scaffold.appBar as AppBar).title;
         }),
       ),
@@ -1264,7 +1267,7 @@ class ContextRoute extends StatelessWidget {
 
 #### 5.1.5. StatefulWidget
 
-StatefulWidget也是继承自Widget类，并重写了createElement()方法，不同的是返回的Element 对象并不相同；另外StatefulWidget类中添加了一个新的接口createState()。
+`StatefulWidget` also inherits from the Widget class and overrides the `createElement()` method. The difference is that the returned `Element` object is different; in addition, a new interface `createState()` is added to the `StatefulWidget` class.
 
 ```dart
 abstract class StatefulWidget extends Widget {
@@ -1278,11 +1281,11 @@ abstract class StatefulWidget extends Widget {
 }
 ```
 
-### 5.2. 文本及样式
+### 5.2. Text and Styles
 
 #### 5.2.1. Text
 
-Text用于显示简单样式文本，它包含一些控制文本显示样式的一些属性，一个简单的例子如下：
+`Text` is used to display simple styled text and contains some properties to control the display style of the text. Here is a simple example:
 
 ```dart
 Text("Hello world",
@@ -1299,22 +1302,22 @@ Text("Hello world",
 );
 ```
 
-- textAlign：文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget本身。本例中虽然是指定了居中对齐，但因为Text文本内容宽度不足一行，Text的宽度和文本内容长度相等，那么这时指定对齐方式是没有意义的，只有Text宽度大于文本内容长度时指定此属性才有意义。  
+- **textAlign**: The alignment of the text; it can be left-aligned, right-aligned, or centered. Note that the reference frame for alignment is the Text widget itself. In this example, although center alignment is specified, since the width of the Text text content is less than one line, the width of the Text is equal to the length of the text content, so specifying the alignment is meaningless at this time. This attribute is only meaningful when the Text width is greater than the text content length.
 
-- maxLines、overflow：指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“...”表示；TextOverflow的其它截断方式请参考SDK文档。  
+- **maxLines, overflow**: Specify the maximum number of lines to display the text. By default, the text wraps automatically. If this parameter is specified, the text will not exceed the specified number of lines at most. If there is excess text, you can specify the truncation method through `overflow`. The default is direct truncation. In this example, the specified truncation method is `TextOverflow.ellipsis`, which will truncate the excess text and represent it with an ellipsis "..."; for other truncation methods of `TextOverflow`, please refer to the SDK documentation.
 
-- textScaleFactor：代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。  
+- **textScaleFactor**: Represents the scaling factor of the text relative to the current font size. Compared to setting the `fontSize` of the text style `style` attribute, it is a shortcut to adjust the font size. The default value of this attribute can be obtained through `MediaQueryData.textScaleFactor`. If there is no `MediaQuery`, the default value will be 1.0.
 
 #### 5.2.2. TextStyle
 
-TextStyle用于指定文本显示的样式如颜色、字体、粗细、背景等。我们看一个示例：
+`TextStyle` is used to specify the display style of text, such as color, font, weight, background, etc. Let's look at an example:
 
 ```dart
 Text("Hello world",
   style: TextStyle(
     color: Colors.blue,
     fontSize: 18.0,
-    height: 1.2,  
+    height: 1.2,
     fontFamily: "Courier",
     background: new Paint()..color=Colors.yellow,
     decoration:TextDecoration.underline,
@@ -1323,29 +1326,28 @@ Text("Hello world",
 );
 ```
 
-- height：该属性用于指定行高，但它并不是一个绝对值，而是一个因子，具体的行高等于fontSize*height。  
+- **height**: This attribute is used to specify the line height, but it is not an absolute value, but a factor. The specific line height is equal to `fontSize * height`.
 
-- fontFamily ：由于不同平台默认支持的字体集不同，所以在手动指定字体时一定要先在不同平台测试一下。  
+- **fontFamily**: Since different platforms support different default font sets, you must test manually specified fonts on different platforms first.
 
-- fontSize：该属性和Text的textScaleFactor都用于控制字体大小。但是有两个主要区别：  
-
-fontSize可以精确指定字体大小，而textScaleFactor只能通过缩放比例来控制。  
-textScaleFactor主要是用于系统字体大小设置改变时对Flutter应用字体进行全局调整，而fontSize通常用于单个文本，字体大小不会跟随系统字体大小变化。  
+- **fontSize**: This attribute and `textScaleFactor` of `Text` are both used to control the font size. However, there are two main differences:
+    1. `fontSize` can specify the font size accurately, while `textScaleFactor` can only control it through the scaling ratio.
+    2. `textScaleFactor` is mainly used to globally adjust the font of the Flutter application when the system font size setting changes, while `fontSize` is usually used for individual text, and the font size will not change with the system font size.
 
 #### 5.2.3. TextSpan
 
-Text的所有文本内容只能按同一种样式，如果我们需要对一个Text内容的不同部分按照不同的样式显示，这时就可以使用TextSpan，它代表文本的一个“片段”。我们看看TextSpan的定义:
+All text content of `Text` can only use the same style. If we need to display different parts of a `Text` content in different styles, we can use `TextSpan`, which represents a "fragment" of the text. Let's look at the definition of `TextSpan`:
 
 ```dart
 const TextSpan({
-  TextStyle style, 
-  Sting text,
+  TextStyle style,
+  String text,
   List<TextSpan> children,
   GestureRecognizer recognizer,
 });
 ```
 
-其中style 和 text属性代表该文本片段的样式和内容。 children是一个TextSpan的数组，也就是说TextSpan可以包括其他TextSpan。而recognizer用于对该文本片段上用于手势进行识别处理。
+Among them, the `style` and `text` attributes represent the style and content of this text fragment. `children` is an array of `TextSpan`, that is, a `TextSpan` can include other `TextSpan`s. And `recognizer` is used to handle gesture recognition on this text fragment.
 
 ```dart
 Text.rich(TextSpan(
@@ -1357,7 +1359,7 @@ Text.rich(TextSpan(
        text: "https://flutterchina.club",
        style: TextStyle(
          color: Colors.blue
-       ),  
+       ),
        recognizer: _tapRecognizer
      ),
     ]
@@ -1366,11 +1368,11 @@ Text.rich(TextSpan(
 
 #### 5.2.4. DefaultTextStyle
 
-在Widget树中，文本的样式默认是可以被继承的（子类文本类组件未指定具体样式时可以使用Widget树中父级设置的默认样式），因此，如果在Widget树的某一个节点处设置一个默认的文本样式，那么该节点的子树中所有文本都会默认使用这个样式，而DefaultTextStyle正是用于设置默认文本样式的。
+In the Widget tree, the style of text can be inherited by default (subclass text components can use the default style set by the parent level in the Widget tree when no specific style is specified). Therefore, if a default text style is set at a certain node in the Widget tree, all text in the subtree of that node will use this style by default, and `DefaultTextStyle` is used to set the default text style.
 
 ```dart
 DefaultTextStyle(
-  //1.设置文本默认样式  
+  // 1. Set default text style
   style: TextStyle(
     color:Colors.red,
     fontSize: 20.0,
@@ -1383,7 +1385,7 @@ DefaultTextStyle(
       Text("I am Jack"),
       Text("I am Jack",
         style: TextStyle(
-          inherit: false, //2.不继承默认样式
+          inherit: false, // 2. Do not inherit the default style
           color: Colors.grey
         ),
       ),
@@ -1392,15 +1394,15 @@ DefaultTextStyle(
 );
 ```
 
-上面代码中，我们首先设置了一个默认的文本样式，即字体为20像素(逻辑像素)、颜色为红色。然后通过DefaultTextStyle 设置给了子树Column节点处，这样一来Column的所有子孙Text默认都会继承该样式，除非Text显示指定不继承样式，如代码中注释2。  
+In the above code, we first set a default text style, that is, the font size is 20 pixels (logical pixels) and the color is red. Then we set it to the subtree `Column` node through `DefaultTextStyle`, so that all descendant `Text`s of `Column` will inherit this style by default, unless the `Text` explicitly specifies not to inherit the style, as shown in comment 2 in the code.
 
-#### 5.2.5. 字体
+#### 5.2.5. Fonts
 
-在Flutter中使用字体分两步完成。首先在pubspec.yaml中声明它们，以确保它们会打包到应用程序中。然后通过TextStyle属性使用字体。
+Using fonts in Flutter is done in two steps. First, declare them in `pubspec.yaml` to ensure they are packaged into the application. Then use the font through the `TextStyle` attribute.
 
-##### 5.2.5.1. 在asset中声明
+##### 5.2.5.1. Declare in Assets
 
-要将字体文件打包到应用中，和使用其它资源一样，要先在pubspec.yaml中声明它。然后将字体文件复制到在pubspec.yaml中指定的位置。如：
+To package font files into the application, you need to declare them in `pubspec.yaml` first, just like using other resources. Then copy the font files to the location specified in `pubspec.yaml`. For example:
 
 ```dart
 flutter:
@@ -1417,75 +1419,74 @@ flutter:
         - asset: assets/fonts/abrilfatface/AbrilFatface-Regular.ttf
 ```
 
-##### 5.2.5.2. 使用字体
+##### 5.2.5.2. Using Fonts
 
 ```dart
-// 声明文本样式
+// Declare text style
 const textStyle = const TextStyle(
   fontFamily: 'Raleway',
 );
 
-// 使用文本样式
+// Use text style
 var buttonText = const Text(
   "Use the font for this text",
   style: textStyle,
 );
 ```
 
-##### 5.2.5.3. Package中的字体
+##### 5.2.5.3. Fonts in Packages
 
-要使用Package中定义的字体，必须提供package参数。例如，假设上面的字体声明位于my_package包中。然后创建TextStyle的过程如下：
+To use fonts defined in a Package, you must provide the `package` parameter. For example, assume the above font declaration is in the `my_package` package. Then the process of creating `TextStyle` is as follows:
 
 ```dart
 const textStyle = const TextStyle(
   fontFamily: 'Raleway',
-  package: 'my_package', //指定包名
+  package: 'my_package', // Specify package name
 );
 ```
 
-如果在package包内部使用它自己定义的字体，也应该在创建文本样式时指定package参数，如上例所示。
+If a package uses its own defined fonts internally, it should also specify the `package` parameter when creating the text style, as shown in the above example.
 
-一个包也可以只提供字体文件而不需要在pubspec.yaml中声明。 这些文件应该存放在包的lib/文件夹中。字体文件不会自动绑定到应用程序中，应用程序可以在声明字体时有选择地使用这些字体。假设一个名为my_package的包中有一个字体文件：
+A package can also provide only font files without declaring them in `pubspec.yaml`. These files should be stored in the `lib/` folder of the package. Font files are not automatically bound to the application, and the application can selectively use these fonts when declaring fonts. Assume a package named `my_package` has a font file:
 
 ```dart
 lib/fonts/Raleway-Medium.ttf
 ```
 
-然后，应用程序可以声明一个字体，如下面的示例所示：
+Then the application can declare a font as shown in the following example:
 
 ```yaml
 flutter:
-   fonts:
-     - family: Raleway
-       fonts:
-         - asset: assets/fonts/Raleway-Regular.ttf
-         - asset: packages/my_package/fonts/Raleway-Medium.ttf
-           weight: 500
+    fonts:
+        - family: Raleway
+          fonts:
+              - asset: assets/fonts/Raleway-Regular.ttf
+              - asset: packages/my_package/fonts/Raleway-Medium.ttf
+                weight: 500
 ```
 
-lib/是隐含的，所以它不应该包含在asset路径中。
+`lib/` is implied, so it should not be included in the asset path.
 
-在这种情况下，由于应用程序本地定义了字体，所以在创建TextStyle时可以不指定package参数：
+In this case, since the font is defined locally by the application, the `package` parameter does not need to be specified when creating `TextStyle`:
 
 ```dart
 const textStyle = const TextStyle(
   fontFamily: 'Raleway',
 );
-
 ```
 
-### 5.3. 按钮
+### 5.3. Buttons
 
-#### 5.3.1. Material组件库中的按钮
+#### 5.3.1. Buttons in the Material Component Library
 
-Material 组件库中提供了多种按钮组件如RaisedButton、FlatButton、OutlineButton等，它们都是直接或间接对RawMaterialButton组件的包装定制，所以他们大多数属性都和RawMaterialButton一样。在介绍各个按钮时我们先介绍其默认外观，而按钮的外观大都可以通过属性来自定义，我们在后面统一介绍这些属性。另外，所有Material 库中的按钮都有如下相同点：  
+The Material component library provides a variety of button components such as `RaisedButton`, `FlatButton`, `OutlineButton`, etc. They are all directly or indirectly packaged and customized for the `RawMaterialButton` component, so most of their attributes are the same as `RawMaterialButton`. When introducing each button, we first introduce its default appearance, and the appearance of the button can be customized through attributes, which we will introduce uniformly later. In addition, all buttons in the Material library have the following common points:
 
-按下时都会有“水波动画”（又称“涟漪动画”，就是点击时按钮上会出现水波荡漾的动画）。   
-有一个onPressed属性来设置点击回调，当按钮按下时会执行该回调，如果不提供该回调则按钮会处于禁用状态，禁用状态不响应用户点击。  
+- They all have a "water ripple animation" (also known as "ripple animation") when pressed (that is, a water ripple animation will appear on the button when clicked).
+- There is an `onPressed` attribute to set the click callback. When the button is pressed, this callback will be executed. If this callback is not provided, the button will be in a disabled state and will not respond to user clicks.
 
 ##### 5.3.1.1. RaisedButton
 
-RaisedButton 即"漂浮"按钮，它默认带有阴影和灰色背景。按下后，阴影会变大。
+`RaisedButton` is a "floating" button, which has a shadow and a gray background by default. When pressed, the shadow becomes larger.
 
 ```dart
 RaisedButton(
@@ -1496,7 +1497,7 @@ RaisedButton(
 
 ##### 5.3.1.2. FlatButton
 
-即扁平按钮，默认背景透明并不带阴影。按下后，会有背景色.
+A flat button with a transparent background and no shadow by default. When pressed, a background color will appear.
 
 ```dart
 FlatButton(
@@ -1507,7 +1508,7 @@ FlatButton(
 
 ##### 5.3.1.3. OutlineButton
 
-默认有一个边框，不带阴影且背景透明。按下后，边框颜色会变亮、同时出现背景和阴影(较弱).
+Has a border by default, no shadow, and a transparent background. When pressed, the border color becomes brighter, and a background and shadow (weak) appear at the same time.
 
 ```dart
 OutlineButton(
@@ -1518,7 +1519,7 @@ OutlineButton(
 
 ##### 5.3.1.4. IconButton
 
-是一个可点击的Icon，不包括文字，默认没有背景，点击后会出现背景.
+A clickable `Icon` without text, no background by default, and a background appears when clicked.
 
 ```dart
 IconButton(
@@ -1527,75 +1528,75 @@ IconButton(
 )
 ```
 
-##### 5.3.1.5. 带图标的按钮
+##### 5.3.1.5. Buttons with Icons
 
-RaisedButton、FlatButton、OutlineButton都有一个icon 构造函数，通过它可以轻松创建带图标的按钮
+`RaisedButton`, `FlatButton`, and `OutlineButton` all have an `icon` constructor, through which you can easily create buttons with icons.
 
 ```dart
 RaisedButton.icon(
   icon: Icon(Icons.send),
-  label: Text("发送"),
+  label: Text("Send"),
   onPressed: _onPressed,
 ),
 OutlineButton.icon(
   icon: Icon(Icons.add),
-  label: Text("添加"),
+  label: Text("Add"),
   onPressed: _onPressed,
 ),
 FlatButton.icon(
   icon: Icon(Icons.info),
-  label: Text("详情"),
+  label: Text("Details"),
   onPressed: _onPressed,
 ),
 ```
 
-#### 5.3.2. 自定义按钮外观
+#### 5.3.2. Customizing Button Appearance
 
-按钮外观可以通过其属性来定义，不同按钮属性大同小异
+The appearance of buttons can be defined through their attributes, and different buttons have similar attributes.
 
 ```dart
 const FlatButton({
-  ...  
-  @required this.onPressed, //按钮点击回调
-  this.textColor, //按钮文字颜色
-  this.disabledTextColor, //按钮禁用时的文字颜色
-  this.color, //按钮背景颜色
-  this.disabledColor,//按钮禁用时的背景颜色
-  this.highlightColor, //按钮按下时的背景颜色
-  this.splashColor, //点击时，水波动画中水波的颜色
-  this.colorBrightness,//按钮主题，默认是浅色主题 
-  this.padding, //按钮的填充
-  this.shape, //外形
-  @required this.child, //按钮的内容
+  ...
+  @required this.onPressed, // Button click callback
+  this.textColor, // Text color of the button
+  this.disabledTextColor, // Text color when the button is disabled
+  this.color, // Background color of the button
+  this.disabledColor,// Background color when the button is disabled
+  this.highlightColor, // Background color when the button is pressed
+  this.splashColor, // Color of the water ripple in the water ripple animation when clicked
+  this.colorBrightness,// Button theme, light theme by default
+  this.padding, // Padding of the button
+  this.shape, // Shape
+  @required this.child, // Content of the button
 })
 ```
 
-### 5.4. 图片及ICON
+### 5.4. Images and Icons
 
-#### 5.4.1. 图片
+#### 5.4.1. Images
 
-Flutter中，我们可以通过Image组件来加载并显示图片，Image的数据源可以是asset、文件、内存以及网络。
+In Flutter, we can load and display images using the `Image` widget. The data sources for `Image` can be assets, files, memory, or the network.
 
 > ImageProvider
 
-ImageProvider 是一个抽象类，主要定义了图片数据获取的接口load()，从不同的数据源获取图片需要实现不同的ImageProvider ，如AssetImage是实现了从Asset中加载图片的ImageProvider，而NetworkImage实现了从网络加载图片的ImageProvider。
+`ImageProvider` is an abstract class that mainly defines the `load()` interface for obtaining image data. Different `ImageProvider` implementations are required to fetch images from different data sources. For example, `AssetImage` implements `ImageProvider` for loading images from assets, while `NetworkImage` implements it for loading images from the network.
 
 > Image
 
-Image widget有一个必选的image参数，它对应一个ImageProvider。下面我们分别演示一下如何从asset和网络加载图片。
+The `Image` widget has a required `image` parameter that corresponds to an `ImageProvider`. Below we demonstrate how to load images from assets and the network respectively.
 
-> 从asset中加载图片
+> Loading images from assets
 
-1. 在工程根目录下创建一个images目录，并将图片avatar.png拷贝到该目录。
+1. Create an `images` directory in the project root directory and copy the image `avatar.png` to this directory.
 
-2. 在pubspec.yaml中的flutter部分添加如下内容：
+2. Add the following content to the `flutter` section in `pubspec.yaml`:
 
 ```yaml
 assets:
     - images/avatar.png
 ```
 
-3. 加载该图片
+3. Load the image
 
 ```dart
 Image(
@@ -1604,7 +1605,7 @@ Image(
 );
 ```
 
-Image也提供了一个快捷的构造函数Image.asset用于从asset中加载、显示图片：
+`Image` also provides a convenient constructor `Image.asset` for loading and displaying images from assets:
 
 ```dart
 Image.asset("images/avatar.png",
@@ -1612,7 +1613,7 @@ Image.asset("images/avatar.png",
 )
 ```
 
-从网络加载图片
+Loading images from the network
 
 ```dart
 Image(
@@ -1622,7 +1623,7 @@ Image(
 )
 ```
 
-Image也提供了一个快捷的构造函数Image.network用于从网络加载、显示图片：
+`Image` also provides a convenient constructor `Image.network` for loading and displaying images from the network:
 
 ```dart
 Image.network(
@@ -1631,36 +1632,35 @@ Image.network(
 )
 ```
 
-> 参数
+> Parameters
 
-Image在显示图片时定义了一系列参数，通过这些参数我们可以控制图片的显示外观、大小、混合效果等。我们看一下Image的主要参数：
+The `Image` widget defines a series of parameters for controlling the display appearance, size, blending effects, etc., of the image. Let's look at the main parameters of `Image`:
 
 ```dart
 const Image({
   ...
-  this.width, //图片的宽
-  this.height, //图片高度
-  this.color, //图片的混合色值
-  this.colorBlendMode, //混合模式
-  this.fit,//缩放模式
-  this.alignment = Alignment.center, //对齐方式
-  this.repeat = ImageRepeat.noRepeat, //重复方式
+  this.width, // Width of the image
+  this.height, // Height of the image
+  this.color, // Color blend value for the image
+  this.colorBlendMode, // Blend mode
+  this.fit, // Scaling mode
+  this.alignment = Alignment.center, // Alignment
+  this.repeat = ImageRepeat.noRepeat, // Repeat mode
   ...
 })
 ```
 
-- width、height：用于设置图片的宽、高，当不指定宽高时，图片会根据当前父容器的限制，尽可能的显示其原始大小，如果只设置width、height的其中一个，那么另一个属性默认会按比例缩放，但可以通过下面介绍的fit属性来指定适应规则。  
+- `width`, `height`: Used to set the width and height of the image. When not specified, the image will display its original size as much as possible according to the constraints of the parent container. If only one of `width` or `height` is set, the other attribute will scale proportionally by default, but you can specify the adaptation rule through the `fit` attribute introduced below.
 
-- fit：该属性用于在图片的显示空间和图片本身大小不同时指定图片的适应模式。适应模式是在BoxFit中定义，它是一个枚举类型，有如下值：  
+- `fit`: This attribute is used to specify the adaptation mode of the image when the display space is different from the image's own size. The adaptation modes are defined in `BoxFit`, which is an enumeration type with the following values:
+    - `fill`: Stretches to fill the display space, changing the aspect ratio of the image and causing distortion.
+    - `cover`: Scales up the image proportionally to fill the display space centered, without distorting the image; parts exceeding the display space will be clipped.
+    - `contain`: This is the default adaptation rule for images. The image scales to fit the current display space while maintaining its aspect ratio, without distortion.
+    - `fitWidth`: The width of the image scales to the width of the display space, the height scales proportionally, then centers the display; the image does not distort, and parts exceeding the display space are clipped.
+    - `fitHeight`: The height of the image scales to the height of the display space, the width scales proportionally, then centers the display; the image does not distort, and parts exceeding the display space are clipped.
+    - `none`: The image has no adaptation strategy and will be displayed within the display space. If the image is larger than the display space, only the middle part of the image will be shown.
 
-  + fill：会拉伸填充满显示空间，图片本身长宽比会发生变化，图片会变形。  
-  + cover：会按图片的长宽比放大后居中填满显示空间，图片不会变形，超出显示空间部分会被剪裁。  
-  + contain：这是图片的默认适应规则，图片会在保证图片本身长宽比不变的情况下缩放以适应当前显示空间，图片不会变形。  
-  + fitWidth：图片的宽度会缩放到显示空间的宽度，高度会按比例缩放，然后居中显示，图片不会变形，超出显示空间部分会被剪裁。  
-  + fitHeight：图片的高度会缩放到显示空间的高度，宽度会按比例缩放，然后居中显示，图片不会变形，超出显示空间部分会被剪裁。  
-  + none：图片没有适应策略，会在显示空间内显示图片，如果图片比显示空间大，则显示空间只会显示图片中间部分。    
-
-- color和 colorBlendMode：在图片绘制时可以对每一个像素进行颜色混合处理，color指定混合色，而colorBlendMode指定混合模式，下面是一个简单的示例：
+- `color` and `colorBlendMode`: Color blending can be applied to each pixel when drawing the image. `color` specifies the blend color, and `colorBlendMode` specifies the blend mode. Here is a simple example:
 
 ```dart
 Image(
@@ -1671,7 +1671,7 @@ Image(
 );
 ```
 
-- repeat：当图片本身大小小于显示空间时，指定图片的重复规则。简单示例如下：
+- `repeat`: Specifies the repetition rule of the image when the image's own size is smaller than the display space. A simple example is as follows:
 
 ```dart
 Image(
@@ -1682,26 +1682,26 @@ Image(
 )
 ```
 
-#### 5.4.2. icon
+#### 5.4.2. Icons
 
-Flutter中，可以像Web开发一样使用iconfont，iconfont即“字体图标”，它是将图标做成字体文件，然后通过指定不同的字符而显示不同的图片。  
+In Flutter, we can use icon fonts (iconfont) just like in web development. Iconfont refers to making icons into font files, and then displaying different images by specifying different characters.
 
-在字体文件中，每一个字符都对应一个位码，而每一个位码对应一个显示字形，不同的字体就是指字形不同，即字符对应的字形是不同的。而在iconfont中，只是将位码对应的字形做成了图标，所以不同的字符最终就会渲染成不同的图标。  
+In a font file, each character corresponds to a code point, and each code point corresponds to a displayed glyph. Different fonts mean different glyphs, i.e., the glyphs corresponding to characters are different. In iconfont, only the glyphs corresponding to code points are made into icons, so different characters will eventually be rendered as different icons.
 
-在Flutter开发中，iconfont和图片相比有如下优势：   
+In Flutter development, iconfont has the following advantages over images:
 
-体积小：可以减小安装包大小。  
-矢量的：iconfont都是矢量图标，放大不会影响其清晰度。  
-可以应用文本样式：可以像文本一样改变字体图标的颜色、大小对齐等。  
-可以通过TextSpan和文本混用。  
+- Small size: Reduces the size of the installation package.
+- Vector-based: Iconfont icons are all vector icons, and scaling will not affect their clarity.
+- Applicable to text styles: You can change the color, size, alignment, etc., of font icons just like text.
+- Can be mixed with text via `TextSpan`.
 
-##### 使用Material Design字体图标
+##### Using Material Design font icons
 
-Flutter默认包含了一套Material Design的字体图标，在pubspec.yaml文件中的配置如下
+Flutter includes a set of Material Design font icons by default, configured in the `pubspec.yaml` file as follows:
 
 ```yaml
 flutter:
-  uses-material-design: true
+    uses-material-design: true
 ```
 
 ```dart
@@ -1722,7 +1722,7 @@ Text(icons,
 );
 ```
 
-通过这个示例可以看到，使用图标就像使用文本一样，但是这种方式需要我们提供每个图标的码点，这并对开发者不友好，所以，Flutter封装了IconData和Icon来专门显示字体图标，上面的例子也可以用如下方式实现：
+This example shows that using icons is like using text, but this method requires us to provide the code point of each icon, which is not developer-friendly. Therefore, Flutter encapsulates `IconData` and `Icon` to specifically display font icons. The above example can also be implemented as follows:
 
 ```dart
 Row(
@@ -1735,41 +1735,41 @@ Row(
 )
 ```
 
-> 使用自定义字体图标
+> Using custom font icons
 
-我们也可以使用自定义字体图标。iconfont.cn上有很多字体图标素材，我们可以选择自己需要的图标打包下载后，会生成一些不同格式的字体文件，在Flutter中，我们使用ttf格式即可。  
+We can also use custom font icons. There are many font icon resources on iconfont.cn. We can select the icons we need, download them in a package, and generate font files in different formats. In Flutter, we use the TTF format.
 
-假设我们项目中需要使用一个书籍图标和微信图标，我们打包下载后导入：  
+Assume our project needs to use a book icon and a WeChat icon. After downloading and importing them in a package:
 
-1. 导入字体图标文件；这一步和导入字体文件相同，假设我们的字体图标文件保存在项目根目录下，路径为"fonts/iconfont.ttf"：
+1. Import the font icon file; this step is the same as importing font files. Assume our font icon file is saved in the project root directory with the path "fonts/iconfont.ttf":
 
 ```dart
 fonts:
-  - family: myIcon  #指定一个字体名
+  - family: myIcon  # Specify a font name
     fonts:
       - asset: fonts/iconfont.ttf
 ```
 
-2. 为了使用方便，我们定义一个MyIcons类，功能和Icons类一样：将字体文件中的所有图标都定义成静态变量：
+2. For ease of use, we define a `MyIcons` class with the same function as the `Icons` class: define all icons in the font file as static variables:
 
 ```dart
 class MyIcons{
-  // book 图标
+  // Book icon
   static const IconData book = const IconData(
-      0xe614, 
-      fontFamily: 'myIcon', 
+      0xe614,
+      fontFamily: 'myIcon',
       matchTextDirection: true
   );
-  // 微信图标
+  // WeChat icon
   static const IconData wechat = const IconData(
-      0xec7d,  
-      fontFamily: 'myIcon', 
+      0xec7d,
+      fontFamily: 'myIcon',
       matchTextDirection: true
   );
 }
 ```
 
-3. 使用
+3. Usage
 
 ```dart
 Row(
@@ -1781,9 +1781,9 @@ Row(
 )
 ```
 
-### 5.5. 单选开关和复选框
+### 5.5. Switches and Checkboxes
 
-Material 组件库中提供了Material风格的单选开关Switch和复选框Checkbox，虽然它们都是继承自StatefulWidget，但它们本身不会保存当前选中状态，选中状态都是由父组件来管理的。当Switch或Checkbox被点击时，会触发它们的onChanged回调，我们可以在此回调中处理选中状态改变逻辑.
+The Material component library provides Material-style switch (`Switch`) and checkbox (`Checkbox`) widgets. Although both inherit from `StatefulWidget`, they do not save their current selected state themselves; the selected state is managed by the parent component. When a `Switch` or `Checkbox` is clicked, their `onChanged` callback is triggered, and we can handle the logic for changing the selected state in this callback.
 
 ```dart
 class SwitchAndCheckBoxTestRoute extends StatefulWidget {
@@ -1792,16 +1792,16 @@ class SwitchAndCheckBoxTestRoute extends StatefulWidget {
 }
 
 class _SwitchAndCheckBoxTestRouteState extends State<SwitchAndCheckBoxTestRoute> {
-  bool _switchSelected=true; //维护单选开关状态
-  bool _checkboxSelected=true;//维护复选框状态
+  bool _switchSelected=true; // Maintain the state of the switch
+  bool _checkboxSelected=true;// Maintain the state of the checkbox
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Switch(
-          value: _switchSelected,//当前状态
+          value: _switchSelected,// Current state
           onChanged:(value){
-            //重新构建页面  
+            // Rebuild the page
             setState(() {
               _switchSelected=value;
             });
@@ -1809,7 +1809,7 @@ class _SwitchAndCheckBoxTestRouteState extends State<SwitchAndCheckBoxTestRoute>
         ),
         Checkbox(
           value: _checkboxSelected,
-          activeColor: Colors.red, //选中时的颜色
+          activeColor: Colors.red, // Color when selected
           onChanged:(value){
             setState(() {
               _checkboxSelected=value;
@@ -1822,24 +1822,24 @@ class _SwitchAndCheckBoxTestRouteState extends State<SwitchAndCheckBoxTestRoute>
 }
 ```
 
-上面代码中，由于需要维护Switch和Checkbox的选中状态，所以SwitchAndCheckBoxTestRoute继承自StatefulWidget 。在其build方法中分别构建了一个Switch和Checkbox，初始状态都为选中状态，当用户点击时，会将状态置反，然后回调用setState()通知Flutter framework重新构建UI。
+In the above code, since we need to maintain the selected state of `Switch` and `Checkbox`, `SwitchAndCheckBoxTestRoute` inherits from `StatefulWidget`. In its `build` method, a `Switch` and a `Checkbox` are constructed respectively, both initially in the selected state. When the user clicks them, the state is reversed, and then `setState()` is called to notify the Flutter framework to rebuild the UI.
 
-> 属性及外观
+> Properties and Appearance
 
-Switch和Checkbox属性比较简单，它们都有一个activeColor属性，用于设置激活态的颜色。至于大小，到目前为止，Checkbox的大小是固定的，无法自定义，而Switch只能定义宽度，高度也是固定的。值得一提的是Checkbox有一个属性tristate ，表示是否为三态，其默认值为false ，这时Checkbox有两种状态即“选中”和“不选中”，对应的value值为true和false 。如果tristate值为true时，value的值会增加一个状态null
+`Switch` and `Checkbox` have simple properties; both have an `activeColor` property for setting the color in the active state. As for size, so far, the size of `Checkbox` is fixed and cannot be customized, while only the width of `Switch` can be defined, and its height is also fixed. It is worth mentioning that `Checkbox` has a `tristate` property indicating whether it is a tri-state checkbox, with a default value of `false`. In this case, `Checkbox` has two states: "selected" and "unselected", corresponding to `true` and `false` for the `value` property. If `tristate` is `true`, the `value` property will have an additional state of `null`.
 
-### 5.6. 输入框及表单
+### 5.6. Text Fields and Forms
 
-Material组件库中提供了输入框组件TextField和表单组件Form
+The Material component library provides the text field component `TextField` and the form component `Form`.
 
 #### 5.6.1. TextField
 
-TextField用于文本输入，它提供了很多属性
+`TextField` is used for text input and provides many properties:
 
 ```dart
 const TextField({
   ...
-  TextEditingController controller, 
+  TextEditingController controller,
   FocusNode focusNode,
   InputDecoration decoration = const InputDecoration(),
   TextInputType keyboardType,
@@ -1863,150 +1863,155 @@ const TextField({
 })
 ```
 
-- controller：编辑框的控制器，通过它可以设置/获取编辑框的内容、选择编辑内容、监听编辑文本改变事件。大多数情况下我们都需要显式提供一个controller来与文本框交互。如果没有提供controller，则TextField内部会自动创建一个。  
+- `controller`: The controller of the edit box, through which we can set/get the content of the edit box, select edit content, and listen for text change events. In most cases, we need to explicitly provide a `controller` to interact with the text field. If no `controller` is provided, `TextField` will automatically create one internally.
 
-- focusNode：用于控制TextField是否占有当前键盘的输入焦点。它是我们和键盘交互的一个句柄（handle）
+- `focusNode`: Used to control whether the `TextField` has the current input focus of the keyboard. It is a handle for us to interact with the keyboard.
 
-- InputDecoration：用于控制TextField的外观显示，如提示文本、背景颜色、边框等。
+- `InputDecoration`: Used to control the appearance display of the `TextField`, such as hint text, background color, border, etc.
 
-- keyboardType：用于设置该输入框默认的键盘输入类型，取值如下：  
+- `keyboardType`: Used to set the default keyboard input type of the input box, with the following values:
 
-TextInputType枚举值	含义  
-text	文本输入键盘  
-multiline	多行文本，需和maxLines配合使用(设为null或大于1)  
-number	数字；会弹出数字键盘   
-phone	优化后的电话号码输入键盘；会弹出数字键盘并显示“* #”  
-datetime	优化后的日期输入键盘；Android上会显示“: -”  
-emailAddress	优化后的电子邮件地址；会显示“@ .”  
-url	优化后的url输入键盘； 会显示“/ .”  
+| `TextInputType` Enumeration Value | Meaning                                                                                |
+| --------------------------------- | -------------------------------------------------------------------------------------- |
+| `text`                            | Text input keyboard                                                                    |
+| `multiline`                       | Multi-line text (needs to be used with `maxLines` set to `null` or greater than 1)     |
+| `number`                          | Numeric input (pops up a numeric keyboard)                                             |
+| `phone`                           | Optimized phone number input keyboard (pops up a numeric keyboard and displays "\* #") |
+| `datetime`                        | Optimized date/time input keyboard (displays ": -" on Android)                         |
+| `emailAddress`                    | Optimized email address input keyboard (displays "@ .")                                |
+| `url`                             | Optimized URL input keyboard (displays "/ .")                                          |
 
-- textInputAction：键盘动作按钮图标(即回车键位图标)，它是一个枚举值，有多个可选值.
+- `textInputAction`: The icon of the keyboard action button (i.e., the Enter key icon), which is an enumeration type with multiple optional values.
 
-- style：正在编辑的文本样式。
+- `style`: The style of the text being edited.
 
-- textAlign: 输入框内编辑文本在水平方向的对齐方式。
+- `textAlign`: The horizontal alignment of the edited text within the input box.
 
-- autofocus: 是否自动获取焦点。
+- `autofocus`: Whether to automatically gain focus.
 
-- obscureText：是否隐藏正在编辑的文本，如用于输入密码的场景等，文本内容会用“•”替换。
+- `obscureText`: Whether to hide the text being edited (e.g., for password input scenarios); the text content will be replaced with "•".
 
-- maxLines：输入框的最大行数，默认为1；如果为null，则无行数限制。
+- `maxLines`: The maximum number of lines for the input box, defaulting to 1; if `null`, there is no line limit.
 
-- maxLength和maxLengthEnforced ：maxLength代表输入框文本的最大长度，设置后输入框右下角会显示输入的文本计数。maxLengthEnforced决定当输入文本长度超过maxLength时是否阻止输入，为true时会阻止输入，为false时不会阻止输入但输入框会变红。
+- `maxLength` and `maxLengthEnforced`: `maxLength` represents the maximum length of the text in the input box; when set, the input text count will be displayed in the bottom right corner of the input box. `maxLengthEnforced` determines whether to prevent input when the input text length exceeds `maxLength`: if `true`, input is prevented; if `false`, input is not prevented but the input box turns red.
 
-- onChange：输入框内容改变时的回调函数；注：内容改变事件也可以通过controller来监听。
+- `onChanged`: Callback function when the content of the input box changes; note: content change events can also be monitored through the `controller`.
 
-- onEditingComplete和onSubmitted：这两个回调都是在输入框输入完成时触发，比如按了键盘的完成键（对号图标）或搜索键（🔍图标）。不同的是两个回调签名不同，onSubmitted回调是ValueChanged<String>类型，它接收当前输入内容做为参数，而onEditingComplete不接收参数。
+- `onEditingComplete` and `onSubmitted`: Both callbacks are triggered when input in the input box is completed (e.g., pressing the Done key (checkmark icon) or Search key (🔍 icon) on the keyboard). The difference is their signatures: `onSubmitted` is of type `ValueChanged<String>` and receives the current input content as a parameter, while `onEditingComplete` does not receive parameters.
 
-- inputFormatters：用于指定输入格式；当用户输入内容改变时，会根据指定的格式来校验。
+- `inputFormatters`: Used to specify input formats; when the user's input content changes, it will be validated according to the specified format.
 
-- enable：如果为false，则输入框会被禁用，禁用状态不接收输入和事件，同时显示禁用态样式（在其decoration中定义）。
+- `enabled`: If `false`, the input box is disabled, does not receive input or events, and displays the disabled style (defined in its `decoration`).
 
-- cursorWidth、cursorRadius和cursorColor：这三个属性是用于自定义输入框光标宽度、圆角和颜色的。  
+- `cursorWidth`, `cursorRadius`, and `cursorColor`: These three properties are used to customize the width, rounded corners, and color of the input box cursor.
 
-无边框样式  return TextField(decoration: InputDecoration(border: InputBorder.none));  
-
-示例：登录输入框  
+Borderless style:
 
 ```dart
+return TextField(decoration: InputDecoration(border: InputBorder.none));
+```
 
+Example: Login input fields
+
+```dart
 Column(
-        children: <Widget>[
-          TextField(
-            autofocus: true,
-            decoration: InputDecoration(
-                labelText: "用户名",
-                hintText: "用户名或邮箱",
-                prefixIcon: Icon(Icons.person)
-            ),
-          ),
-          TextField(
-            decoration: InputDecoration(
-                labelText: "密码",
-                hintText: "您的登录密码",
-                prefixIcon: Icon(Icons.lock)
-            ),
-            obscureText: true,
-          ),
-        ],
+  children: <Widget>[
+    TextField(
+      autofocus: true,
+      decoration: InputDecoration(
+        labelText: "Username",
+        hintText: "Username or email",
+        prefixIcon: Icon(Icons.person)
+      ),
+    ),
+    TextField(
+      decoration: InputDecoration(
+        labelText: "Password",
+        hintText: "Your login password",
+        prefixIcon: Icon(Icons.lock)
+      ),
+      obscureText: true,
+    ),
+  ],
 );
 ```
 
-获取输入内容  
-获取输入内容有两种方式：  
+Retrieving input content  
+There are two ways to retrieve input content:
 
-定义两个变量，用于保存用户名和密码，然后在onChange触发时，各自保存一下输入内容。  
-通过controller直接获取。  
-第一种方式比较简单，不在举例，我们来重点看一下第二种方式，我们以用户名输入框举例：  `
+1. Define two variables to save the username and password, then save the input content respectively when `onChange` is triggered.
+2. Retrieve directly through the `controller`.
 
-定义一个controller：
+The first method is relatively simple and will not be exemplified here. Let's focus on the second method, taking the username input box as an example:
+
+Define a controller:
 
 ```dart
-//定义一个controller
+// Define a controller
 TextEditingController _unameController = TextEditingController();
 ```
 
-然后设置输入框controller：
+Then set the input box controller:
 
 ```dart
 TextField(
-    autofocus: true,
-    controller: _unameController, //设置controller
-    ...
+  autofocus: true,
+  controller: _unameController, // Set the controller
+  ...
 )
 ```
 
-通过controller获取输入框内容
+Retrieve the input box content through the controller:
 
 ```dart
-print(_unameController.text)
+print(_unameController.text);
 ```
 
-监听文本变化  
-监听文本变化也有两种方式：  
+Listening for text changes  
+There are also two ways to listen for text changes:
 
-1. 设置onChange回调，如：
+1. Set the `onChanged` callback, e.g.:
 
 ```dart
 TextField(
-    autofocus: true,
-    onChanged: (v) {
-      print("onChange: $v");
-    }
+  autofocus: true,
+  onChanged: (v) {
+    print("onChange: $v");
+  }
 )
 ```
 
-2. 通过controller监听，如：
+2. Listen through the `controller`, e.g.:
 
 ```dart
 @override
 void initState() {
-  //监听输入改变  
+  // Listen for input changes
   _unameController.addListener((){
     print(_unameController.text);
   });
 }
 ```
 
-两种方式相比，onChanged是专门用于监听文本变化，而controller的功能却多一些，除了能监听文本变化外，它还可以设置默认值、选择文本，下面我们看一个例子：  
+Comparing the two methods, `onChanged` is specifically used to listen for text changes, while the `controller` has more functions: in addition to listening for text changes, it can also set default values and select text. Let's look at an example:
 
-创建一个controller:  
+Create a controller:
 
 ```dart
 TextEditingController _selectionController =  TextEditingController();
 ```
 
-设置默认值，并从第三个字符开始选中后面的字符
+Set a default value and select characters from the third character onwards:
 
 ```dart
 _selectionController.text="hello world!";
 _selectionController.selection=TextSelection(
-    baseOffset: 2,
-    extentOffset: _selectionController.text.length
+  baseOffset: 2,
+  extentOffset: _selectionController.text.length
 );
 ```
 
-设置controller:
+Set the controller:
 
 ```dart
 TextField(
@@ -2014,12 +2019,12 @@ TextField(
 )
 ```
 
-控制焦点  
+Controlling focus
 
-焦点可以通过FocusNode和FocusScopeNode来控制，默认情况下，焦点由FocusScope来管理，它代表焦点控制范围，可以在这个范围内可以通过FocusScopeNode在输入框之间移动焦点、设置默认焦点等。我们可以通过FocusScope.of(context) 来获取Widget树中默认的FocusScopeNode。下面看一个示例，在此示例中创建两个TextField，第一个自动获取焦点，然后创建两个按钮：  
+Focus can be controlled through `FocusNode` and `FocusScopeNode`. By default, focus is managed by `FocusScope`, which represents the focus control scope. Within this scope, `FocusScopeNode` can be used to move focus between input boxes, set default focus, etc. We can obtain the default `FocusScopeNode` in the Widget tree through `FocusScope.of(context)`. Let's look at an example: create two `TextField`s, where the first one automatically gains focus, then create two buttons:
 
-点击第一个按钮可以将焦点从第一个TextField挪到第二个TextField。  
-点击第二个按钮可以关闭键盘。  
+- Clicking the first button moves focus from the first `TextField` to the second one.
+- Clicking the second button closes the keyboard.
 
 ```dart
 class FocusTestRoute extends StatefulWidget {
@@ -2039,27 +2044,27 @@ class _FocusTestRouteState extends State<FocusTestRoute> {
       child: Column(
         children: <Widget>[
           TextField(
-            autofocus: true, 
-            focusNode: focusNode1,//关联focusNode1
+            autofocus: true,
+            focusNode: focusNode1,// Associate with focusNode1
             decoration: InputDecoration(
-                labelText: "input1"
+              labelText: "input1"
             ),
           ),
           TextField(
-            focusNode: focusNode2,//关联focusNode2
+            focusNode: focusNode2,// Associate with focusNode2
             decoration: InputDecoration(
-                labelText: "input2"
+              labelText: "input2"
             ),
           ),
           Builder(builder: (ctx) {
             return Column(
               children: <Widget>[
                 RaisedButton(
-                  child: Text("移动焦点"),
+                  child: Text("Move Focus"),
                   onPressed: () {
-                    //将焦点从第一个TextField移到第二个TextField
-                    // 这是一种写法 FocusScope.of(context).requestFocus(focusNode2);
-                    // 这是第二种写法
+                    // Move focus from the first TextField to the second one
+                    // One way: FocusScope.of(context).requestFocus(focusNode2);
+                    // Second way:
                     if(null == focusScopeNode){
                       focusScopeNode = FocusScope.of(context);
                     }
@@ -2067,9 +2072,9 @@ class _FocusTestRouteState extends State<FocusTestRoute> {
                   },
                 ),
                 RaisedButton(
-                  child: Text("隐藏键盘"),
+                  child: Text("Hide Keyboard"),
                   onPressed: () {
-                    // 当所有编辑框都失去焦点时键盘就会收起  
+                    // The keyboard will retract when all edit boxes lose focus
                     focusNode1.unfocus();
                     focusNode2.unfocus();
                   },
@@ -2085,38 +2090,37 @@ class _FocusTestRouteState extends State<FocusTestRoute> {
 }
 ```
 
-监听焦点状态改变事件  
+Listening for focus state change events
 
-FocusNode继承自ChangeNotifier，通过FocusNode可以监听焦点的改变事件，如：  
+`FocusNode` inherits from `ChangeNotifier`, and we can listen for focus change events through `FocusNode`, e.g.:
 
 ```dart
-
-// 创建 focusNode   
+// Create focusNode
 FocusNode focusNode = new FocusNode();
 
-// focusNode绑定输入框   
+// Bind focusNode to the input box
 TextField(focusNode: focusNode);
 
-// 监听焦点变化    
+// Listen for focus changes
 focusNode.addListener((){
-   print(focusNode.hasFocus);
+  print(focusNode.hasFocus);
 });
 ```
 
-获得焦点时focusNode.hasFocus值为true，失去焦点时为false。  
+`focusNode.hasFocus` is `true` when focus is gained and `false` when focus is lost.
 
-自定义样式  
+Customizing styles
 
 ```dart
 TextField(
   decoration: InputDecoration(
-    labelText: "请输入用户名",
+    labelText: "Please enter username",
     prefixIcon: Icon(Icons.person),
-    // 未获得焦点下划线设为灰色
+    // Set the underline to gray when not focused
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(color: Colors.grey),
     ),
-    //获得焦点下划线设为蓝色
+    // Set the underline to blue when focused
     focusedBorder: UnderlineInputBorder(
       borderSide: BorderSide(color: Colors.blue),
     ),
@@ -2124,32 +2128,32 @@ TextField(
 ),
 ```
 
-由于TextField在绘制下划线时使用的颜色是主题色里面的hintColor，但提示文本颜色也是用的hintColor， 如果我们直接修改hintColor，那么下划线和提示文本的颜色都会变。值得高兴的是decoration中可以设置hintStyle，它可以覆盖hintColor，并且主题中可以通过inputDecorationTheme来设置输入框默认的decoration。所以我们可以通过主题来自定义，代码如下：  
+Since the color used to draw the underline in `TextField` is `hintColor` in the theme, but the hint text color also uses `hintColor`, directly modifying `hintColor` will change both the underline and hint text colors. Fortunately, `hintStyle` can be set in `decoration` to override `hintColor`, and the default `decoration` of input boxes can be set in the theme through `inputDecorationTheme`. So we can customize it through the theme as follows:
 
 ```dart
 Theme(
   data: Theme.of(context).copyWith(
-      hintColor: Colors.grey[200], //定义下划线颜色
-      inputDecorationTheme: InputDecorationTheme(
-          labelStyle: TextStyle(color: Colors.grey),//定义label字体样式
-          hintStyle: TextStyle(color: Colors.grey, fontSize: 14.0)//定义提示文本样式
-      )
+    hintColor: Colors.grey[200], // Define underline color
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(color: Colors.grey),// Define label font style
+      hintStyle: TextStyle(color: Colors.grey, fontSize: 14.0)// Define hint text style
+    )
   ),
   child: Column(
     children: <Widget>[
       TextField(
         decoration: InputDecoration(
-            labelText: "用户名",
-            hintText: "用户名或邮箱",
-            prefixIcon: Icon(Icons.person)
+          labelText: "Username",
+          hintText: "Username or email",
+          prefixIcon: Icon(Icons.person)
         ),
       ),
       TextField(
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.lock),
-            labelText: "密码",
-            hintText: "您的登录密码",
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 13.0)
+          prefixIcon: Icon(Icons.lock),
+          labelText: "Password",
+          hintText: "Your login password",
+          hintStyle: TextStyle(color: Colors.grey, fontSize: 13.0)
         ),
         obscureText: true,
       )
@@ -2158,29 +2162,29 @@ Theme(
 )
 ```
 
-直接隐藏掉TextField本身的下划线，然后通过Container去嵌套定义样式
+Directly hide the underline of the `TextField` itself, then define the style by nesting it in a `Container`:
 
 ```dart
 Container(
   child: TextField(
     keyboardType: TextInputType.emailAddress,
     decoration: InputDecoration(
-        labelText: "Email",
-        hintText: "电子邮件地址",
-        prefixIcon: Icon(Icons.email),
-        border: InputBorder.none //隐藏下划线
+      labelText: "Email",
+      hintText: "Email address",
+      prefixIcon: Icon(Icons.email),
+      border: InputBorder.none // Hide the underline
     )
   ),
   decoration: BoxDecoration(
-      // 下滑线浅灰色，宽度1像素
-      border: Border(bottom: BorderSide(color: Colors.grey[200], width: 1.0))
+    // Light gray underline with 1-pixel width
+    border: Border(bottom: BorderSide(color: Colors.grey[200], width: 1.0))
   ),
 )
 ```
 
-#### 5.6.2. 表单Form
+#### 5.6.2. Form
 
-Form继承自StatefulWidget对象，它对应的状态类为FormState。
+`Form` inherits from `StatefulWidget`, and its corresponding state class is `FormState`.
 
 ```dart
 Form({
@@ -2191,35 +2195,35 @@ Form({
 })
 ```
 
-- autovalidate：是否自动校验输入内容；当为true时，每一个子FormField内容发生变化时都会自动校验合法性，并直接显示错误信息。否则，需要通过调用FormState.validate()来手动校验。  
+- `autovalidate`: Whether to automatically validate input content; when `true`, the validity of each child `FormField` is automatically validated whenever its content changes, and error messages are displayed directly. Otherwise, validation needs to be triggered manually by calling `FormState.validate()`.
 
-- onWillPop：决定Form所在的路由是否可以直接返回（如点击返回按钮），该回调返回一个Future对象，如果Future的最终结果是false，则当前路由不会返回；如果为true，则会返回到上一个路由。此属性通常用于拦截返回按钮。  
-- onChanged：Form的任意一个子FormField内容发生变化时会触发此回调。  
+- `onWillPop`: Determines whether the route where the `Form` is located can return directly (e.g., clicking the back button). This callback returns a `Future` object; if the final result of the `Future` is `false`, the current route will not return; if `true`, it will return to the previous route. This attribute is usually used to intercept the back button.
+- `onChanged`: Triggered when the content of any child `FormField` in the `Form` changes.
 
-Form的子孙元素必须是FormField类型，FormField是一个抽象类，定义几个属性，FormState内部通过它们来完成操作  
+Descendant elements of `Form` must be of type `FormField`. `FormField` is an abstract class that defines several properties, which `FormState` uses internally to complete operations:
 
 ```dart
 const FormField({
   ...
-  FormFieldSetter<T> onSaved, //保存回调
-  FormFieldValidator<T>  validator, //验证回调
-  T initialValue, //初始值
-  bool autovalidate = false, //是否自动校验。
+  FormFieldSetter<T> onSaved, // Save callback
+  FormFieldValidator<T>  validator, // Validation callback
+  T initialValue, // Initial value
+  bool autovalidate = false, // Whether to validate automatically.
 })
 ```
 
-FormState为Form的State类，可以通过Form.of()或GlobalKey获得。我们可以通过它来对Form的子孙FormField进行统一操作。我们看看其常用的三个方法：  
+`FormState` is the state class of `Form` and can be obtained through `Form.of()` or `GlobalKey`. We can use it to perform unified operations on descendant `FormField`s of the `Form`. Let's look at its three commonly used methods:
 
-- FormState.validate()：调用此方法后，会调用Form子孙FormField的validate回调，如果有一个校验失败，则返回false，所有校验失败项都会返回用户返回的错误提示。  
+- `FormState.validate()`: After calling this method, it will call the `validate` callback of descendant `FormField`s of the `Form`. If any validation fails, it returns `false`, and all failed validations return the error prompts returned by the user.
 
-- FormState.save()：调用此方法后，会调用Form子孙FormField的save回调，用于保存表单内容  
+- `FormState.save()`: After calling this method, it will call the `save` callback of descendant `FormField`s of the `Form` to save form content.
 
-- FormState.reset()：调用此方法后，会将子孙FormField的内容清空。  
+- `FormState.reset()`: After calling this method, it will clear the content of descendant `FormField`s.
 
-我们修改一下上面用户登录的示例，在提交之前校验：  
+We modify the above user login example to validate before submission:
 
-用户名不能为空，如果为空则提示“用户名不能为空”。  
-密码不能小于6位，如果小于6为则提示“密码不能少于6位”。  
+- The username cannot be empty; if empty, prompt "Username cannot be empty".
+- The password cannot be less than 6 characters; if less than 6 characters, prompt "Password cannot be less than 6 characters".
 
 ```dart
 class FormTestRoute extends StatefulWidget {
@@ -2241,42 +2245,42 @@ class _FormTestRouteState extends State<FormTestRoute> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
         child: Form(
-          key: _formKey, //设置globalKey，用于后面获取FormState
-          autovalidate: true, //开启自动校验
+          key: _formKey, // Set globalKey to obtain FormState later
+          autovalidate: true, // Enable automatic validation
           child: Column(
             children: <Widget>[
               TextFormField(
-                  autofocus: true,
-                  controller: _unameController,
-                  decoration: InputDecoration(
-                      labelText: "用户名",
-                      hintText: "用户名或邮箱",
-                      icon: Icon(Icons.person)
-                  ),
-                  // 校验用户名
-                  validator: (v) {
-                    return v
-                        .trim()
-                        .length > 0 ? null : "用户名不能为空";
-                  }
+                autofocus: true,
+                controller: _unameController,
+                decoration: InputDecoration(
+                  labelText: "Username",
+                  hintText: "Username or email",
+                  icon: Icon(Icons.person)
+                ),
+                // Validate username
+                validator: (v) {
+                  return v
+                      .trim()
+                      .length > 0 ? null : "Username cannot be empty";
+                }
 
               ),
               TextFormField(
-                  controller: _pwdController,
-                  decoration: InputDecoration(
-                      labelText: "密码",
-                      hintText: "您的登录密码",
-                      icon: Icon(Icons.lock)
-                  ),
-                  obscureText: true,
-                  //校验密码
-                  validator: (v) {
-                    return v
-                        .trim()
-                        .length > 5 ? null : "密码不能少于6位";
-                  }
+                controller: _pwdController,
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  hintText: "Your login password",
+                  icon: Icon(Icons.lock)
+                ),
+                obscureText: true,
+                // Validate password
+                validator: (v) {
+                  return v
+                      .trim()
+                      .length > 5 ? null : "Password cannot be less than 6 characters";
+                }
               ),
-              // 登录按钮
+              // Login button
               Padding(
                 padding: const EdgeInsets.only(top: 28.0),
                 child: Row(
@@ -2284,20 +2288,20 @@ class _FormTestRouteState extends State<FormTestRoute> {
                     Expanded(
                       child: RaisedButton(
                         padding: EdgeInsets.all(15.0),
-                        child: Text("登录"),
+                        child: Text("Login"),
                         color: Theme
                             .of(context)
                             .primaryColor,
                         textColor: Colors.white,
                         onPressed: () {
-                          //在这里不能通过此方式获取FormState，context不对
+                          // Cannot obtain FormState in this way here because the context is incorrect
                           //print(Form.of(context));
 
-                          // 通过_formKey.currentState 获取FormState后，
-                          // 调用validate()方法校验用户名密码是否合法，校验
-                          // 通过后再提交数据。 
+                          // After obtaining FormState via _formKey.currentState,
+                          // call the validate() method to verify whether the username and password are valid.
+                          // Submit data after successful verification.
                           if((_formKey.currentState as FormState).validate()){
-                            //验证通过提交数据
+                            // Submit data after successful verification
                           }
                         },
                       ),
@@ -2314,18 +2318,18 @@ class _FormTestRouteState extends State<FormTestRoute> {
 }
 ```
 
-登录按钮的onPressed方法中不能通过Form.of(context)来获取，原因是，此处的context为FormTestRoute的context，而Form.of(context)是根据所指定context向根去查找，而FormState是在FormTestRoute的子树中，所以不行。正确的做法是通过Builder来构建登录按钮，Builder会将widget节点的context作为回调参数：
+`Form.of(context)` cannot be used to obtain `FormState` in the `onPressed` method of the login button because the `context` here is that of `FormTestRoute`, and `Form.of(context)` searches up the tree from the specified `context`, while `FormState` is in the subtree of `FormTestRoute`, so it will not work. The correct approach is to build the login button through `Builder`, which will pass the `context` of the widget node as a callback parameter:
 
 ```dart
 Expanded(
- // 通过Builder来获取RaisedButton所在widget树的真正context(Element) 
+ // Obtain the real context (Element) of the widget tree where RaisedButton is located through Builder
   child:Builder(builder: (context){
     return RaisedButton(
       ...
       onPressed: () {
-        //由于本widget也是Form的子代widget，所以可以通过下面方式获取FormState  
+        // Since this widget is also a descendant of the Form, FormState can be obtained in the following way
         if(Form.of(context).validate()){
-          //验证通过提交数据
+          // Submit data after successful verification
         }
       },
     );
@@ -2333,13 +2337,13 @@ Expanded(
 )
 ```
 
-### 5.7. 进度指示器
+### 5.7. Progress Indicators
 
-Material 组件库中提供了两种进度指示器：LinearProgressIndicator和CircularProgressIndicator，它们都可以同时用于精确的进度指示和模糊的进度指示。精确进度通常用于任务进度可以计算和预估的情况，比如文件下载；而模糊进度则用户任务进度无法准确获得的情况，如下拉刷新，数据提交等。
+The Material component library provides two types of progress indicators: `LinearProgressIndicator` and `CircularProgressIndicator`, both of which can be used for both precise and indeterminate progress indication. Precise progress is usually used when the task progress can be calculated and estimated (e.g., file download); indeterminate progress is used when the task progress cannot be accurately obtained (e.g., pull-to-refresh, data submission).
 
 #### 5.7.1. LinearProgressIndicator
 
-LinearProgressIndicator是一个线性、条状的进度条，定义如下：
+`LinearProgressIndicator` is a linear, bar-shaped progress bar defined as follows:
 
 ```dart
 LinearProgressIndicator({
@@ -2350,51 +2354,51 @@ LinearProgressIndicator({
 })
 ```
 
-- value：value表示当前的进度，取值范围为[0,1]；如果value为null时则指示器会执行一个循环动画（模糊进度）；当value不为null时，指示器为一个具体进度的进度条。
+- `value`: Represents the current progress with a value range of [0,1]; if `value` is `null`, the indicator will execute a cyclic animation (indeterminate progress); when `value` is not `null`, the indicator is a progress bar with a specific progress.
 
-- backgroundColor：指示器的背景色。
+- `backgroundColor`: The background color of the indicator.
 
-- valueColor: 指示器的进度条颜色；值得注意的是，该值类型是Animation<Color>，这允许我们对进度条的颜色也可以指定动画。如果我们不需要对进度条颜色执行动画，换言之，我们想对进度条应用一种固定的颜色，此时我们可以通过AlwaysStoppedAnimation来指定。
+- `valueColor`: The color of the progress bar of the indicator; notably, this value is of type `Animation<Color>`, which allows us to specify an animation for the color of the progress bar. If we do not need to animate the color of the progress bar (in other words, we want to apply a fixed color to the progress bar), we can specify it through `AlwaysStoppedAnimation`.
 
 ```dart
-// 模糊进度条(会执行一个动画)
+// Indeterminate progress bar (executes an animation)
 LinearProgressIndicator(
   backgroundColor: Colors.grey[200],
   valueColor: AlwaysStoppedAnimation(Colors.blue),
 ),
-//进度条显示50%
+// Progress bar showing 50%
 LinearProgressIndicator(
   backgroundColor: Colors.grey[200],
   valueColor: AlwaysStoppedAnimation(Colors.blue),
-  value: .5, 
+  value: .5,
 )
 ```
 
-第一个进度条在执行循环动画：蓝色条一直在移动，而第二个进度条是静止的，停在50%的位置。
+The first progress bar executes a cyclic animation: the blue bar keeps moving, while the second progress bar is static, stopping at the 50% position.
 
 #### 5.7.2. CircularProgressIndicator
 
-CircularProgressIndicator是一个圆形进度条，定义如下：
+`CircularProgressIndicator` is a circular progress bar defined as follows:
 
 ```dart
- CircularProgressIndicator({
+CircularProgressIndicator({
   double value,
   Color backgroundColor,
   Animation<Color> valueColor,
   this.strokeWidth = 4.0,
-  ...   
+  ...
 })
 ```
 
-前三个参数和LinearProgressIndicator相同，不再赘述。strokeWidth 表示圆形进度条的粗细。
+The first three parameters are the same as `LinearProgressIndicator` and will not be repeated. `strokeWidth` indicates the thickness of the circular progress bar.
 
 ```dart
-// 模糊进度条(会执行一个旋转动画)
+// Indeterminate progress bar (executes a rotation animation)
 CircularProgressIndicator(
   backgroundColor: Colors.grey[200],
   valueColor: AlwaysStoppedAnimation(Colors.blue),
 ),
-//进度条显示50%，会显示一个半圆
+// Progress bar showing 50%, displaying a semicircle
 CircularProgressIndicator(
   backgroundColor: Colors.grey[200],
   valueColor: AlwaysStoppedAnimation(Colors.blue),
@@ -2402,16 +2406,16 @@ CircularProgressIndicator(
 ),
 ```
 
-第一个进度条会执行旋转动画，而第二个进度条是静止的，它停在50%的位置
+The first progress bar executes a rotation animation, while the second progress bar is static, stopping at the 50% position.
 
-#### 5.7.3. 自定义尺寸
+#### 5.7.3. Customizing Dimensions
 
-我们可以发现LinearProgressIndicator和CircularProgressIndicator，并没有提供设置圆形进度条尺寸的参数；如果我们希望LinearProgressIndicator的线细一些，或者希望CircularProgressIndicator的圆大一些该怎么做？  
+We can find that `LinearProgressIndicator` and `CircularProgressIndicator` do not provide parameters for setting the size of the circular progress bar; what if we want to make the line of `LinearProgressIndicator` thinner or the circle of `CircularProgressIndicator` larger?
 
-其实LinearProgressIndicator和CircularProgressIndicator都是取父容器的尺寸作为绘制的边界的。知道了这点，我们便可以通过尺寸限制类Widget，如ConstrainedBox、SizedBox （我们将在后面容器类组件一章中介绍）来指定尺寸，如：
+In fact, both `LinearProgressIndicator` and `CircularProgressIndicator` take the size of the parent container as the drawing boundary. Knowing this, we can specify the size through size-limiting widgets such as `ConstrainedBox` and `SizedBox` (which we will introduce in the chapter on container widgets), e.g.:
 
 ```dart
-// 线性进度条高度指定为3
+// Set the height of the linear progress bar to 3
 SizedBox(
   height: 3,
   child: LinearProgressIndicator(
@@ -2420,7 +2424,7 @@ SizedBox(
     value: .5,
   ),
 ),
-// 圆形进度条直径指定为100
+// Set the diameter of the circular progress bar to 100
 SizedBox(
   height: 100,
   width: 100,
@@ -2432,10 +2436,10 @@ SizedBox(
 ),
 ```
 
-注意，如果CircularProgressIndicator显示空间的宽高不同，则会显示为椭圆。如：
+Note that if the width and height of the display space of `CircularProgressIndicator` are different, it will be displayed as an ellipse, e.g.:
 
 ```dart
-// 宽高不等
+// Unequal width and height
 SizedBox(
   height: 100,
   width: 130,
@@ -2447,9 +2451,9 @@ SizedBox(
 ),
 ```
 
-#### 5.7.4. 进度色动画
+#### 5.7.4. Progress Color Animation
 
-实现一个进度条在3秒内从灰色变成蓝色的动画：
+Implement an animation where the progress bar changes from gray to blue within 3 seconds:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -2465,7 +2469,7 @@ class _ProgressRouteState extends State<ProgressRoute>
 
   @override
   void initState() {
-    //动画执行时间3秒  
+    // Animation execution time: 3 seconds
     _animationController =
         new AnimationController(vsync: this, duration: Duration(seconds: 3));
     _animationController.forward();
@@ -2484,15 +2488,15 @@ class _ProgressRouteState extends State<ProgressRoute>
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-            Padding(
+          Padding(
             padding: EdgeInsets.all(16),
             child: LinearProgressIndicator(
               backgroundColor: Colors.grey[200],
               valueColor: ColorTween(begin: Colors.grey, end: Colors.blue)
-                .animate(_animationController), // 从灰色变成蓝色
+                .animate(_animationController), // Change from gray to blue
               value: _animationController.value,
             ),
-          );
+          ),
         ],
       ),
     );
@@ -2500,29 +2504,29 @@ class _ProgressRouteState extends State<ProgressRoute>
 }
 ```
 
-#### 5.7.5. 自定义进度指示器样式
+#### 5.7.5. Customizing Progress Indicator Styles
 
-定制进度指示器风格样式，可以通过CustomPainter Widget 来自定义绘制逻辑，实际上LinearProgressIndicator和CircularProgressIndicator也正是通过CustomPainter来实现外观绘制的。
+To customize the style of the progress indicator, you can use the `CustomPainter` widget to define custom drawing logic. In fact, `LinearProgressIndicator` and `CircularProgressIndicator` are also implemented through `CustomPainter` for appearance drawing.
 
-### 5.8. 动画
+### 5.8. Animations
 
-对动画系统而言，为了实现动画，它需要做三件事儿：
+For an animation system to implement animations, it needs to do three things:
 
-1. 确定画面变化的规律；
-2. 根据这个规律，设定动画周期，启动动画；
-3. 定期获取当前动画的值，不断地微调、重绘画面。
+1. Determine the rules for frame changes;
+2. Set the animation cycle according to these rules and start the animation;
+3. Regularly obtain the current value of the animation and continuously fine-tune and redraw the frame.
 
-这三件事情对应到 Flutter 中，就是 Animation、AnimationController 与 Listener：
+In Flutter, these three things correspond to `Animation`, `AnimationController`, and `Listener`:
 
-1. Animation 是 Flutter 动画库中的核心类，会根据预定规则，在单位时间内持续输出动画的当前状态。Animation 知道当前动画的状态（比如，动画是否开始、停止、前进或者后退，以及动画的当前值），但却不知道这些状态究竟应用在哪个组件对象上。换句话说，Animation 仅仅是用来提供动画数据，而不负责动画的渲染。
-2. AnimationController 用于管理 Animation，可以用来设置动画的时长、启动动画、暂停动画、反转动画等。
-3. Listener 是 Animation 的回调函数，用来监听动画的进度变化，在这个回调函数中，根据动画的当前值重新渲染组件，实现动画的渲染。
+1. `Animation` is the core class in Flutter's animation library, which continuously outputs the current state of the animation per unit time according to predefined rules. `Animation` knows the current state of the animation (e.g., whether the animation is started, stopped, advancing or reversing, and the current value of the animation), but it does not know which component object these states are applied to. In other words, `Animation` is only used to provide animation data and is not responsible for animation rendering.
+2. `AnimationController` is used to manage `Animation`; it can be used to set the animation duration, start the animation, pause the animation, reverse the animation, etc.
+3. `Listener` is the callback function of `Animation`, used to listen for changes in animation progress. In this callback function, the component is re-rendered according to the current value of the animation to achieve animation rendering.
 
 #### 5.8.1. AnimatedWidget
 
-在构建 Widget 时，AnimatedWidget 会将 Animation 的状态与其子 Widget 的视觉样式绑定。要使用 AnimatedWidget，需要一个继承自它的新类，并接收 Animation 对象作为其初始化参数。然后，在 build 方法中，读取出 Animation 对象的当前值，用作初始化 Widget 的样式。
+When building a Widget, `AnimatedWidget` binds the state of `Animation` to the visual style of its child Widget. To use `AnimatedWidget`, you need a new class that inherits from it and receives an `Animation` object as its initialization parameter. Then, in the `build` method, read the current value of the `Animation` object and use it to initialize the style of the Widget.
 
-demo: 让大屏幕中间的 Flutter Logo 由小变大。
+Demo: Make the Flutter Logo in the middle of the large screen grow from small to large.
 
 ```dart
 class WidgetAnimateWidget extends StatefulWidget {
@@ -2537,17 +2541,17 @@ class _WidgetAnimateWidgetState extends State<WidgetAnimateWidget>
   @override
   void initState() {
     super.initState();
-    // 创建动画周期为1秒的AnimationController对象
+    // Create an AnimationController object with an animation cycle of 1 second
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1000));
 
     final CurvedAnimation curve =
         CurvedAnimation(parent: controller, curve: Curves.elasticOut);
 
-    // 创建从50到200线性变化的Animation对象
+    // Create an Animation object that changes linearly from 50.0 to 200.0
     animation = Tween(begin: 50.0, end: 200.0).animate(curve);
 
-// 启动动画
+    // Start the animation
     controller.repeat(reverse: true);
   }
 
@@ -2562,7 +2566,7 @@ class _WidgetAnimateWidgetState extends State<WidgetAnimateWidget>
 
   @override
   void dispose() {
-    // 释放资源
+    // Release resources
     controller.dispose();
     super.dispose();
   }
@@ -2583,46 +2587,45 @@ class AnimatedLogo extends AnimatedWidget {
     );
   }
 }
-
 ```
 
-在创建 AnimationController 的时候，设置了一个 vsync 属性。这个属性是用来防止出现不可见动画的。vsync 对象会把动画绑定到一个 Widget，当 Widget 不显示时，动画将会暂停，当 Widget 再次显示时，动画会重新恢复执行，这样就可以避免动画的组件不在当前屏幕时白白消耗资源。
+When creating `AnimationController`, a `vsync` property is set. This property is used to prevent invisible animations from running. The `vsync` object binds the animation to a Widget: when the Widget is not displayed, the animation pauses; when the Widget is displayed again, the animation resumes execution, thus avoiding wasting resources when the animated component is not on the current screen.
 
-Animation 只是用于提供动画数据，并不负责动画渲染，所以我们还需要在 Widget 的 build 方法中，把当前动画状态的值读出来，用于设置 Flutter Logo 容器的宽和高，才能最终实现动画效果：
+`Animation` is only used to provide animation data and is not responsible for animation rendering. Therefore, we also need to read the value of the current animation state in the `build` method of the Widget and use it to set the width and height of the Flutter Logo container to finally achieve the animation effect.
 
 #### 5.8.2. AnimatedBuilder
 
-在 AnimatedLogo 的 build 方法中，使用 Animation 的 value 作为 logo 的宽和高。这样做对于简单组件的动画没有任何问题，但如果动画的组件比较复杂，一个更好的解决方案是，将动画和渲染职责分离：logo 作为外部参数传入，只做显示；而尺寸的变化动画则由另一个类去管理。这个分离工作，可以借助 AnimatedBuilder 来完成。
+In the `build` method of `AnimatedLogo`, the `value` of `Animation` is used as the width and height of the logo. This works fine for animations of simple components, but for more complex animated components, a better solution is to separate the animation and rendering responsibilities: the logo is passed in as an external parameter only for display, while the size change animation is managed by another class. This separation can be accomplished with the help of `AnimatedBuilder`.
 
-AnimatedBuilder 也会自动监听 Animation 对象的变化，并根据需要将该控件树标记为 dirty 以自动刷新 UI。事实上， AnimatedBuilder 其实也是继承自 AnimatedWidget。
+`AnimatedBuilder` also automatically listens for changes in the `Animation` object and marks the widget tree as dirty to automatically refresh the UI when needed. In fact, `AnimatedBuilder` also inherits from `AnimatedWidget`.
 
 ```dart
 MaterialApp(
   home: Scaffold(
     body: Center(
       child: AnimatedBuilder(
-        animation: animation,//传入动画对象
+        animation: animation,// Pass in the animation object
         child:FlutterLogo(),
-        //动画构建回调
+        // Animation build callback
         builder: (context, child) => Container(
-          width: animation.value,//使用动画的当前状态更新UI
+          width: animation.value,// Update UI using the current state of the animation
           height: animation.value,
-          child: child, //child参数即FlutterLogo()
+          child: child, // The child parameter is FlutterLogo()
         )
       )
     )
 ));
 ```
 
-#### 5.8.3. hero 动画
+#### 5.8.3. Hero Animations
 
-如何实现在两个页面之间切换的过渡动画呢？比如在社交类 App，在 Feed 流中点击小图进入查看大图页面的场景中，希望能够实现小图到大图页面逐步放大的动画切换效果，而当用户关闭大图时，也实现原路返回的动画。
+How to implement transition animations between two pages? For example, in social apps, when clicking a small image in the feed stream to enter the page for viewing the large image, we hope to achieve a transition animation effect where the small image gradually enlarges to the large image page, and when the user closes the large image, an animation to return along the original path is also implemented.
 
-这样的跨页面共享的控件动画效果有一个专门的名词，即“共享元素变换”（Shared Element Transition）。  
+Such a cross-page shared component animation effect has a special name: "Shared Element Transition".
 
-通过 Hero，可以在两个页面的共享元素之间，做出流畅的页面切换效果。  
+With `Hero`, you can create smooth page transition effects between shared elements on two pages.
 
-demo: 定义了两个页面，其中 page1 有一个位于底部的小 Flutter Logo，page2 有一个位于中部的大 Flutter Logo。在点击了 page1 的小 logo 后，会使用 hero 效果过渡到 page2。
+Demo: Define two pages, where `page1` has a small Flutter Logo at the bottom, and `page2` has a large Flutter Logo in the middle. After clicking the small logo on `page1`, transition to `page2` with a hero effect.
 
 ```dart
 class Page1 extends StatelessWidget {
@@ -2638,7 +2641,7 @@ class Page1 extends StatelessWidget {
                   tag: 'hero',
                   child:
                       Container(width: 100, height: 100, child: FlutterLogo())),
-              Text('点击Logo查看Hero效果')
+              Text('Click the Logo to view the Hero effect')
             ],
           ),
           onTap: () {
@@ -2661,34 +2664,32 @@ class Page2 extends StatelessWidget {
             child: Container(width: 300, height: 300, child: FlutterLogo())));
   }
 }
-
 ```
 
+# 6. Component Communication
 
-## 6. 组件通信
+In Flutter, the standard way to implement cross-component data transfer is through property passing.
 
-在 Flutter 中实现跨组件数据传递的标准方式是通过属性传值。  
+However, for slightly more complex UI styles—especially those with deep view hierarchies—a property may need to be passed through multiple layers to reach a child component. This approach forces many intermediate components (that don't actually need the property) to receive data intended for their child Widgets, making the code cumbersome and redundant.
 
-但是，对于稍微复杂一点的、尤其视图层级比较深的 UI 样式，一个属性可能需要跨越很多层才能传递给子组件，这种传递方式就会导致中间很多并不需要这个属性的组件也需要接收其子 Widget 的数据，不仅繁琐而且冗余。  
+For cross-layer data transfer, Flutter offers three additional solutions: `InheritedWidget`, `Notification`, and `EventBus`.
 
-对于数据的跨层传递，Flutter 还提供了三种方案：InheritedWidget、Notification 和 EventBus。
-
-demo路径：flutter_demos/demo2_data_transfer
+Demo path: `flutter_demos/demo2_data_transfer`
 
 ### 6.1. InheritedWidget
 
-InheritedWidget 是 Flutter 中的一个功能型 Widget，适用于在 Widget 树中共享数据的场景。  
+`InheritedWidget` is a functional Widget in Flutter designed for sharing data across the Widget tree.
 
-以 Flutter 工程模板中的计数器为例。
+Take the counter example from the Flutter project template:
 
-- 首先，为了使用 InheritedWidget，我们定义了一个继承自它的新类 CountContainer。
-- 然后，我们将计数器状态 count 属性放到 CountContainer 中，并提供了一个 of 方法方便其子 Widget 在 Widget 树中找到它。
-- 最后，我们重写了 updateShouldNotify 方法，这个方法会在 Flutter 判断 InheritedWidget 是否需要重建，从而通知下层观察者组件更新数据时被调用到。在这里，我们直接判断 count 是否相等即可。
+- First, to use `InheritedWidget`, we define a new class `CountContainer` that inherits from it.
+- Then, we place the counter state (`count` property) inside `CountContainer` and provide an `of` method to help child Widgets find it in the Widget tree.
+- Finally, we override the `updateShouldNotify` method, which Flutter calls to determine if the `InheritedWidget` needs to be rebuilt (and thus notify observer components below to update their data). Here, we simply check if the `count` values are different.
 
 ```dart
 class CountContainer extends InheritedWidget {
   static CountContainer of(BuildContext context) => context.inheritFromWidgetOfExactType(CountContainer) as CountContainer;
-  
+
   final int count;
 
   CountContainer({
@@ -2702,14 +2703,13 @@ class CountContainer extends InheritedWidget {
 }
 ```
 
-使用 CountContainer 作为根节点，并用 0 初始化 count。随后在其子 Widget Counter 中，我们通过 InheritedCountContainer.of 方法找到它，获取计数状态 count 并展示：
+Use `CountContainer` as the root node and initialize `count` to 0. Then, in its child Widget `Counter`, we find it using the `InheritedCountContainer.of` method and retrieve/display the count state:
 
 ```dart
-
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-   //将CountContainer作为根节点，并使用0作为初始化count
+   // Use CountContainer as root node and initialize count to 0
     return CountContainer(
       count: 0,
       child: Counter()
@@ -2720,7 +2720,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class Counter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //获取InheritedWidget节点
+    // Get InheritedWidget node
     CountContainer state = CountContainer.of(context);
     return Scaffold(
       appBar: AppBar(title: Text("InheritedWidget demo")),
@@ -2733,9 +2733,9 @@ class Counter extends StatelessWidget {
 
 ### 6.2. Notification
 
-Notification 是 Flutter 中进行跨层数据共享的另一个重要的机制。如果说 InheritedWidget 的数据流动方式是从父 Widget 到子 Widget 逐层传递，那 Notificaiton 则恰恰相反，数据流动方式是从子 Widget 向上传递至父 Widget。这样的数据传递机制适用于子 Widget 状态变更，发送通知上报的场景。
+`Notification` is another important mechanism for cross-layer data sharing in Flutter. While `InheritedWidget` passes data down from parent to child Widgets layer by layer, `Notification` works in the opposite direction—data flows up from child to parent Widgets. This data transfer mechanism is suitable for scenarios where child Widgets need to report state changes via notifications.
 
-在下面的代码中，自定义了一个通知和子 Widget。子 Widget 是一个按钮，在点击时会发送通知：
+In the code below, we define a custom notification and a child Widget (a button that sends the notification when clicked):
 
 ```dart
 class CustomNotification extends Notification {
@@ -2743,12 +2743,12 @@ class CustomNotification extends Notification {
   final String msg;
 }
 
-//抽离出一个子Widget用来发通知
+// Extract a child Widget to send notifications
 class CustomChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      //按钮点击时分发通知
+      // Dispatch notification when button is clicked
       onPressed: () => CustomNotification("Hi").dispatch(context),
       child: Text("Fire Notification"),
     );
@@ -2756,21 +2756,21 @@ class CustomChild extends StatelessWidget {
 }
 ```
 
-在子 Widget 的父 Widget 中，监听了这个通知，一旦收到通知，就会触发界面刷新，展示收到的通知信息：
+In the parent Widget of the child Widget, we listen for this notification. When received, it triggers a UI refresh to display the notification message:
 
 ```dart
 class _MyHomePageState extends State<MyHomePage> {
-  String _msg = "通知：";
+  String _msg = "Notification: ";
   @override
   Widget build(BuildContext context) {
-    //监听通知
+    // Listen for notifications
     return NotificationListener<CustomNotification>(
         onNotification: (notification) {
-          setState(() {_msg += notification.msg+"  ";});//收到子Widget通知，更新msg
+          setState(() {_msg += notification.msg + "  ";}); // Update msg when receiving notification from child Widget
         },
-        child:Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text(_msg),CustomChild()],//将子Widget加入到视图树中
+          children: <Widget>[Text(_msg), CustomChild()], // Add child Widget to view tree
         )
     );
   }
@@ -2779,20 +2779,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
 ### 6.3. EventBus
 
-无论是 InheritedWidget 还是 Notificaiton，它们的使用场景都需要依靠 Widget 树，也就意味着只能在有父子关系的 Widget 之间进行数据共享。但是，组件间数据传递还有一种常见场景：这些组件间不存在父子关系。这时，事件总线 EventBus 就登场了。
+Both `InheritedWidget` and `Notification` rely on the Widget tree, meaning they only work for data sharing between parent-child Widgets. However, a common scenario for component communication involves components with no parent-child relationship. This is where the Event Bus comes into play.
 
-遵循发布 / 订阅模式，允许订阅者订阅事件，当发布者触发事件时，订阅者和发布者之间可以通过事件进行交互。发布者和订阅者之间无需有父子关系，甚至非 Widget 对象也可以发布 / 订阅。这些特点与其他平台的事件总线机制是类似的。  
+Following the publish/subscribe pattern, it allows subscribers to listen for events and publishers to trigger events—enabling interaction between them via events. Publishers and subscribers don't need a parent-child relationship, and even non-Widget objects can publish/subscribe to events. These characteristics are similar to event bus mechanisms on other platforms.
 
-EventBus 是一个第三方插件，需要在 pubspec.yaml 文件中声明它：  
+`EventBus` is a third-party plugin and must be declared in the `pubspec.yaml` file:
 
 ```yaml
-dependencies:  
-  event_bus: 1.1.0
+dependencies:
+    event_bus: 1.1.0
 ```
 
-EventBus 的使用方式灵活，可以支持任意对象的传递。
+`EventBus` is flexible and supports passing arbitrary objects.
 
-传输数据的载体就选择了一个有字符串属性的自定义事件类 CustomEvent：
+We use a custom event class `CustomEvent` with a string property as the data carrier:
 
 ```dart
 class CustomEvent {
@@ -2801,40 +2801,43 @@ class CustomEvent {
 }
 ```
 
-定义了一个全局的 eventBus 对象，并在第一个页面监听了 CustomEvent 事件，一旦收到事件，就会刷新 UI。需要注意的是，千万别忘了在 State 被销毁时清理掉事件注册，否则会发现 State 永远被 EventBus 持有着，无法释放，从而造成内存泄漏：
+Define a global `eventBus` object and listen for `CustomEvent` in the first page. When an event is received, refresh the UI. **Important**: Remember to clean up event registrations when the State is disposed—otherwise, the State will be permanently held by `EventBus`, leading to memory leaks:
 
 ```dart
-//建立公共的event bus
+// Create a public event bus
 EventBus eventBus = new EventBus();
-//第一个页面
-class _FirstScreenState extends  State<FirstScreen>  {
 
-  String msg = "通知：";
+// First page
+class _FirstScreenState extends State<FirstScreen>  {
+  String msg = "Notification: ";
   StreamSubscription subscription;
+
   @override
-  initState() {
-   //监听CustomEvent事件，刷新UI
+  void initState() {
+   // Listen for CustomEvent and refresh UI
     subscription = eventBus.on<CustomEvent>().listen((event) {
-      setState(() {msg+= event.msg;});//更新msg
+      setState(() {msg += event.msg;}); // Update msg
     });
     super.initState();
   }
-  dispose() {
-    subscription.cancel();//State销毁时，清理注册
+
+  @override
+  void dispose() {
+    subscription.cancel(); // Clean up registration when State is disposed
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body:Text(msg),
+      body: Text(msg),
       ...
     );
   }
 }
 ```
 
-在第二个页面以按钮点击回调的方式，触发了 CustomEvent 事件：
+In the second page, trigger the `CustomEvent` via a button click callback:
 
 ```dart
 class SecondScreen extends StatelessWidget {
@@ -2844,8 +2847,8 @@ class SecondScreen extends StatelessWidget {
       ...
       body: RaisedButton(
           child: Text('Fire Event'),
-          // 触发CustomEvent事件
-          onPressed: ()=> eventBus.fire(CustomEvent("hello"))
+          // Trigger CustomEvent
+          onPressed: () => eventBus.fire(CustomEvent("hello"))
       ),
     );
   }
@@ -2854,130 +2857,131 @@ class SecondScreen extends StatelessWidget {
 
 ### 6.4. fish-redux
 
+## 7. Customizing Different App Themes
 
+A theme (also called skin or color scheme) typically consists of colors, images, font sizes, fonts, etc. It can be seen as a collection of visual resources and corresponding configurations for different scenarios. For example, an app's buttons require background images, font colors, and font sizes across all scenarios—theme switching simply updates these resources and configurations between different themes.
 
+Visual styles are prone to change. By extracting these variable parts, classifying resources/configurations that provide different visual effects by theme, and managing them in a unified middle layer, we can achieve theme management and switching.
 
-## 7. 定制不同风格的App主题
+In iOS, we usually write theme configuration information into plist files in advance and control which configuration the app uses via a singleton. In Android, configuration information is written into xml files for various style attributes and switched using `activity.setTheme`. Frontend development uses a similar approach—simply replacing CSS to switch between multiple themes/color schemes.
 
-主题，又叫皮肤、配色，一般由颜色、图片、字号、字体等组成，可以把它看做是视觉效果在不同场景下的可视资源，以及相应的配置集合。比如，App 的按钮，无论在什么场景下都需要背景图片资源、字体颜色、字号大小等，而所谓的主题切换只是在不同主题之间更新这些资源及配置集合而已。  
+Flutter offers similar capabilities, with `ThemeData` unifying theme configuration management.
 
-视觉效果是易变的，将这些变化的部分抽离出来，把提供不同视觉效果的资源和配置按照主题进行归类，整合到一个统一的中间层去管理，这样就能实现主题的管理和切换了。
+`ThemeData` covers customizable styles in the Material Design specification, such as app brightness mode (`brightness`), primary color (`primaryColor`), accent color (`accentColor`), text font (`fontFamily`), input cursor color (`cursorColor`), etc. For a full list of `ThemeData` API parameters, refer to the official documentation: [ThemeData](https://api.flutter.dev/flutter/material/ThemeData/ThemeData.html).
 
-在 iOS 中，我们通常会将主题的配置信息预先写到 plist 文件中，通过一个单例来控制 App 应该使用哪种配置；而 Android 的配置信息则写入各个 style 属性值的 xml 中，通过 activity 的 setTheme 进行切换；前端的处理方式也类似，简单更换 css 就可以实现多套主题 / 配色之间的切换。  
+### 7.1. Global Unified Visual Style Customization
 
-Flutter 也提供了类似的能力，由 ThemeData 来统一管理主题的配置信息。  
-
-ThemeData 涵盖了 Material Design 规范的可自定义部分样式，比如应用明暗模式 brightness、应用主色调 primaryColor、应用次级色调 accentColor、文本字体 fontFamily、输入框光标颜色 cursorColor 等。如果你想深入了解 ThemeData 的其他 API 参数，可以参考官方文档ThemeData: https://api.flutter.dev/flutter/material/ThemeData/ThemeData.html。
-
-### 7.1. 全局统一的视觉风格定制
-
-在这段代码中，设置了 App 的明暗模式 brightness 为暗色、主色调为青色：
+In this code snippet, we set the app's brightness mode to dark and primary color to cyan:
 
 ```dart
 MaterialApp(
-  title: 'Flutter Demo',//标题
-  theme: ThemeData(//设置主题
-      brightness: Brightness.dark,//明暗模式为暗色
-      primaryColor: Colors.cyan,//主色调为青色
+  title: 'Flutter Demo', // Title
+  theme: ThemeData( // Set theme
+      brightness: Brightness.dark, // Dark brightness mode
+      primaryColor: Colors.cyan, // Cyan primary color
   ),
   home: MyHomePage(title: 'Flutter Demo Home Page'),
 );
 ```
 
-虽然只修改了主色调和明暗模式两个参数，但按钮、文字颜色都随之调整了。这是因为默认情况下，ThemeData 中很多其他次级视觉属性，都会受到主色调与明暗模式的影响。如果想要精确控制它们的展示样式，需要再细化一下主题配置。
+Although we only modified two parameters (primary color and brightness mode), button and text colors adjust accordingly. By default, many secondary visual properties in `ThemeData` inherit from the primary color and brightness mode. To precisely control their appearance, refine the theme configuration further:
 
-将 icon 的颜色调整为黄色，文字颜色调整为红色，按钮颜色调整为黑色：
+Set icon color to yellow, text color to red, and button color to black:
 
 ```dart
 MaterialApp(
-  title: 'Flutter Demo',//标题
-  theme: ThemeData(//设置主题
-      brightness: Brightness.dark,//设置明暗模式为暗色
-      accentColor: Colors.black,//(按钮）Widget前景色为黑色
-      primaryColor: Colors.cyan,//主色调为青色
-      iconTheme:IconThemeData(color: Colors.yellow),//设置icon主题色为黄色
-      textTheme: TextTheme(body1: TextStyle(color: Colors.red))//设置文本颜色为红色
+  title: 'Flutter Demo', // Title
+  theme: ThemeData( // Set theme
+      brightness: Brightness.dark, // Dark brightness mode
+      accentColor: Colors.black, // (Button) Widget foreground color: black
+      primaryColor: Colors.cyan, // Cyan primary color
+      iconTheme: IconThemeData(color: Colors.yellow), // Yellow icon theme color
+      textTheme: TextTheme(body1: TextStyle(color: Colors.red)) // Red text color
   ),
   home: MyHomePage(title: 'Flutter Demo Home Page'),
 );
 ```
 
-### 7.2. 局部独立的视觉风格定制
+### 7.2. Local Independent Visual Style Customization
 
-使用 Theme 来对 App 的主题进行局部覆盖。Theme 是一个单子 Widget 容器，与 MaterialApp 类似的，可以通过设置其 data 属性，对其子 Widget 进行样式定制：
+Use `Theme` to override the app theme locally. `Theme` is a single-child Widget container that, like `MaterialApp`, customizes its child Widgets by setting the `data` property:
 
-- 不想继承任何 App 全局的颜色或字体样式，可以直接新建一个 ThemeData 实例，依次设置对应的样式；
-- 如果不想在局部重写所有的样式，则可以继承 App 的主题，使用 copyWith 方法，只更新部分样式。
+- To avoid inheriting any global app colors or font styles: create a new `ThemeData` instance and set corresponding styles directly.
+- To override only part of the styles locally: inherit the app theme using the `copyWith` method and update only specific styles.
 
 ```dart
-// 新建主题
+// Create new theme
 Theme(
     data: ThemeData(iconTheme: IconThemeData(color: Colors.red)),
     child: Icon(Icons.favorite)
 );
 
-// 继承主题
+// Inherit theme
 Theme(
     data: Theme.of(context).copyWith(iconTheme: IconThemeData(color: Colors.green)),
     child: Icon(Icons.feedback)
 );
 ```
 
-### 7.3. 分平台主题定制
+### 7.3. Platform-Specific Theme Customization
 
-可以根据 defaultTargetPlatform 来判断当前应用所运行的平台，从而根据系统类型来设置对应的主题。  
+Determine the current platform the app is running on using `defaultTargetPlatform` and set the corresponding theme based on the system type.
 
-为 iOS 与 Android 分别创建了两个主题。在 MaterialApp 的初始化方法中，根据平台类型，设置了不同的主题：
+Create two themes for iOS and Android respectively. In the `MaterialApp` initialization method, set different themes based on the platform:
 
 ```dart
-// iOS浅色主题
+// iOS light theme
 final ThemeData kIOSTheme = ThemeData(
-    brightness: Brightness.light,//亮色主题
-    accentColor: Colors.white,//(按钮)Widget前景色为白色
-    primaryColor: Colors.blue,//主题色为蓝色
-    iconTheme:IconThemeData(color: Colors.grey),//icon主题为灰色
-    textTheme: TextTheme(body1: TextStyle(color: Colors.black))//文本主题为黑色
+    brightness: Brightness.light, // Light theme
+    accentColor: Colors.white, // (Button) Widget foreground color: white
+    primaryColor: Colors.blue, // Blue primary color
+    iconTheme: IconThemeData(color: Colors.grey), // Grey icon theme color
+    textTheme: TextTheme(body1: TextStyle(color: Colors.black)) // Black text theme color
 );
-// Android深色主题
+
+// Android dark theme
 final ThemeData kAndroidTheme = ThemeData(
-    brightness: Brightness.dark,//深色主题
-    accentColor: Colors.black,//(按钮)Widget前景色为黑色
-    primaryColor: Colors.cyan,//主题色Wie青色
-    iconTheme:IconThemeData(color: Colors.blue),//icon主题色为蓝色
-    textTheme: TextTheme(body1: TextStyle(color: Colors.red))//文本主题色为红色
+    brightness: Brightness.dark, // Dark theme
+    accentColor: Colors.black, // (Button) Widget foreground color: black
+    primaryColor: Colors.cyan, // Cyan primary color
+    iconTheme: IconThemeData(color: Colors.blue), // Blue icon theme color
+    textTheme: TextTheme(body1: TextStyle(color: Colors.red)) // Red text theme color
 );
-// 应用初始化
+
+// App initialization
 MaterialApp(
   title: 'Flutter Demo',
-  theme: defaultTargetPlatform == TargetPlatform.iOS ? kIOSTheme : kAndroidTheme,//根据平台选择不同主题
+  theme: defaultTargetPlatform == TargetPlatform.iOS ? kIOSTheme : kAndroidTheme, // Select theme based on platform
   home: MyHomePage(title: 'Flutter Demo Home Page'),
 );
 ```
 
-## 8. 本地存储与数据库的使用
+## 8. Local Storage and Database Usage
 
-### 8.1. 文件
+### 8.1. Files
 
-Flutter 提供了两种文件存储的目录，即临时（Temporary）目录与文档（Documents）目录：
+Flutter provides two directories for file storage: Temporary and Documents:
 
-- 临时目录是操作系统可以随时清除的目录，通常被用来存放一些不重要的临时缓存数据。这个目录在 iOS 上对应着 NSTemporaryDirectory 返回的值，而在 Android 上则对应着 getCacheDir 返回的值。
-- 文档目录则是只有在删除应用程序时才会被清除的目录，通常被用来存放应用产生的重要数据文件。在 iOS 上，这个目录对应着 NSDocumentDirectory，而在 Android 上则对应着 AppData 目录。
+- **Temporary directory**: Can be cleared by the operating system at any time. Typically used for storing unimportant temporary cache data. On iOS, this corresponds to the value returned by `NSTemporaryDirectory`; on Android, it corresponds to `getCacheDir`.
+- **Documents directory**: Only cleared when the app is deleted. Typically used for storing important data files generated by the app. On iOS, this corresponds to `NSDocumentDirectory`; on Android, it corresponds to the AppData directory.
 
-分别声明了三个函数，即创建文件目录函数、写文件函数与读文件函数。这里需要注意的是，由于文件读写是非常耗时的操作，所以这些操作都需要在异步环境下进行。另外，为了防止文件读取过程中出现异常，也需要在外层包上 try-catch：
+We declare three functions: creating a file directory, writing to a file, and reading from a file. **Important**: File read/write operations are time-consuming and must be performed asynchronously. Additionally, wrap the outer layer with try-catch to handle potential exceptions during file reading:
 
 ```dart
-//创建文件目录
+// Create file directory
 Future<File> get _localFile async {
   final directory = await getApplicationDocumentsDirectory();
   final path = directory.path;
   return File('$path/content.txt');
 }
-//将字符串写入文件
+
+// Write string to file
 Future<File> writeContent(String content) async {
   final file = await _localFile;
   return file.writeAsString(content);
 }
-//从文件读出字符串
+
+// Read string from file
 Future<String> readContent() async {
   try {
     final file = await _localFile;
@@ -2989,101 +2993,102 @@ Future<String> readContent() async {
 }
 ```
 
-有了文件读写函数，就可以在代码中对 content.txt 这个文件进行读写操作了。在下面的代码中，往这个文件写入了一段字符串后，隔了一会又把它读了出来：
+With these file read/write functions, we can perform operations on the `content.txt` file. In the code below, we write a string to the file and read it back after a delay:
 
 ```dart
 writeContent("Hello World!");
 ...
-readContent().then((value)=>print(value));
+readContent().then((value) => print(value));
 ```
 
-除了字符串读写之外，Flutter 还提供了二进制流的读写能力，可以支持图片、压缩包等二进制文件的读写。官方文档：https://api.flutter.dev/flutter/dart-io/File-class.html
+In addition to string read/write, Flutter supports binary stream operations for reading/writing binary files like images and compressed packages. Refer to the official documentation: [File class](https://api.flutter.dev/flutter/dart-io/File-class.html).
 
 ### 8.2. SharedPreferences
 
-文件比较适合大量的、有序的数据持久化，如果只是需要缓存少量的键值对信息（比如记录用户是否阅读了公告，或是简单的计数），则可以使用 SharedPreferences。
+Files are suitable for persistent storage of large, ordered datasets. For caching small amounts of key-value pair information (e.g., recording whether the user has read an announcement or simple counters), use `SharedPreferences`.
 
-SharedPreferences 会以原生平台相关的机制，为简单的键值对数据提供持久化存储，即在 iOS 上使用 NSUserDefaults，在 Android 使用 SharedPreferences。
+`SharedPreferences` provides persistent storage for simple key-value data using platform-specific mechanisms: `NSUserDefaults` on iOS and `SharedPreferences` on Android.
 
-setter（setInt）方法会同步更新内存中的键值对，然后将数据保存至磁盘，因此无需再调用更新方法强制刷新缓存。同样地，由于涉及到耗时的文件读写，因此必须以异步的方式对这些操作进行包装：
+Setter methods (e.g., `setInt`) update key-value pairs in memory synchronously and then save them to disk—no need to call an update method to force cache refresh. Similarly, since file read/write operations are involved, these operations must be wrapped asynchronously:
 
 ```dart
-//读取SharedPreferences中key为counter的值
-Future<int>_loadCounter() async {
+// Read value of key "counter" from SharedPreferences
+Future<int> _loadCounter() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  int  counter = (prefs.getInt('counter') ?? 0);
+  int counter = (prefs.getInt('counter') ?? 0);
   return counter;
 }
 
-//递增写入SharedPreferences中key为counter的值
-Future<void>_incrementCounter() async {
+// Increment and write value of key "counter" to SharedPreferences
+Future<void> _incrementCounter() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-    int counter = (prefs.getInt('counter') ?? 0) + 1;
-    prefs.setInt('counter', counter);
+  int counter = (prefs.getInt('counter') ?? 0) + 1;
+  prefs.setInt('counter', counter);
 }
 ```
 
-注意的是，以键值对的方式只能存储基本类型的数据，比如 int、double、bool 和 string。
+**Note**: Only basic data types (int, double, bool, string) can be stored as key-value pairs.
 
+### 8.3. Database
 
-### 8.3. 数据库
-
-如果需要持久化大量格式化后的数据，并且这些数据还会以较高的频率更新，为了考虑进一步的扩展性，通常会选用 [sqlite 数据库](https://pub.dev/documentation/sqflite/latest/)来应对这样的场景。与文件和 SharedPreferences 相比，数据库在数据读写上可以提供更快、更灵活的解决方案。
+For persistent storage of large formatted datasets with frequent updates (and for scalability), use the [sqlite database](https://pub.dev/documentation/sqflite/latest/). Compared to files and `SharedPreferences`, databases offer faster and more flexible data read/write solutions.
 
 ```dart
-class Student{
+class Student {
   String id;
   String name;
   int score;
-  //构造方法
-  Student({this.id, this.name, this.score,});
-  //用于将JSON字典转换成类对象的工厂类方法
-  factory Student.fromJson(Map<String, dynamic> parsedJson){
+
+  // Constructor
+  Student({this.id, this.name, this.score});
+
+  // Factory method to convert JSON dictionary to class object
+  factory Student.fromJson(Map<String, dynamic> parsedJson) {
     return Student(
       id: parsedJson['id'],
-      name : parsedJson['name'],
-      score : parsedJson ['score'],
+      name: parsedJson['name'],
+      score: parsedJson['score'],
     );
   }
 }
 ```
 
-JSON 类拥有一个可以将 JSON 字典转换成类对象的工厂类方法，也可以提供将类对象反过来转换成 JSON 字典的实例方法。因为最终存入数据库的并不是实体类对象，而是字符串、整型等基本类型组成的字典，所以可以通过这两个方法，实现数据库的读写。同时，分别定义了 3 个 Student 对象，用于后续插入数据库：
+The `Student` class includes a factory method to convert JSON dictionaries to class objects and an instance method to convert class objects back to JSON dictionaries. Since database storage uses dictionaries of basic types (strings, integers) instead of entity class objects, these methods enable database read/write operations. We also define three `Student` objects for subsequent insertion into the database:
 
 ```dart
-class Student{
+class Student {
   ...
-  //将类对象转换成JSON字典，方便插入数据库
+  // Convert class object to JSON dictionary for database insertion
   Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'score': score,};
+    return {'id': id, 'name': name, 'score': score};
   }
 }
 
-var student1 = Student(id: '123', name: '张三', score: 90);
-var student2 = Student(id: '456', name: '李四', score: 80);
-var student3 = Student(id: '789', name: '王五', score: 85);
+var student1 = Student(id: '123', name: 'Zhang San', score: 90);
+var student2 = Student(id: '456', name: 'Li Si', score: 80);
+var student3 = Student(id: '789', name: 'Wang Wu', score: 85);
 ```
 
-有了实体类作为数据库存储的对象，接下来就需要创建数据库了。在下面的代码中，通过 openDatabase 函数，给定了一个数据库存储地址，并通过数据库表初始化语句，创建了一个用于存放 Student 对象的 students 表：
+With the entity class defined as the database storage object, create the database:
 
 ```dart
 final Future<Database> database = openDatabase(
   join(await getDatabasesPath(), 'students_database.db'),
-  onCreate: (db, version)=>db.execute("CREATE TABLE students(id TEXT PRIMARY KEY, name TEXT, score INTEGER)"),
-  onUpgrade: (db, oldVersion, newVersion){
-     //dosth for migration
+  onCreate: (db, version) => db.execute("CREATE TABLE students(id TEXT PRIMARY KEY, name TEXT, score INTEGER)"),
+  onUpgrade: (db, oldVersion, newVersion) {
+     // Do something for migration
   },
   version: 1,
 );
 ```
 
-以上代码属于通用的数据库创建模板，有三个地方需要注意：
+**Key notes** for this general database creation template:
 
-1. 在设定数据库存储地址时，使用 join 方法对两段地址进行拼接。join 方法在拼接时会使用操作系统的路径分隔符，这样就无需关心路径分隔符究竟是“/”还是“\”了。
-2. 创建数据库时，传入了一个 version 1，在 onCreate 方法的回调里面也有一个 version。这两个 version 是相等的。
-3. 数据库只会创建一次，也就意味着 onCreate 方法在应用从安装到卸载的生命周期中只会执行一次。如果在版本升级过程中，想对数据库的存储字段进行改动又该如何处理呢？sqlite 提供了 onUpgrade 方法，可以根据这个方法传入的 oldVersion 和 newVersion 确定升级策略。其中，前者代表用户手机上的数据库版本，而后者代表当前版本的数据库版本。比如，应用有 1.0、1.1 和 1.2 三个版本，在 1.1 把数据库 version 升级到了 2。考虑到用户的升级顺序并不总是连续的，可能会直接从 1.0 升级到 1.2，因此可以在 onUpgrade 函数中，对数据库当前版本和用户手机上的数据库版本进行比较，制定数据库升级方案。
+1. When setting the database storage path, use the `join` method to concatenate paths. `join` uses the operating system's path separator, eliminating the need to worry about whether it's "/" or "\".
+2. A `version` of 1 is passed during database creation, and the same version is used in the `onCreate` callback.
+3. The database is created only once—meaning the `onCreate` method executes only once during the app's lifecycle (from installation to uninstallation). To modify database fields during version upgrades, use the `onUpgrade` method. It takes `oldVersion` (database version on the user's device) and `newVersion` (current app's database version) to determine the upgrade strategy. For example, if version 1.1 upgrades the database to version 2 and users might jump directly from 1.0 to 1.2, compare versions in `onUpgrade` to implement the migration plan.
 
-数据库创建好了之后，接下来就可以把之前创建的 3 个 Student 对象插入到数据库中了。数据库的插入需要调用 insert 方法，在下面的代码中，将 Student 对象转换成了 JSON，在指定了插入冲突策略（如果同样的对象被插入两次，则后者替换前者）和目标数据库表后，完成了 Student 对象的插入：
+After creating the database, insert the three `Student` objects using the `insert` method. Convert `Student` objects to JSON, specify a conflict resolution strategy (replace old entries with new ones for duplicate inserts), and target table:
 
 ```dart
 Future<void> insertStudent(Student std) async {
@@ -3091,121 +3096,123 @@ Future<void> insertStudent(Student std) async {
   await db.insert(
     'students',
     std.toJson(),
-    //插入冲突策略，新的替换旧的
+    // Conflict resolution strategy: replace old with new
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 }
-//插入3个Student对象
+
+// Insert three Student objects
 await insertStudent(student1);
 await insertStudent(student2);
 await insertStudent(student3);
 ```
 
-就可以调用 query 方法把它们取出来了。需要注意的是，写入的时候是一个接一个地有序插入，读的时候则采用批量读的方式（当然也可以指定查询规则读特定对象）。读出来的数据是一个 JSON 字典数组，因此我们还需要把它转换成 Student 数组。最后，别忘了把数据库资源释放掉：
+Retrieve the data using the `query` method. **Note**: Data is inserted one by one, but read in bulk (specific objects can also be queried with filters). The returned data is a list of JSON dictionaries—convert it back to a list of `Student` objects. Finally, release database resources:
 
 ```dart
 Future<List<Student>> students() async {
   final Database db = await database;
   final List<Map<String, dynamic>> maps = await db.query('students');
-  return List.generate(maps.length, (i)=>Student.fromJson(maps[i]));
+  return List.generate(maps.length, (i) => Student.fromJson(maps[i]));
 }
 
-//读取出数据库中插入的Student对象集合
-students().then((list)=>list.forEach((s)=>print(s.name)));
-//释放数据库资源
+// Retrieve inserted Student objects from database
+students().then((list) => list.forEach((s) => print(s.name)));
+
+// Release database resources
 final Database db = await database;
 db.close();
 ```
 
-## 9. http 请求
+## 9. HTTP Requests
 
-### 9.1. 通过HttpClient发起HTTP请求
+### 9.1. Making HTTP Requests with HttpClient
 
-Dart IO库中提供了用于发起Http请求的一些类，我们可以直接使用HttpClient来发起请求。使用HttpClient发起请求分为五步：
+The Dart IO library provides classes for making HTTP requests—use `HttpClient` directly. The process involves five steps:
 
-1. 创建一个HttpClient：  
+1. **Create an HttpClient**:
 
 ```dart
 HttpClient httpClient = new HttpClient();
 ```
 
-2. 打开Http连接，设置请求头：
+2. **Open HTTP connection and set request headers**:
 
 ```dart
 HttpClientRequest request = await httpClient.getUrl(uri);
 ```
 
-这一步可以使用任意Http Method，如httpClient.post(...)、httpClient.delete(...)等。如果包含Query参数，可以在构建uri时添加，如：
+Any HTTP method can be used (e.g., `httpClient.post(...)`, `httpClient.delete(...)`). Add query parameters when constructing the URI:
 
 ```dart
-Uri uri=Uri(scheme: "https", host: "flutterchina.club", queryParameters: {
-    "xx":"xx",
-    "yy":"dd"
+Uri uri = Uri(scheme: "https", host: "flutterchina.club", queryParameters: {
+    "xx": "xx",
+    "yy": "dd"
   });
 ```
 
-通过HttpClientRequest可以设置请求header，如：
+Set request headers via `HttpClientRequest`:
 
 ```dart
 request.headers.add("user-agent", "test");
 ```
 
-如果是post或put等可以携带请求体方法，可以通过HttpClientRequest对象发送request body，如：
+For methods that support request bodies (POST/PUT), send the body via `HttpClientRequest`:
 
 ```dart
-String payload="...";
-request.add(utf8.encode(payload)); 
-//request.addStream(_inputStream); //可以直接添加输入流
+String payload = "...";
+request.add(utf8.encode(payload));
+// request.addStream(_inputStream); // Directly add input stream
 ```
 
-3. 等待连接服务器：
+3. **Wait for server connection**:
 
 ```dart
 HttpClientResponse response = await request.close();
 ```
 
-这一步完成后，请求信息就已经发送给服务器了，返回一个HttpClientResponse对象，它包含响应头（header）和响应流(响应体的Stream)，接下来就可以通过读取响应流来获取响应内容。
+After this step, the request is sent to the server, returning an `HttpClientResponse` object containing response headers and a response stream (response body). Read the response stream to get the content.
 
-4. 读取响应内容：
+4. **Read response content**:
 
 ```dart
 String responseBody = await response.transform(utf8.decoder).join();
 ```
 
-我们通过读取响应流来获取服务器返回的数据，在读取时我们可以设置编码格式，这里是utf8。
+Read server response data from the stream with UTF-8 encoding.
 
-5. 请求结束，关闭HttpClient：
+5. **Close HttpClient after request**:
 
 ```dart
 httpClient.close();
 ```
 
-关闭client后，通过该client发起的所有请求都会中止。
+Closing the client aborts all pending requests made through it.
 
-## 10. websocket
+## 10. WebSocket
 
-步骤  
+Steps:
 
-1. 连接到WebSocket服务器。
-2. 监听来自服务器的消息。  
-3. 将数据发送到服务器。  
-4. 关闭WebSocket连接。  
+1. Connect to a WebSocket server.
+2. Listen for messages from the server.
+3. Send data to the server.
+4. Close the WebSocket connection.
 
-### 10.1. 连接到WebSocket服务器
+### 10.1. Connecting to a WebSocket Server
 
-web_socket_channel package 提供了我们需要连接到WebSocket服务器的工具。该package提供了一个WebSocketChannel允许我们既可以监听来自服务器的消息，又可以将消息发送到服务器的方法。
+The `web_socket_channel` package provides tools to connect to WebSocket servers. It offers a `WebSocketChannel` that enables listening for server messages and sending messages to the server.
 
-在Flutter中，我们可以创建一个WebSocketChannel连接到一台服务器：
+In Flutter, create a `WebSocketChannel` to connect to a server:
 
 ```dart
 final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
 ```
 
-### 10.2. 监听来自服务器的消息
+### 10.2. Listening for Messages from the Server
 
-现在我们建立了连接，我们可以监听来自服务器的消息，在我们发送消息给测试服务器之后，它会返回相同的消息。
+After establishing the connection, listen for server messages. The test server echoes all sent messages.
 
-我们如何收取消息并显示它们？在这个例子中，我们将使用一个StreamBuilder 来监听新消息， 并用一个Text来显示它们。
+To receive and display messages: use a `StreamBuilder` to listen for new messages and a `Text` widget to display them:
 
 ```dart
 new StreamBuilder(
@@ -3216,31 +3223,28 @@ new StreamBuilder(
 );
 ```
 
-> 工作原理  
+> **How it works**:  
+> `WebSocketChannel` provides a `Stream` of messages from the server. The `Stream` class (in `dart:async`) listens for asynchronous events from a data source. Unlike `Future` (which returns a single asynchronous response), `Stream` delivers multiple events over time. The `StreamBuilder` widget connects to the `Stream` and notifies Flutter to rebuild the UI on each new message.
 
-WebSocketChannel提供了一个来自服务器的消息Stream 。该Stream类是dart:async包中的一个基础类。它提供了一种方法来监听来自数据源的异步事件。与Future返回单个异步响应不同，Stream类可以随着时间推移传递很多事件。该StreamBuilder 组件将连接到一个Stream， 并在每次收到消息时通知Flutter重新构建界面。 
+### 10.3. Sending Data to the Server
 
-### 10.3. 将数据发送到服务器
-
-为了将数据发送到服务器，我们会add消息给WebSocketChannel提供的sink。
+Send data to the server by adding messages to the `sink` provided by `WebSocketChannel`:
 
 ```dart
 channel.sink.add('Hello!');
 ```
 
-> 工作原理  
+> **How it works**:  
+> `WebSocketChannel` provides a `StreamSink` for sending messages to the server.  
+> The `StreamSink` class offers general methods to add synchronous/asynchronous events to a data source.
 
-WebSocketChannel提供了一个StreamSink，它将消息发给服务器。  
-
-StreamSink类提供了给数据源同步或异步添加事件的一般方法。  
-
-### 10.4. 关闭WebSocket连接
+### 10.4. Closing the WebSocket Connection
 
 ```dart
 channel.sink.close();
 ```
 
-> 例子
+> **Example**:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -3256,10 +3260,9 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
   IOWebSocketChannel channel;
   String _text = "";
 
-
   @override
   void initState() {
-    //创建websocket连接
+    // Create WebSocket connection
     channel = new IOWebSocketChannel.connect('ws://echo.websocket.org');
   }
 
@@ -3267,7 +3270,7 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("WebSocket(内容回显)"),
+        title: new Text("WebSocket (Echo)"),
       ),
       body: new Padding(
         padding: const EdgeInsets.all(20.0),
@@ -3283,11 +3286,11 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
             new StreamBuilder(
               stream: channel.stream,
               builder: (context, snapshot) {
-                //网络不通会走到这
+                // Triggered if network is unavailable
                 if (snapshot.hasError) {
-                  _text = "网络不通...";
+                  _text = "Network unavailable...";
                 } else if (snapshot.hasData) {
-                  _text = "echo: "+snapshot.data;
+                  _text = "echo: " + snapshot.data;
                 }
                 return new Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
@@ -3320,7 +3323,7 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
 }
 ```
 
-> **注意** 实测发现在桌面应用无法发出请求，原因是Mac 应用有沙箱限制，需要在对应文件中开启即可。需要在macos/Runner/DebugProfile.entitlements文件中添加com.apple.security.network.client。祥见[Flutter - http.get fails on macos build target: Connection failed](https://stackoverflow.com/questions/57841871/flutter-http-get-fails-on-macos-build-target-connection-failed)
+> **Note**: Testing shows requests fail in desktop apps due to macOS sandbox restrictions. Add `com.apple.security.network.client` to the `macos/Runner/DebugProfile.entitlements` file: [Flutter - http.get fails on macos build target: Connection failed](https://stackoverflow.com/questions/57841871/flutter-http-get-fails-on-macos-build-target-connection-failed)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -3339,44 +3342,46 @@ class _WebSocketRouteState extends State<WebSocketRoute> {
 </plist>
 ```
 
-### 10.5. 使用Socket API
+### 10.5. Using the Socket API
 
-Flutter的Socket API在dart：io包中  
+Flutter's Socket API is in the `dart:io` package:
 
 ```dart
-_request() async{
-  //建立连接
-  var socket=await Socket.connect("baidu.com", 80);
-  //根据http协议，发送请求头
+_request() async {
+  // Establish connection
+  var socket = await Socket.connect("baidu.com", 80);
+
+  // Send request headers per HTTP protocol
   socket.writeln("GET / HTTP/1.1");
   socket.writeln("Host:baidu.com");
   socket.writeln("Connection:close");
   socket.writeln();
-  await socket.flush(); //发送
-  //读取返回内容
-  _response =await socket.transform(utf8.decoder).join();
+
+  await socket.flush(); // Send
+
+  // Read response content
+  _response = await socket.transform(utf8.decoder).join();
+
   await socket.close();
 }
 ```
 
-## 11. flutter web
+## 11. Flutter Web
 
-https://flutter.dev/docs/get-started/web
+Official documentation: https://flutter.dev/docs/get-started/web
 
-终端运行下面命令
+Run the following commands in the terminal:
 
 ```text
-flutter channel beta  
+flutter channel beta
 flutter upgrade
 flutter config --enable-web
 ```
 
-当web配置好了，运行 flutter devices 命令 查看可用设备。  
-
-终端会出现以下信息
+After configuring web support, run `flutter devices` to check available devices:
 
 ```text
-$flutter devices
+$ flutter devices
 3 connected devices:
 
 macOS (desktop)  • macos      • darwin-x64     • Mac OS X 10.14.6 18G95
@@ -3384,46 +3389,43 @@ Web Server (web) • web-server • web-javascript • Flutter Tools
 Chrome (web)     • chrome     • web-javascript • Google Chrome 83.0.4103.116
 ```
 
-创建一个项目  
+Create a project:
 
 ```text
 flutter create flutterwebapp
 cd flutterwebapp
 ```
 
-运行flutter run -d chrome命令启动  
+Start with: `flutter run -d chrome`
 
-构建命令：flutter build web  
+Build command: `flutter build web`
 
-### 11.1. web-renderers 
+### 11.1. Web Renderers
 
-官方文档：https://flutter.dev/docs/development/tools/web-renderers  
+Official documentation: https://flutter.dev/docs/development/tools/web-renderers
 
---web-renderer 可选参数值为 auto、html 或 canvaskit。
+The `--web-renderer` option accepts three values: `auto`, `html`, or `canvaskit`.
 
-1. auto（默认）- 自动选择渲染器。移动端浏览器选择 HTML，桌面端浏览器选择 CanvasKit。
+1. `auto` (default): Automatically selects the renderer. Uses HTML for mobile browsers and CanvasKit for desktop browsers.
+2. `html`: Forces use of the HTML renderer.
+3. `canvaskit`: Forces use of the CanvasKit renderer.
 
-2. html - 强制使用 HTML 渲染器。
-
-3. canvaskit - 强制使用 CanvasKit 渲染器。
-
-此选项适用于 run 和 build 命令。例如：
+This option works with `run` and `build` commands:
 
 ```text
 flutter run -d chrome --web-renderer html
 flutter build web --web-renderer canvaskit
 ```
 
-
-## 12. flutter desktop
+## 12. Flutter Desktop
 
 ### 12.1. macOS
 
-文档：https://flutter.dev/docs/deployment/macos  
+Documentation: https://flutter.dev/docs/deployment/macos
 
-#### 12.1.1. 配置环境
+#### 12.1.1. Environment Setup
 
-1. Set up  
+1. **Set up**:
 
 ```text
 flutter channel master
@@ -3431,67 +3433,64 @@ flutter upgrade
 flutter config --enable-macos-desktop
 ```
 
-2. Create and run  
+2. **Create and run**:
 
 ```text
 mkdir myapp
 cd myapp
 ```
 
-3. Set up  
+3. **Initialize project**:
 
 ```text
- flutter create .
- flutter run -d macOS
+flutter create .
+flutter run -d macOS
 ```
 
-4. Build  
+4. **Build**:
 
 ```text
 flutter build macos
 ```
 
-#### 12.1.2. 打包
+#### 12.1.2. Packaging
 
-> 设置应用图标
+> **Set app icon**:  
+> Location: `macos/Runner/Assets.xcassets/AppIcon.appiconset`
 
-位置：macos/Runner/Assets.xcassets/AppIcon.appiconset
+> **Package as DMG**:
 
-> 打包成dmg
-
-**需要先使用 flutter build 命令生成所需的工程文件，然后打开工程。**
+**First, generate required project files with `flutter build`, then open the project**:
 
 ```text
 flutter build macos
 open macos/Runner.xcworkspace
 ```
 
-**在 Xcode 里打包成dmg**
+**Package as DMG in Xcode**:
 
-参考：https://blog.csdn.net/qq_37523448/article/details/107838678  
+Reference: https://blog.csdn.net/qq_37523448/article/details/107838678
 
-1. 编译运行桌面程序
-2. 会生成一个App文件，找到项目中的Products目录
-3. 鼠标右键点击app文件–>Show in Finder->复制拷贝此程序->在桌面上创建个新的文件夹，把上面复制的APP程序粘贴进来
-
-可直接拖拽到应用程序安装
+1. Compile and run the desktop app.
+2. An App file will be generated—find the Products directory in the project.
+3. Right-click the app file → Show in Finder → Copy the app → Create a new folder on the desktop and paste the app into it.  
+   (Can be installed by dragging to Applications)
 
 ![buildmacos](readmeImages/buildmacos.png)
 
-4. 在电脑上启动台----->打开磁盘工具
-5. 在磁盘工具上，点击左上方。文件–>新建映像–>来自文件夹的映像—>选择你刚在桌面上创建的文件夹–>点击选取(确认)->生成打包dmg格式文件
+4. Open Disk Utility from Launchpad.
+5. In Disk Utility: File → New Image → Image from Folder → Select the desktop folder → Click Choose → Generate DMG file.
 
-## 13. 测试和调试
+## 13. Testing and Debugging
 
-文档：https://flutter.dev/docs/testing/debugging
+Documentation: https://flutter.dev/docs/testing/debugging
 
-### 13.1. 测量应用启动时间
+### 13.1. Measuring App Startup Time
 
-使用分析模式运行应用的方法：
+Run the app in profile mode:
 
-在 Android Studio 和 IntelliJ 使用 Run > Flutter Run main.dart in Profile Mode 选项
-
-在 VS Code 中，打开 launch.json 文件，设置 flutterMode 属性为 profile（当分析完成后，改回 release 或者 debug）：
+- **Android Studio/IntelliJ**: Use `Run > Flutter Run main.dart in Profile Mode`.
+- **VS Code**: Open `launch.json` and set `flutterMode` to `profile` (revert to `release`/`debug` after analysis):
 
 ```json
 "configurations": [
@@ -3504,17 +3503,18 @@ open macos/Runner.xcworkspace
 ]
 ```
 
+Command line:
+
 ```text
 flutter run --trace-startup --profile
 ```
 
+Output lists time (in microseconds) from app launch to these trace events:
 
-输出列出了从应用程序启动到这些跟踪事件（以微秒捕获）所用的时间：
-
-- 进入 Flutter 引擎时
-- 展示应用第一帧时
-- 初始化Flutter框架时
-- 完成Flutter框架初始化时
+- When entering the Flutter engine
+- When displaying the first frame
+- When initializing the Flutter framework
+- When completing Flutter framework initialization
 
 ```text
 {
@@ -3525,29 +3525,27 @@ flutter run --trace-startup --profile
 }
 ```
 
+### 13.2. Debugging Apps Programmatically
 
-### 13.2. 以编程方式调试应用
+Debug Flutter apps by adding logging code.
 
-添加输出代码的方式调试 Flutter 应用
+#### 13.2.1. Log Output
 
-#### 13.2.1. 日志输出
-
-使用 dart:developer 中的 log() 方法。通过这种方式，可以在输出日志中包含更精细化的信息。示例：
+Use the `log()` method from `dart:developer` for detailed logging:
 
 ```dart
 import 'dart:developer' as developer;
 
 void main() {
   developer.log('log me', name: 'my.app.category');
-
   developer.log('log me 1', name: 'my.other.category');
   developer.log('log me 2', name: 'my.other.category');
 }
 ```
 
-#### 13.2.2. 设置断点
+#### 13.2.2. Setting Breakpoints
 
-在相关文件顶部引入 dart:developer 包。debugger() 语句有一个可选参数 when，用来指定该断点触发的特定条件
+Import `dart:developer` at the top of the file. The `debugger()` statement has an optional `when` parameter to specify breakpoint conditions:
 
 ```dart
 import 'dart:developer';
@@ -3558,11 +3556,11 @@ void someFunction(double offset) {
 }
 ```
 
-#### 13.2.3. Debug 标识：应用程序层
+#### 13.2.3. Debug Flags: Application Layer
 
-##### 13.2.3.1. Widget 树
+##### 13.2.3.1. Widget Tree
 
-可以通过调用 debugDumpApp() 方法转储 widget 库的状态，如果应用已至少构建了一次，并且正处于调试模式时（runApp() 调用后的任何时间）。只要应用不在运行构建阶段，可以调用随意该方法（也就是说，不能在 build() 方法中使用它）。  
+Dump the widget library state with `debugDumpApp()` if the app is in debug mode and has been built at least once (any time after `runApp()` is called). Can be called anywhere except during build/layout phases (i.e., not in `build()`):
 
 ```dart
 import 'package:flutter/material.dart';
@@ -3592,9 +3590,7 @@ class AppHome extends StatelessWidget {
 }
 ```
 
-上面应用的输出内容如下:
-
-这是一个「被拉平的树」，通过它们的各种 build 函数，显示出所有 widget 信息。
+Output (a "flattened tree" showing all widgets via their build functions):
 
 ```text
 I/flutter ( 6559): WidgetsFlutterBinding - CHECKED MODE
@@ -3672,79 +3668,89 @@ I/flutter ( 6559):                                                             �
 I/flutter ( 6559):                                                              └RichText(renderObject: RenderParagraph relayoutBoundary=up6)
 ```
 
-##### 13.2.3.2. Render 树
+##### 13.2.3.2. Render Tree
 
-如果您试图调试一个布局问题，那么 Widget 层的树可能不够详细。在这种情况下，您可以通过调用 debugDumpRenderTree() 转储 Render 树信息。和 debugDumpApp() 一样，除了在布局或绘制阶段，可以在任何时候调用它。一般来说，最好在 frame callback 或事件处理中调用它。  
+For debugging layout issues, the Widget tree may lack detail. Dump the Render tree with `debugDumpRenderTree()` (can be called anytime except during layout/paint phases—preferably in frame callbacks or event handlers).
 
-想要调用 debugDumpRenderTree() 方法，您需要在源码文件中添加 import 'package:flutter/rendering.dart';。
+To use `debugDumpRenderTree()`, add: `import 'package:flutter/rendering.dart';`.
 
+##### 13.2.3.3. Layer Tree
 
-##### 13.2.3.3. Layer 树
+Use `debugDumpLayerTree()`.
 
-可以使用 debugDumpLayerTree()
+##### 13.2.3.4. Semantics Tree
 
-##### 13.2.3.4. Semantics 树
+Use `debugDumpSemanticsTree()` to dump the Semantics tree (provides system accessibility APIs). Accessibility must be enabled first (e.g., via system accessibility tools or SemanticsDebugger).
 
-使用 debugDumpSemanticsTree() 获得 Semantics 树（该树提供了系统的 accessibility API）的转储信息。想要使用它，首先必须启用 accessibility，例如，通过启用系统 accessibility 工具或 SemanticsDebugger。  
 ##### 13.2.3.5. Scheduling
 
-想要找到事件触发对应的开始或结束帧，可以将 debugPrintBeginFrameBanner 和 debugPrintEndFrameBanner 这两个布尔值切换为 true，在控制台中打印开始和结束帧的信息。
+To identify frames triggered by events, set `debugPrintBeginFrameBanner` and `debugPrintEndFrameBanner` to `true` to print frame start/end messages in the console.
 
-### 13.2.4. 调试标志：布局
+### 13.2.4. Debug Flags: Layout
 
-通过将 debugPaintSizeEnabled 设置为 true，您也可以可视地调试布局问题。该布尔值在 rendering 库中，可以在任何时候被启用，并且当其为 true 时，会影响界面上所有的绘制。最简单的方式是在程序顶部入口 void main()中设置它
+Visually debug layout issues by setting `debugPaintSizeEnabled` to `true` (in the `rendering` library). It affects all drawing and can be enabled at any time—simplest to set in `void main()`:
 
 ```dart
-//add import to rendering library
+// Add import to rendering library
 import 'package:flutter/rendering.dart';
 
 void main() {
-  debugPaintSizeEnabled=true;
+  debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 ```
-当它被启用时，所有的 box 都会有明亮的蓝绿色边框，内边距（来自于 widgets，比如 Padding）显示为淡蓝色，并在 child 周围有一个深蓝色的 box，对齐方式（来自于 widgets，比如 Center 和 Align）显示为黄色箭头，还有间隔（来自于 widgets，比如当 Container 没有 child 时）显示灰色。
 
-debugPaintBaselinesEnabled][] 标志和它类似，但只针对于带有基线的对象。 alphabetic 基线用亮绿色显示，ideographic 基线用橙色显示。
+When enabled:
+
+- All boxes show bright teal borders
+- Padding (from widgets like `Padding`) shows light blue with a dark blue box around children
+- Alignment (from widgets like `Center`/`Align`) shows yellow arrows
+- Spacers (e.g., empty `Container`) show gray
+
+`debugPaintBaselinesEnabled` works similarly but targets objects with baselines:
+
+- Alphabetic baselines: bright green
+- Ideographic baselines: orange
 
 ![debugPaintSizeEnabled](readmeImages/debugPaintSizeEnabled.png)
 
-### 13.2.5. 调试动画
+### 13.2.5. Debugging Animations
 
-调试动画最简单的方法是让它们变慢。 Flutter inspector 提供一个 放慢动画(Slow Animations) 的按钮，可以在 DevTools 的 Inspector view 通过 Slow Animations 按钮来实现动画慢放，这会使动画速度降低 5 倍。
+Simplest way to debug animations: slow them down. The Flutter Inspector provides a **Slow Animations** button (in DevTools' Inspector view) that reduces animation speed by 5x.
 
-### 13.2.6. 调试标志：性能
+### 13.2.6. Debug Flags: Performance
 
-> debugDumpRenderTree()  
-当不在布局或重新绘制阶段时，调用此函数将 render 树转储到控制台。（可以从 flutter run 按下 t 调用此命令。）通过搜索其中的「RepaintBoundary」可以查看关于边界的有用诊断信息。
+> `debugDumpRenderTree()`  
+> Dumps the render tree to the console when not in layout/repaint phases (can be called with `t` in `flutter run`). Search for "RepaintBoundary" for useful boundary diagnostics.
 
-> debugRepaintRainbowEnabled  
-可以通过点击 Highlight Repaints 按钮，在 Flutter inspector 中启用此标志。如果任何静态 widget 在彩虹七颜色之间轮转（比如一个静态标题），那么这些区域就可能需要添加重新绘制边界进行优化。
+> `debugRepaintRainbowEnabled`  
+> Enable via the **Highlight Repaints** button in the Flutter Inspector. If static widgets cycle through rainbow colors (e.g., static titles), these areas may need repaint boundaries for optimization.
 
-> debugPrintMarkNeedsLayoutStacks  
-如果您看到的布局比预期的要多（比如，在 timeline 、profile 或者一个布局方法中的 print 语句中)，可以启用这个标志。一旦启用，控制台将会充满堆栈跟踪，来显示在布局时每个渲染对象被标记为 dirty 的原因。如果有需要的话，可以使用 services 库中的 debugPrintStack() 方法按需打印出堆栈的跟踪信息。
+> `debugPrintMarkNeedsLayoutStacks`  
+> Enable if seeing more layouts than expected (e.g., in timeline/profile or print statements in layout methods). Once enabled, the console fills with stack traces showing why each render object was marked dirty during layout. Use `debugPrintStack()` from the `services` library to print traces on demand.
 
-> debugPrintMarkNeedsPaintStacks  
-它和 debugPrintMarkNeedsLayoutStacks 类似，但用于多余的绘制。如果有需要的话，可以使用 services 库中的 debugPrintStack() 方法按需打印出堆栈的跟踪信息。
+> `debugPrintMarkNeedsPaintStacks`  
+> Similar to `debugPrintMarkNeedsLayoutStacks` but for excessive painting. Use `debugPrintStack()` from the `services` library to print traces on demand.
 
-#### 13.2.6.1. 跟踪 Dart 代码性能
+#### 13.2.6.1. Tracing Dart Code Performance
 
-使用 DevTools 中的 Timeline view 来执行跟踪。  
+Use the Timeline view in DevTools for tracing.
 
-想要以编程方式执行自定义性能跟踪和测量任意代码片段的 wall/CPU 时间，可以使用 dart:developer 包中的 Timeline 类提供的一些静态方法包裹您想测量的代码，比如:
+For programmatic custom performance tracing (measuring wall/CPU time for arbitrary code snippets), use static methods from the `Timeline` class in `dart:developer`:
 
 ```dart
 import 'dart:developer';
 
 Timeline.startSync('interesting function');
+// Code to measure
 Timeline.finishSync();
 ```
 
-### 13.2.7. 性能图层
+### 13.2.7. Performance Overlay
 
-可以使用 Flutter inspector 中的 Performance Overlay 按钮，来切换显示的应用的性能图层。
+Toggle the app's performance overlay using the **Performance Overlay** button in the Flutter Inspector.
 
-可以通过编程方式启用 PerformanceOverlay widget，在 MaterialApp、CupertinoApp或 WidgetsApp 构造函数中，将 showPerformanceOverlay 属性设置为 true 即可。
+Enable programmatically by setting `showPerformanceOverlay` to `true` in `MaterialApp`/`CupertinoApp`/`WidgetsApp` constructors:
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -3762,59 +3768,59 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-### 13.2.8. Widget 对齐网格
+### 13.2.8. Widget Alignment Grid
 
-可以通过编程的方式将 Material Design 基线网格 覆盖在应用的顶层来辅助对齐校验，通过使用 MaterialApp 构造函数 中的 debugShowMaterialGrid 参数进行设置。
+Overlay the Material Design baseline grid on top of the app for alignment checks by setting `debugShowMaterialGrid` in the `MaterialApp` constructor.
 
-## 14. 自动化测试
+## 14. Automated Testing
 
-Flutter 提供了包括单元测试和 UI 测试的能力。其中，单元测试可以方便地验证单个函数、方法或类的行为，而 UI 测试则提供了与 Widget 进行交互的能力，确认其功能是否符合预期。
+Flutter supports unit testing and UI testing:
 
-### 14.1. 单元测试
+- **Unit testing**: Verifies behavior of individual functions, methods, or classes.
+- **UI testing**: Enables interaction with Widgets to validate functionality.
 
-单元测试是指，对软件中的最小可测试单元进行验证的方式，并通过验证结果来确定最小单元的行为是否与预期一致。所谓最小可测试单元，一般来说，就是人为规定的、最小的被测功能模块，比如语句、函数、方法或类。
+### 14.1. Unit Testing
 
-写单元测试用例，在 pubspec.yaml 文件中使用 test 包来完成。其中，test 包提供了编写单元测试用例的核心框架，即定义、执行和验证。
+Unit testing validates the smallest testable units of software to ensure behavior matches expectations. These units are typically user-defined (e.g., statements, functions, methods, classes).
 
-```yaml
-dev_dependencies:
-  test:
-```
-
-> test 包的声明需要在 dev_dependencies 下完成，在这个标签下面定义的包只会在开发模式生效。
-
-Flutter 单元测试用例也是通过 main 函数来定义测试入口的。不过，这两个程序入口的目录位置有些区别：应用程序的入口位于工程中的 lib 目录下，而测试用例的入口位于工程中的 test 目录下。  
-
-
-...todo  
-
-
-
-### 14.2. UI 测试
-
-编写 UI 测试用例，需要在 pubspec.yaml 中使用 flutter_test 包，来提供编写 UI 测试的核心框架，即定义、执行和验证：
-
-- 定义，即通过指定规则，找到 UI 测试用例需要验证的、特定的子 Widget 对象；
-- 执行，意味着我们要在找到的子 Widget 对象中，施加用户交互事件；
-- 验证，表示在施加了交互事件后，判断待验证的 Widget 对象的整体表现是否符合预期。
+Write unit tests using the `test` package in `pubspec.yaml` (provides core framework for defining, executing, and verifying tests):
 
 ```yaml
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+    test:
 ```
 
+> **Note**: The `test` package must be declared under `dev_dependencies` (only active in development mode).
 
-...todo  
+Flutter unit tests use `main()` as the test entry point (different from app entry points):
 
+- App entry: `lib` directory
+- Test entry: `test` directory
 
+...todo
 
-## 15. 自动更新
+### 14.2. UI Testing
 
-... todo 
+Write UI tests using the `flutter_test` package in `pubspec.yaml` (provides core framework for defining, executing, and verifying UI tests):
+
+- **Define**: Locate specific child Widgets to validate using rules.
+- **Execute**: Simulate user interactions on the target Widgets.
+- **Verify**: Check if Widget behavior matches expectations after interactions.
+
+```yaml
+dev_dependencies:
+    flutter_test:
+        sdk: flutter
+```
+
+...todo
+
+## 15. Auto Update
+
+... todo
 
 ```dart
-// 执行版本更新的网络请求
+// Perform network request for version update
 _getNewVersionAPP(context) async {
     HttpUtils.send(
     context,
@@ -3826,17 +3832,17 @@ _getNewVersionAPP(context) async {
   });
 }
 
-// 检查当前版本是否为最新，若不是，则更新
+// Check if current version is latest; update if not
 void _checkVersionCode() {
   PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
     var currentVersionCode = packageInfo.version;
-    if (double.parse(serviceVersionCode.substring(0,3))> double.parse(currentVersionCode.substring(0,3))) {
+    if (double.parse(serviceVersionCode.substring(0,3)) > double.parse(currentVersionCode.substring(0,3))) {
       _showNewVersionAppDialog();
     }
   });
 }
 
-// 版本更新提示对话框
+// Version update prompt dialog
 Future<void> _showNewVersionAppDialog() async {
   return showDialog<void>(
       context: context,
@@ -3847,7 +3853,7 @@ Future<void> _showNewVersionAppDialog() async {
             children: <Widget>[
               new Padding(
                   padding: const EdgeInsets.fromLTRB(30.0, 0.0, 10.0, 0.0),
-                  child: new Text("发现新版本"))
+                  child: new Text("New version found"))
             ],
           ),
           content: new Text(
@@ -3855,186 +3861,198 @@ Future<void> _showNewVersionAppDialog() async {
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text('下次再说'),
+              child: new Text('Remind me later'),
               onPressed: () {
-                Navigator.of(context).pop();              
+                Navigator.of(context).pop();
               },
             ),
             new FlatButton(
-              child: new Text('立即更新'),
+              child: new Text('Update now'),
               onPressed: () {
-                _doUpdate(context);           
+                _doUpdate(context);
               },
             )
           ],
         );
       });
-
 }
 
-
-// 执行更新操作
+// Execute update operation
 _doUpdate(BuildContext context) async {
   Navigator.pop(context);
-    _executeDownload(context);
+  _executeDownload(context);
 }
 
-// 下载最新apk包
+// Download latest APK
 Future<void> _executeDownload(BuildContext context) async {
-      pr = new ProgressDialog(
-      context,
-      type: ProgressDialogType.Download, 
-      isDismissible: true, 
-      showLogs: true,
-    );
-    pr.style(message: '准备下载...');
-    if (!pr.isShowing()) {
-      pr.show();
-    }
+  pr = new ProgressDialog(
+    context,
+    type: ProgressDialogType.Download,
+    isDismissible: true,
+    showLogs: true,
+  );
+  pr.style(message: 'Preparing download...');
+  if (!pr.isShowing()) {
+    pr.show();
+  }
 
-    final path = await _apkLocalPath;
-    await FlutterDownloader.enqueue(
-      url: 'http://update.rwworks.com:8088/appManager/monitor/app/appload/' + appId + '',
-      savedDir: path,
-      fileName: apkName,
-      showNotification: true,
-      openFileFromNotification: true
-    );
-  }
-  
-  // 下载进度回调函数
-  static void _downLoadCallback(String id, DownloadTaskStatus status, int progress) {
-    final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port');
-    send.send([id, status, progress]);
-  }
-  
-  // 更新下载进度框
-  _updateDownLoadInfo(dynamic data) {
-    DownloadTaskStatus status = data[1];
-    int progress = data[2];
-    if (status == DownloadTaskStatus.running) {
-      pr.update(progress: double.parse(progress.toString()), message: "下载中，请稍后…");
-    }
-    if (status == DownloadTaskStatus.failed) {
-      if (pr.isShowing()) {
-        pr.hide();
-      }
-    }
+  final path = await _apkLocalPath;
+  await FlutterDownloader.enqueue(
+    url: 'http://update.rwworks.com:8088/appManager/monitor/app/appload/' + appId + '',
+    savedDir: path,
+    fileName: apkName,
+    showNotification: true,
+    openFileFromNotification: true
+  );
+}
 
-    if (status == DownloadTaskStatus.complete) {
-      if (pr.isShowing()) {
-        pr.hide();
-      }
-      _installApk();
+// Download progress callback
+static void _downLoadCallback(String id, DownloadTaskStatus status, int progress) {
+  final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port');
+  send.send([id, status, progress]);
+}
+
+// Update download progress dialog
+_updateDownLoadInfo(dynamic data) {
+  DownloadTaskStatus status = data[1];
+  int progress = data[2];
+  if (status == DownloadTaskStatus.running) {
+    pr.update(progress: double.parse(progress.toString()), message: "Downloading, please wait…");
+  }
+  if (status == DownloadTaskStatus.failed) {
+    if (pr.isShowing()) {
+      pr.hide();
     }
   }
-  
-  // 安装apk
-  Future<Null> _installApk() async {
-      await OpenFile.open(appPath + '/' + apkName);
-  }
-  
-  // 获取apk存储位置
-  Future<String> get _apkLocalPath async {
-    final directory = await getExternalStorageDirectory();
-    String path = directory.path  + Platform.pathSeparator + 'Download';;
-    final savedDir = Directory(path);
-    bool hasExisted = await savedDir.exists();
-    if (!hasExisted) {
-      await savedDir.create();
+
+  if (status == DownloadTaskStatus.complete) {
+    if (pr.isShowing()) {
+      pr.hide();
     }
-    this.setState((){
-        appPath = path;
-    });
-    return path;
+    _installApk();
   }
+}
+
+// Install APK
+Future<Null> _installApk() async {
+  await OpenFile.open(appPath + '/' + apkName);
+}
+
+// Get APK storage path
+Future<String> get _apkLocalPath async {
+  final directory = await getExternalStorageDirectory();
+  String path = directory.path  + Platform.pathSeparator + 'Download';
+  final savedDir = Directory(path);
+  bool hasExisted = await savedDir.exists();
+  if (!hasExisted) {
+    await savedDir.create();
+  }
+  setState(() {
+    appPath = path;
+  });
+  return path;
+}
 ```
 
-## 16. 混合开发
+## 16. Hybrid Development
 
-官方文档： https://flutter.dev/docs/development/add-to-app/ios/project-setup  
-https://flutter.dev/docs/development/add-to-app/android/project-setup  
+Official documentation:
 
-使用 Flutter 从头开始写一个 App，是一件轻松惬意的事情。但，对于成熟产品来说，完全摒弃原有 App 的历史沉淀，而全面转向 Flutter 并不现实。用 Flutter 去统一 iOS/Android 技术栈，把它作为已有原生 App 的扩展能力，通过逐步试验有序推进从而提升终端开发效率，可能才是现阶段 Flutter 最具吸引力的地方。  
+- iOS: https://flutter.dev/docs/development/add-to-app/ios/project-setup
+- Android: https://flutter.dev/docs/development/add-to-app/android/project-setup
 
-有两个办法：  
-统一管理模式：将原生工程作为 Flutter 工程的子工程，由 Flutter 统一管理。  
-三端分离模式：将 Flutter 工程作为原生工程共用的子模块，维持原有的原生工程管理方式不变。  
+Building an app from scratch with Flutter is straightforward. However, for mature products, abandoning existing native app legacy to fully migrate to Flutter is impractical. Using Flutter to unify iOS/Android tech stacks—as an extension of existing native apps—enables gradual adoption to improve development efficiency, which is Flutter's most attractive feature today.
+
+Two approaches:
+
+1. **Unified management**: Treat native projects as subprojects of the Flutter project (managed by Flutter).
+2. **Three-way separation**: Treat the Flutter project as a shared submodule for native projects (maintain existing native project management).
 
 ![add_app](./readmeImages/add_app.png)
 
-统一管理模式, 三端（Android、iOS、Flutter）代码耦合严重，相关工具链耗时也随之大幅增长，导致开发效率降低。
+**Unified management** leads to tight coupling between iOS/Android/Flutter code and longer toolchain execution times (reducing development efficiency).
 
-三端代码分离模式, 除了可以轻量级接入，把 Flutter 模块作为原生工程的子模块，还可以快速实现 Flutter 功能的“热插拔”，降低原生工程的改造成本。
+**Three-way separation** enables lightweight integration:
 
-三端工程分离模式的关键是抽离 Flutter 工程，将不同平台的构建产物依照标准组件化的形式进行管理，即 Android 使用 aar、iOS 使用 pod。将 Flutter 模块打包成 aar 和 pod，这样原生工程就可以像引用其他第三方原生组件库那样快速接入 Flutter 了。
+- Use the Flutter module as a native project submodule
+- Enables "hot-swapping" of Flutter features
+- Reduces native project modification costs
 
-原生工程对 Flutter 的依赖主要分为两部分：  
-Flutter 库和引擎，也就是 Flutter 的 Framework 库和引擎库；  
-Flutter 工程，也就是Flutter 模块功能，主要包括 Flutter 工程 lib 目录下的 Dart 代码实现的这部分功能。  
+The key to three-way separation is extracting the Flutter project and managing platform-specific build artifacts as standard components:
 
-在已经有原生工程的情况下，需要在同级目录创建 Flutter 模块，构建 iOS 和 Android 各自的 Flutter 依赖库。  
+- Android: AAR
+- iOS: Pod
+
+Package the Flutter module into AAR/Pod so native projects can integrate Flutter like any third-party native library.
+
+Native project dependencies on Flutter include two parts:
+
+1. Flutter library and engine (Framework + engine)
+2. Flutter project (Dart code in the `lib` directory)
+
+With existing native projects, create a Flutter module in the same directory to build platform-specific Flutter dependencies:
 
 ```text
 flutter create -t module flutter_library
 ```
 
-### 16.1. Android 模块集成
+### 16.1. Android Module Integration
 
-对 Android 的 Flutter 依赖抽取步骤如下：
+Steps to extract Flutter dependencies for Android:
 
-首先在 Flutter_library 的根目录下，执行 aar 打包构建命令：flutter build apk –debug
+1. In the `flutter_library` root directory, build the AAR:  
+   `flutter build apk --debug`
 
-其次，打包构建的 flutter-debug.aar 位于.android/Flutter/build/outputs/aar/ 目录下，把它拷贝到原生 Android 工程 AndroidDemo 的 app/libs 目录下，并在 App 的打包配置 build.gradle 中添加对它的依赖:
+2. The built `flutter-debug.aar` is in `.android/Flutter/build/outputs/aar/`. Copy it to the `app/libs` directory of the native Android project (`AndroidDemo`) and add the dependency to `build.gradle`:
 
 ```gradle
 dependencies {
      ...
-    implementation(name: 'flutter-debug', ext: 'aar’)
+    implementation(name: 'flutter-debug', ext: 'aar')
     ...
 }
 ```
 
-最后，改一下 MainActivity.java 的代码，把它的 contentView 改成 Flutter 的 widget：
+3. Modify `MainActivity.java` to set the contentView to a Flutter widget:
 
 ```java
-View FlutterView = Flutter.createView(this, getLifecycle(), “defaultRoute”);      
-setContentView(FlutterView)
+View FlutterView = Flutter.createView(this, getLifecycle(), "defaultRoute");
+setContentView(FlutterView);
 ```
 
-### 16.2. iOS 模块集成
+### 16.2. iOS Module Integration
 
-首先在 Flutter_library 的根目录下，执行 iOS 打包构建命令：flutter build ios –debug
+1. In the `flutter_library` root directory, build for iOS:  
+   `flutter build ios --debug`
 
-其次，在 iOSDemo 的根目录下创建一个名为 FlutterEngine 的目录，并把这两个 framework 文件拷贝进去。把这两个产物手动封装成 pod。还需要在该目录下创建 FlutterEngine.podspec，即 Flutter 模块的组件定义：
+2. In the `iOSDemo` root directory, create a `FlutterEngine` directory and copy the two framework files into it. Manually package these into a pod by creating `FlutterEngine.podspec` (Flutter module component definition):
 
 ```podspec
-Pod::Spec.new do |s| 
-s.name = 'FlutterEngine’ 
-s.version = '0.1.0’ 
-s.summary = 'XXXXXXX’
+Pod::Spec.new do |s|
+s.name = 'FlutterEngine'
+s.version = '0.1.0'
+s.summary = 'XXXXXXX'
 s.description = <<-DESC
 ```
 
-再修改 Podfile 文件把它集成到 iOSDemo 工程中：
+3. Modify the `Podfile` to integrate into the `iOSDemo` project:
 
 ```text
 target 'iOSDemo' do
-    pod 'FlutterEngine', :path => './’
+    pod 'FlutterEngine', :path => './'
 end
 ```
 
-最后，修改一下 AppDelegate.m 的代码，把 window 的 rootViewController 改成 FlutterViewController：
+4. Modify `AppDelegate.m` to set the window's `rootViewController` to `FlutterViewController`:
 
-```c
-FlutterViewController *vc = [[FlutterViewController alloc]init];
-[vc setInitialRoute:@"defaultRoute"]; 
+```objc
+FlutterViewController *vc = [[FlutterViewController alloc] init];
+[vc setInitialRoute:@"defaultRoute"];
 self.window.rootViewController = vc;
 ```
 
+## Learning Resources
 
-
-学习资料：  
-[flutter官网](https://flutter.dev/docs/get-started/install)  
-[flutter实战](https://book.flutterchina.club/chapter2/first_flutter_app.html)  
-[flutterbyexample](https://flutterbyexample.com/about-flutter)  
+- [Flutter Official Website](https://flutter.dev/docs/get-started/install)
+- [Flutter in Action (Chinese)](https://book.flutterchina.club/chapter2/first_flutter_app.html)
+- [Flutter by Example](https://flutterbyexample.com/about-flutter)
